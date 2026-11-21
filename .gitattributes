@@ -7,3 +7,7 @@
 /Makefile export-ignore
 /TODO.md export-ignore
 /phpunit.xml.dist export-ignore
+/.github export-ignore
+/docker export-ignore
+/compose.yaml export-ignore
+/CLAUDE.md export-ignore

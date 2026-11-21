@@ -180,7 +180,7 @@ All 37 Base UI components are here. The parts follow the Base UI anatomy, with t
 
 ## Develop
 
-The bundle lives in `ui/base/` of the phem repository until its components are stable. It requires `phem/phem` from the root of the repository (a Composer path repository), so a change in phem and a change in a component go in the same commit. The commands run in the images of `docker/compose.yaml` (the `ui` and `ui-e2e` services), with the `phemc` that the images build from `compiler/` (`PHEMC_BIN`). Run them here, or from the root of the repository with `make ui-test`, `make ui-check`, `make ui-demo` and `make ui-test-e2e`.
+The bundle requires the `phem/phem` release from Packagist. The commands run in the images of `compose.yaml` (the `dev` and `e2e` services, from `docker/`). They use `vendor/bin/phemc`, the phemc binary of the installed phem release. A component that needs a new behavior of phem waits for the phem release that has it.
 
 The components use only the public API of phem: the components, the controllers and their documented attributes. A package of an app can do the same.
 
@@ -195,19 +195,19 @@ make demo-watch  # the same gallery in the dev environment, restarted after each
 make test-e2e    # the browser tests of the demo (Playwright PHP)
 ```
 
-The demo runs in its own production image (`demo/etc/Dockerfile`, with its `Caddyfile` and PHP settings): FrankenPHP in worker mode, `APP_ENV=prod`. The build context is the root of the repository, because the image installs phem/phem and phem/ui-base from it and builds `phemc` from `compiler/`. Rebuild the image after each change (`make demo` does it). The image copies `demo/.env.local` (not in git) with the `APP_SECRET` of the demo. `make demo` writes it with a random secret when it is missing. To build and run the image without make:
+The demo runs in its own production image (`demo/etc/Dockerfile`, with its `Caddyfile` and PHP settings): FrankenPHP in worker mode, `APP_ENV=prod`. The build context is the root of the repository, because the demo installs phem/ui-base from it (a Composer path repository). Rebuild the image after each change (`make demo` does it). The image copies `demo/.env.local` (not in git) with the `APP_SECRET` of the demo. `make demo` writes it with a random secret when it is missing. To build and run the image without make:
 
 ```sh
-docker build -f ui/base/demo/etc/Dockerfile -t phem-ui-base-demo .   # from the root of the repository
+docker build -f demo/etc/Dockerfile -t phem-ui-base-demo .
 docker run --rm -p 8080:8080 phem-ui-base-demo
 ```
 
-While you work on a component or a controller, run `make demo-watch` (or `make ui-demo-watch` from the root of the repository). It serves the same gallery on http://localhost:8100 with the `watch` stage of `demo/etc/Dockerfile`: FrankenPHP in worker mode, `APP_ENV=dev`, on a bind mount of the repository. The image is built only once, and `demo/etc/watch` reloads the demo after each change:
+While you work on a component or a controller, run `make demo-watch`. It serves the same gallery on http://localhost:8100 with the `watch` stage of `demo/etc/Dockerfile`: FrankenPHP in worker mode, `APP_ENV=dev`, on a bind mount of the repository. The image is built only once, and `demo/etc/watch` reloads the demo after each change:
 
-- **`.phem` files** (the demo, the components and phem): `phemc watch` rebuilds them and restarts FrankenPHP
-- **PHP classes and config files** (the demo, the components and phem): the `watch` options of the worker restart the workers
+- **`.phem` files** (the demo and the components): `phemc watch` rebuilds them and restarts FrankenPHP
+- **PHP classes and config files** (the demo and the components): the `watch` options of the worker restart the workers
 - **Controllers and CSS** (`assets/`): AssetMapper serves the new file on the next request, and `tailwind:build --watch` rebuilds the CSS
 
 Stop `make demo` first: both use port 8100.
 
-The browser tests (`demo/tests/`) run in the e2e image of phem, with Chromium. They need no web server: the Playwright Symfony bundle sends the requests of the browser to the kernel of the demo, in the PHPUnit process. A failed test saves a screenshot and the HTML of the page in `demo/var/failures/`.
+The browser tests (`demo/tests/`) run in the e2e image (`docker/e2e.Dockerfile`), with Chromium. They need no web server: the Playwright Symfony bundle sends the requests of the browser to the kernel of the demo, in the PHPUnit process. A failed test saves a screenshot and the HTML of the page in `demo/var/failures/`.

@@ -4,12 +4,11 @@
     "type": "project",
     "license": "MIT",
     "repositories": [
-        { "type": "path", "url": "../../..", "options": { "symlink": true, "versions": { "phem/phem": "0.6.x-dev" } } },
         { "type": "path", "url": "..", "options": { "symlink": true, "versions": { "phem/ui-base": "dev-main" } } }
     ],
     "require": {
         "php": ">=8.4",
-        "phem/phem": "^0.6",
+        "phem/phem": "^0.7",
         "phem/ui-base": "dev-main",
         "phiki/phiki": "^2.2",
         "symfony/asset-mapper": "^8.0",

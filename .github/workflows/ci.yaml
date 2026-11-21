@@ -1,0 +1,34 @@
+name: CI
+# The tests of the package (`make test`) and the browser tests of the demo (`make test-e2e`), in the
+# images of compose.yaml.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run the tests
+        run: make test
+
+  e2e:
+    name: Browser tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run the browser tests
+        run: make test-e2e
+      - name: Upload the failures
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-failures
+          path: demo/var/failures/

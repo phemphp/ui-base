@@ -14,9 +14,7 @@ bin/console tailwind:build --watch &
 FRANKENPHP_WORKER_CONFIG=$(printf 'watch %s\n' \
     './src/**/*.php' \
     './config/**/*.{php,yaml}' \
-    '../src/**/*.php' \
-    '/app/src/**/*.php' \
-    '/app/config/**/*.{php,yaml}')
+    '../src/**/*.php')
 export FRANKENPHP_WORKER_CONFIG
 
-exec phemc watch src --examples-of phem/ui-base --exec "frankenphp run --config etc/Caddyfile"
+exec vendor/bin/phemc watch src --examples-of phem/ui-base --exec "frankenphp run --config etc/Caddyfile"

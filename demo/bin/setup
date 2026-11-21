@@ -4,8 +4,8 @@
 set -e
 cd "$(dirname "$0")/.."
 
-# composer.lock is not in git. An old lock can pin old packages (for example phem/phem from a path
-# repository), so a composer.json that is newer than the lock (the demo or the bundle) updates it.
+# composer.lock is not in git. An old lock can pin old packages, so a composer.json that is newer
+# than the lock (the demo or the bundle) updates it.
 if [ ! -f composer.lock ] || [ composer.json -nt composer.lock ] || [ ../composer.json -nt composer.lock ]; then
     composer update --quiet --no-interaction
     touch composer.lock
@@ -18,7 +18,6 @@ if [ ! -d assets/vendor ] || [ importmap.php -nt assets/vendor ]; then
     touch assets/vendor
 fi
 
-# PHEMC_BIN: the phemc that the images of the repository build from compiler/. The demo pages show
-# the examples of phem/ui-base, so the build compiles them too.
-"${PHEMC_BIN:-vendor/bin/phemc}" build src --examples-of phem/ui-base
+# The demo pages show the examples of phem/ui-base, so the build compiles them too.
+vendor/bin/phemc build src --examples-of phem/ui-base
 bin/console tailwind:build --quiet
