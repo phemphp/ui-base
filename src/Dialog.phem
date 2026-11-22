@@ -71,25 +71,33 @@ function DialogTrigger(
     ?Html $children = null,
     mixed ...$rest,
 ): Node {
-    $item = null !== $toolbar ? 'item' : null;
     $target = null === $handle ? 'trigger' : null;
-    $base = null !== $toolbar ? Style::TOOLBAR_BUTTON : Style::BUTTON;
+    $attrs = ['data-phem-dialog-target' => $target, 'data-phem-dialog-for' => $handle, 'data-phem-dialog-payload' => $payload];
+
+    // In a toolbar, the trigger is an item with the look of a ToolbarButton.
+    if (null !== $toolbar) {
+        $base = Style::TOOLBAR_BUTTON;
+
+        return (
+            <button
+                data-slot="dialog-trigger"
+                type="button"
+                disabled={{ disabled }}
+                data-disabled={{ disabled ? '' : null }}
+                data-phem-toolbar-target="item"
+                className={{ classes(base) }}
+                {{ ...attrs }}
+                {{ ...rest }}
+            >
+                {{ children }}
+            </button>
+        );
+    }
 
     return (
-        <button
-            data-slot="dialog-trigger"
-            type="button"
-            disabled={{ disabled }}
-            data-disabled={{ disabled ? '' : null }}
-            data-phem-dialog-target={{ target }}
-            data-phem-dialog-for={{ handle }}
-            data-phem-dialog-payload={{ payload }}
-            data-phem-toolbar-target={{ item }}
-            className={{ classes(base) }}
-            {{ ...rest }}
-        >
+        <Button data-slot="dialog-trigger" disabled={{ disabled }} {{ ...attrs }} {{ ...rest }}>
             {{ children }}
-        </button>
+        </Button>
     );
 }
 
@@ -134,20 +142,10 @@ function DialogDescription(?Html $children = null, mixed ...$rest): Node
 #[Component]
 function DialogClose(bool $disabled = false, ?Html $children = null, mixed ...$rest): Node
 {
-    $base = Style::BUTTON;
-
     return (
-        <button
-            data-slot="dialog-close"
-            type="button"
-            disabled={{ disabled }}
-            data-disabled={{ disabled ? '' : null }}
-            data-phem-dialog-target="close"
-            className={{ classes(base) }}
-            {{ ...rest }}
-        >
+        <Button data-slot="dialog-close" disabled={{ disabled }} data-phem-dialog-target="close" {{ ...rest }}>
             {{ children }}
-        </button>
+        </Button>
     );
 }
 

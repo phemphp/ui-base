@@ -11,15 +11,6 @@ namespace Phem\Ui\Base;
  */
 final class Style
 {
-    /**
-     * The look of a bordered button: its colors, border, radius, text and states, with no layout.
-     * The button-like triggers (menu, select, collapsible, toast) add their own layout to it.
-     */
-    public const string BUTTON_LOOK = 'rounded-control border border-input bg-background text-sm leading-none whitespace-nowrap font-normal text-foreground hover:bg-accent active:not-data-disabled:bg-accent-active focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring data-disabled:border-disabled-border data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity) data-disabled:pointer-events-none disabled:border-disabled-border disabled:text-disabled-foreground disabled:opacity-(--disabled-opacity)';
-
-    /** A button, and the trigger of a dialog, a popover, a menu… */
-    public const string BUTTON = 'flex h-control items-center justify-center gap-2 px-3 select-none '.self::BUTTON_LOOK;
-
     /** A popup: the box of a popover, a menu, a select… */
     public const string POPUP = 'border border-border bg-popover text-popover-foreground rounded-popup shadow-popup';
 

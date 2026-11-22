@@ -164,6 +164,26 @@ phem:
 To use the default merger of phem, set `tailwind: false`. To use your own merger, set
 `class_merger.service`: the bundle then does not turn on the Tailwind merger.
 
+### Replace the Button
+
+The parts that are a button render the `Button` component: `DialogTrigger`, `DialogClose`,
+`AlertDialogTrigger`, `AlertDialogClose`, `DrawerTrigger`, `DrawerClose`, `PopoverTrigger`,
+`PopoverClose`, `MenuTrigger`, `SelectTrigger`, `CollapsibleTrigger`, `ToastAction` and
+`ToastClose`. So one replacement of `Button` changes all of them:
+
+```php
+#[Component(replaces: Button::class)]
+function AppButton(?Html $children = null, mixed ...$rest): Node
+{
+    return <Button className={{ classes('h-9 px-4') }} {{ ...rest }}>{{ children }}</Button>;
+}
+// <DialogTrigger>, <MenuTrigger> and <SelectTrigger> now have h-9 and px-4 too.
+```
+
+Each part merges its own classes over the classes of `Button` (`MenuTrigger` adds its caret
+padding). A trigger in a `Toolbar` or a `Menubar` is an item of the bar: it keeps the look of the
+bar and does not render `Button`.
+
 ### Style a part with its slot
 
 Each part has a `data-slot`: the kebab case of its name, with no final `Root`. `DialogPopup` is

@@ -16,6 +16,9 @@ use Phem\{Html, Node};
  * A button with another tag (`tag="div"`), and a button with `focusableWhenDisabled`, use the
  * `phem-button` controller: Enter and Space click the button, and a disabled button does nothing.
  *
+ * The triggers and the close buttons of the other components render this Button, so a replacement
+ * of it (`#[Component(replaces: Button::class)]`) changes them too.
+ *
  * @aliases submit, action, link button
  */
 #[Component]

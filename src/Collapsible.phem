@@ -43,23 +43,20 @@ function CollapsibleTrigger(#[Context] Collapsible $collapsible, ?Html $children
 {
     $open = $collapsible->defaultOpen;
     $disabled = $collapsible->disabled;
-    $base = 'group flex h-control items-center justify-between gap-2 pl-3 pr-2 select-none '.Style::BUTTON_LOOK;
 
     return (
-        <button
+        <Button
             data-slot="collapsible-trigger"
-            type="button"
             disabled={{ disabled }}
             aria-expanded={{ open ? 'true' : 'false' }}
             data-panel-open={{ open ? '' : null }}
-            data-disabled={{ disabled ? '' : null }}
             data-phem-collapsible-target="trigger"
-            className={{ classes(base) }}
+            className={{ classes('group justify-between pl-3 pr-2') }}
             {{ ...rest }}
         >
             {{ children }}
             <CaretRightIcon className="transition-transform duration-100 ease-[ease-out] group-data-panel-open:rotate-90" />
-        </button>
+        </Button>
     );
 }
 

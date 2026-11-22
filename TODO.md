@@ -79,21 +79,6 @@ Other open work for the browser tests:
 - **Dark mode.** Run a test of each overlay with `colorScheme: dark`, and compare with base-ui.com.
 - **Visual check.** Add screenshot tests (`toHaveScreenshot`) for each demo, after the look is final.
 
-## Customization
-
-The components take their colors from the theme tokens of `assets/theme.css` (see the README). These changes make them easier to customize.
-
-- **The triggers do not render `Button`.** `DialogTrigger`, `DialogClose`, `PopoverTrigger`, `MenuTrigger`… render a `<button>` with `Style::BUTTON` or with their own copy of its classes. So an app that replaces `Button` (`#[Component(replaces: Button::class)]`) does not change them. Let them render `<Button>`, and one replacement changes all the buttons:
-
-  ```php
-  #[Component(replaces: Button::class)]
-  function AppButton(?Html $children = null, mixed ...$rest): Node
-  {
-      return <Button className="h-9 px-4" {{ ...rest }}>{{ children }}</Button>;
-  }
-  // Today: <Button> changes, <DialogTrigger> and <MenuTrigger> do not.
-  ```
-
 ## To build here
 
 - **Dark mode check.** Compare each demo page with base-ui.com in dark mode.

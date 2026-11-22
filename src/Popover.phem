@@ -73,25 +73,33 @@ function PopoverTrigger(
     ?Html $children = null,
     mixed ...$rest,
 ): Node {
-    $item = null !== $toolbar ? 'item' : null;
     $target = null === $handle ? 'trigger' : null;
-    $base = null !== $toolbar ? Style::TOOLBAR_BUTTON : Style::BUTTON;
+    $attrs = ['data-phem-popover-target' => $target, 'data-phem-popover-for' => $handle, 'data-phem-popover-payload' => $payload];
+
+    // In a toolbar, the trigger is an item with the look of a ToolbarButton.
+    if (null !== $toolbar) {
+        $base = Style::TOOLBAR_BUTTON;
+
+        return (
+            <button
+                data-slot="popover-trigger"
+                type="button"
+                disabled={{ disabled }}
+                data-disabled={{ disabled ? '' : null }}
+                data-phem-toolbar-target="item"
+                className={{ classes(base, 'data-pressed:bg-accent') }}
+                {{ ...attrs }}
+                {{ ...rest }}
+            >
+                {{ children }}
+            </button>
+        );
+    }
 
     return (
-        <button
-            data-slot="popover-trigger"
-            type="button"
-            disabled={{ disabled }}
-            data-disabled={{ disabled ? '' : null }}
-            data-phem-popover-target={{ target }}
-            data-phem-popover-for={{ handle }}
-            data-phem-popover-payload={{ payload }}
-            data-phem-toolbar-target={{ item }}
-            className={{ classes(base, 'data-pressed:bg-accent') }}
-            {{ ...rest }}
-        >
+        <Button data-slot="popover-trigger" disabled={{ disabled }} className={{ classes('data-pressed:bg-accent') }} {{ ...attrs }} {{ ...rest }}>
             {{ children }}
-        </button>
+        </Button>
     );
 }
 
@@ -142,9 +150,7 @@ function PopoverDescription(?Html $children = null, mixed ...$rest): Node
 #[Component]
 function PopoverClose(?Html $children = null, mixed ...$rest): Node
 {
-    $base = Style::BUTTON;
-
-    return <button data-slot="popover-close" type="button" data-phem-popover-target="close" className={{ classes(base) }} {{ ...rest }}>{{ children }}</button>;
+    return <Button data-slot="popover-close" data-phem-popover-target="close" {{ ...rest }}>{{ children }}</Button>;
 }
 
 /**
