@@ -99,7 +99,6 @@ The components take their colors from the theme tokens of `assets/theme.css` (se
 - **Density.** `h-8`, `px-3` and `text-sm` are fixed in each control (shadcn: `h-9`). A `--control-height` token, or a `size` prop with a recipe, would change all of them together.
 - **`data-slot` on each part.** shadcn gives each part a `data-slot` (`data-slot="dialog-popup"`). App CSS, and a parent with `has-data-[slot=dialog-description]:`, can then style a part without `className`. Many parts have a `data-phem-*-target` today, but that is the API of the controller, not a style hook.
 - **The fixed colors that are left.** The link of `Toolbar` (`hover:text-blue-700`), the backdrop of `Drawer` (`bg-black` with an opacity), and the cursor of the scrub area of `NumberField` (`drop-shadow-[0_1px_1px_#0008]`).
-- **The Tailwind merger.** Without `phem.class_merger.tailwind`, a `className` adds classes and removes none: `<Button className="bg-blue-600">` keeps `bg-background`, and the CSS order picks the color. The README says so. The bundle could warn in debug mode when the merger is off.
 - **A second theme in the demo.** A shadcn theme and a theme picker next to the dark switch. It shows the tokens, and an e2e test can check that each component follows the theme.
 
 ## To build here
