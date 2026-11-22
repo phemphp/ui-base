@@ -34,10 +34,13 @@
      * --disabled-border have no value here: their defaults are in @theme inline, so each element
      * resolves them from its own --primary, --accent and --muted-foreground. --disabled-opacity has
      * no value: a disabled part then has its full opacity. --control-height has no value here: its
-     * default (2rem) is in @theme inline.
+     * default (2rem) is in @theme inline. --drawer-overlay has a value in dark mode only: else it is
+     * --overlay.
      */
     --separator: var(--color-neutral-300);
     --overlay: rgb(0 0 0 / 20%);
+    --link: var(--color-blue-700);
+    --match: var(--color-blue-800);
     --popup-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
 
     /* The dark variant of the app. It must match the <html> element itself. */
@@ -58,6 +61,9 @@
         --ring: var(--color-white);
         --separator: var(--color-neutral-700);
         --overlay: rgb(0 0 0 / 50%);
+        --drawer-overlay: rgb(0 0 0 / 70%);
+        --link: var(--color-blue-500);
+        --match: var(--color-blue-500);
         /* Not none: it goes into the box-shadow list of Tailwind with the rings. */
         --popup-shadow: 0 0 #0000;
     }
@@ -83,6 +89,9 @@
     --color-separator: var(--separator);
     --color-accent-active: var(--accent-active, color-mix(in oklab, var(--accent), var(--foreground) 10%));
     --color-overlay: var(--overlay);
+    --color-drawer-overlay: var(--drawer-overlay, var(--overlay));
+    --color-link: var(--link);
+    --color-match: var(--match);
     --color-disabled-foreground: var(--disabled-foreground, var(--muted-foreground));
     --color-disabled-border: var(--disabled-border, var(--muted-foreground));
 

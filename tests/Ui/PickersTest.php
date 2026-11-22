@@ -109,7 +109,7 @@ final class PickersTest extends KernelTestCase
             // One keyword on each line: the browser tests each one alone.
             ->assertSelectorExists('#fuzzy-item-lemon[data-keywords="citrus\\A sour"]')
             ->assertSelectorNotExists('#fuzzy-item-apple[data-keywords]')
-            ->assertSelectorExists('#fuzzy-item-lemon > span[data-phem-combobox-target="highlight"][data-phem-combobox-mark-class="bg-transparent font-bold text-blue-800 dark:text-blue-500"]')
+            ->assertSelectorExists('#fuzzy-item-lemon > span[data-phem-combobox-target="highlight"][data-phem-combobox-mark-class="bg-transparent font-bold text-match"]')
             ->assertSelectorTextContains('#fuzzy-item-lemon > span[data-phem-combobox-target="highlight"]', 'Lemon')
             ->assertSelectorExists('#fuzzy-item-apple > span[data-phem-combobox-target="highlight"][data-phem-combobox-mark-class="font-bold"]');
     }

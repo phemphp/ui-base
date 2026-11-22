@@ -50,6 +50,28 @@ final class ThemeTest extends TestCase
         self::assertSame([], array_values(array_unique($unknown)), 'These classes have a name that is not in assets/theme.css or in the default theme of Tailwind.');
     }
 
+    public function testThePartsHaveNoFixedColor(): void
+    {
+        $root = \dirname(__DIR__, 2);
+
+        $fixed = [];
+        foreach ([...glob($root.'/src/*.phem'), $root.'/src/Style.php'] as $file) {
+            // A dark: class, a color of the palette, black or white, or a hex color.
+            preg_match_all('/(?<=[\s\'"{:])(?:dark:\S+|(?:[a-z-]+:)*(?:bg|text|border|fill|stroke|outline)-(?:black|white|(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-\d+)\S*|\S*#[0-9a-fA-F]{3,8}\b\S*|(?:fill|stroke)="(?:black|white)")/', (string) file_get_contents($file), $matches);
+
+            foreach ($matches[0] as $class) {
+                // A shadow is black, as the shadows of Tailwind.
+                if (str_contains($class, 'shadow-')) {
+                    continue;
+                }
+
+                $fixed[] = basename($file).': '.$class;
+            }
+        }
+
+        self::assertSame([], $fixed, 'These classes have a fixed color: use a token of assets/theme.css.');
+    }
+
     public function testTheThemeHasTheShadcnVariables(): void
     {
         $theme = self::themeNames((string) file_get_contents(\dirname(__DIR__, 2).'/assets/theme.css'));

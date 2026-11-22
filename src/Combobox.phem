@@ -440,7 +440,7 @@ function ComboboxItemLabel(?Html $children = null, mixed ...$rest): Node
  * case and the accents do not count). `markClassName` is the class of the `mark` elements.
  */
 #[Component]
-function ComboboxHighlight(string $markClassName = 'bg-transparent font-bold text-blue-800 dark:text-blue-500', ?Html $children = null, mixed ...$rest): Node
+function ComboboxHighlight(string $markClassName = 'bg-transparent font-bold text-match', ?Html $children = null, mixed ...$rest): Node
 {
     return <span data-slot="combobox-highlight" data-phem-combobox-target="highlight" data-phem-combobox-mark-class={{ markClassName }} {{ ...rest }}>{{ children }}</span>;
 }

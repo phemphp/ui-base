@@ -80,6 +80,9 @@ phem/ui-base adds these variables. In the Base UI look, one shadcn color has two
 | `--separator` | `neutral-300` | the `<Separator>` component |
 | `--accent-active` | `--accent` with 10% of `--foreground` | a control while the pointer presses it (`active:`) |
 | `--overlay` | `black / 20%` | the backdrop of a dialog |
+| `--drawer-overlay` | `--overlay`, `black / 70%` in dark mode | the backdrop of a drawer |
+| `--link` | `blue-700`, `blue-500` in dark mode | the hover color of a link in a toolbar |
+| `--match` | `blue-800`, `blue-500` in dark mode | the matched text in an item (`ComboboxHighlight`) |
 | `--popup-shadow` | an offset shadow, none in dark mode | the shadow of a popup (`shadow-popup`) |
 | `--disabled-foreground` | `--muted-foreground` | the text of a disabled control or item |
 | `--disabled-border` | `--muted-foreground` | the border of a disabled control |
@@ -90,7 +93,7 @@ phem/ui-base adds these variables. In the Base UI look, one shadcn color has two
 
 Paste a theme of shadcn (or of a theme generator for shadcn) after the import. It sets the shadcn
 variables. Add these lines for the shadcn look of the highlight, the separator, the popups, the disabled
-controls and the height of the controls:
+controls, the height of the controls, the drawer and the links:
 
 ```css
 :root {
@@ -102,6 +105,9 @@ controls and the height of the controls:
     --disabled-border: var(--input);
     --disabled-opacity: 0.5;
     --control-height: 2.25rem; /* h-9 */
+    --drawer-overlay: var(--overlay);
+    --link: var(--primary);
+    --match: var(--primary);
 }
 ```
 

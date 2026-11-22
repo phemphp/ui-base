@@ -134,7 +134,7 @@ function DrawerPopup(#[Context] Drawer $drawer, #[Context] ?DrawerViewport $view
         <dialog
             data-slot="drawer-popup"
             data-phem-dialog-target="popup"
-            className={{ classes('fixed z-50 m-0 inset-0 h-auto p-6 border-border bg-popover text-popover-foreground outline-none rounded-popup shadow-popup overflow-y-auto overscroll-contain touch-auto transition-transform duration-[450ms] data-ending-style:duration-[calc(var(--drawer-swipe-strength,1)*400ms)] ease-[cubic-bezier(0.32,0.72,0,1)] data-swiping:transition-none data-swiping:select-none backdrop:bg-black backdrop:opacity-[calc(0.2*(1-var(--drawer-swipe-progress,0)))] dark:backdrop:opacity-[calc(0.7*(1-var(--drawer-swipe-progress,0)))] backdrop:transition-opacity backdrop:duration-[450ms] backdrop:ease-[cubic-bezier(0.32,0.72,0,1)] data-swiping:backdrop:duration-0 data-ending-style:backdrop:duration-[calc(var(--drawer-swipe-strength,1)*400ms)] data-starting-style:backdrop:opacity-0 data-ending-style:backdrop:opacity-0', edge) }}
+            className={{ classes('fixed z-50 m-0 inset-0 h-auto p-6 border-border bg-popover text-popover-foreground outline-none rounded-popup shadow-popup overflow-y-auto overscroll-contain touch-auto transition-transform duration-[450ms] data-ending-style:duration-[calc(var(--drawer-swipe-strength,1)*400ms)] ease-[cubic-bezier(0.32,0.72,0,1)] data-swiping:transition-none data-swiping:select-none backdrop:bg-drawer-overlay backdrop:opacity-[calc(1-var(--drawer-swipe-progress,0))] backdrop:transition-opacity backdrop:duration-[450ms] backdrop:ease-[cubic-bezier(0.32,0.72,0,1)] data-swiping:backdrop:duration-0 data-ending-style:backdrop:duration-[calc(var(--drawer-swipe-strength,1)*400ms)] data-starting-style:backdrop:opacity-0 data-ending-style:backdrop:opacity-0', edge) }}
             {{ ...rest }}
         >
             {{ children }}
@@ -202,7 +202,7 @@ class DrawerViewport
             <dialog
                 data-slot="drawer-viewport"
                 data-phem-dialog-target="viewport"
-                className={{ classes('fixed z-50 m-0 p-0 inset-0 size-full max-w-none max-h-none border-0 bg-transparent overflow-hidden open:flex backdrop:bg-black backdrop:opacity-[calc(0.2*(1-var(--drawer-swipe-progress,0)))] dark:backdrop:opacity-[calc(0.7*(1-var(--drawer-swipe-progress,0)))] backdrop:transition-opacity backdrop:duration-[450ms] backdrop:ease-[cubic-bezier(0.32,0.72,0,1)] data-ending-style:backdrop:duration-[calc(var(--drawer-swipe-strength,1)*400ms)] data-starting-style:backdrop:opacity-0 data-ending-style:backdrop:opacity-0', place) }}
+                className={{ classes('fixed z-50 m-0 p-0 inset-0 size-full max-w-none max-h-none border-0 bg-transparent overflow-hidden open:flex backdrop:bg-drawer-overlay backdrop:opacity-[calc(1-var(--drawer-swipe-progress,0))] backdrop:transition-opacity backdrop:duration-[450ms] backdrop:ease-[cubic-bezier(0.32,0.72,0,1)] data-ending-style:backdrop:duration-[calc(var(--drawer-swipe-strength,1)*400ms)] data-starting-style:backdrop:opacity-0 data-ending-style:backdrop:opacity-0', place) }}
                 {{ ...attrs }}
             >
                 {{ children }}
@@ -218,7 +218,7 @@ class DrawerViewport
 #[Component]
 function DrawerBackdrop(mixed ...$rest): Node
 {
-    return <div data-slot="drawer-backdrop" data-phem-dialog-target="backdrop" hidden className={{ classes('fixed inset-0 min-h-dvh bg-black opacity-[calc(0.2*(1-var(--drawer-swipe-progress,0)))] dark:opacity-[calc(0.7*(1-var(--drawer-swipe-progress,0)))] transition-opacity duration-[450ms] ease-[cubic-bezier(0.32,0.72,0,1)] data-ending-style:opacity-0 data-starting-style:opacity-0 data-ending-style:duration-[calc(var(--drawer-swipe-strength,1)*400ms)]') }} {{ ...rest }} />;
+    return <div data-slot="drawer-backdrop" data-phem-dialog-target="backdrop" hidden className={{ classes('fixed inset-0 min-h-dvh bg-drawer-overlay opacity-[calc(1-var(--drawer-swipe-progress,0))] transition-opacity duration-[450ms] ease-[cubic-bezier(0.32,0.72,0,1)] data-ending-style:opacity-0 data-starting-style:opacity-0 data-ending-style:duration-[calc(var(--drawer-swipe-strength,1)*400ms)]') }} {{ ...rest }} />;
 }
 
 /** An area at the edge of the screen: a swipe away from the edge opens the drawer. */
