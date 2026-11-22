@@ -83,7 +83,6 @@ Other open work for the browser tests:
 
 The components take their colors from the theme tokens of `assets/theme.css` (see the README). These changes make them easier to customize.
 
-- **Parts with no rest prop.** `Autocomplete`, `ContextMenu`, `MenuSubmenu`, `ComboboxChipTemplate`, `MenuPayload`, `PopoverPayload` and `PreviewCardPayload` take no `className`. Add a rest prop where the part renders an element.
 - **The triggers do not render `Button`.** `DialogTrigger`, `DialogClose`, `PopoverTrigger`, `MenuTrigger`… render a `<button>` with `Style::BUTTON` or with their own copy of its classes. So an app that replaces `Button` (`#[Component(replaces: Button::class)]`) does not change them. Let them render `<Button>`, and one replacement changes all the buttons:
 
   ```php

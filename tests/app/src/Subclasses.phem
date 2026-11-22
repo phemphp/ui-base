@@ -1,0 +1,27 @@
+<?phem
+
+namespace Phem\Ui\Base\Tests\App;
+
+use Phem\Attribute\Component;
+use Phem\Node;
+use Phem\Ui\Base\{Autocomplete, ContextMenu, Menu, MenuSubmenu};
+
+use function Phem\Ui\Base\{ComboboxInput, ContextMenuTrigger, MenuPopup, MenuSubmenuTrigger, MenuTrigger};
+
+/** The roots that extend another root take the `className` of the caller, as their parent. */
+#[Component]
+function SubclassClassNameDemo(): Node
+{
+    return (
+        <div>
+            <Autocomplete id="classes" className="w-80"><ComboboxInput /></Autocomplete>
+            <ContextMenu className="block"><ContextMenuTrigger>Area</ContextMenuTrigger></ContextMenu>
+            <Menu>
+                <MenuTrigger>Menu</MenuTrigger>
+                <MenuPopup>
+                    <MenuSubmenu className="submenu"><MenuSubmenuTrigger>More</MenuSubmenuTrigger></MenuSubmenu>
+                </MenuPopup>
+            </Menu>
+        </div>
+    );
+}

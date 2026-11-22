@@ -188,7 +188,7 @@ renders another part keeps its own name: `AlertDialogPopup` is `alert-dialog-pop
 
 A `data-slot` of the caller replaces the name: `<Button data-slot="save">`. The icons have no slot.
 `MenuPayload`, `PopoverPayload`, `PreviewCardPayload` and `ComboboxChipTemplate` render a
-`<template>`, which does not show, so they have no slot either. The other payloads render an
+`<template>`, which does not show, so they have no slot either, and they take no `className`. The other payloads render an
 element and have a slot: `DialogPayload` is `dialog-payload`. The `data-phem-*-target` attributes are the API of the
 controllers: do not style them.
 

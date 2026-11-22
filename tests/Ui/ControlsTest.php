@@ -135,6 +135,14 @@ final class ControlsTest extends KernelTestCase
             ->assertSelectorTextContains('[data-phem-avatar-target="fallback"]', 'AL');
     }
 
+    public function testARootThatExtendsAnotherRootTakesTheClassName(): void
+    {
+        $this->mount(self::APP.'SubclassClassNameDemo')
+            ->assertSelectorExists('[data-slot="autocomplete"][class~="w-80"]')
+            ->assertSelectorExists('[data-slot="context-menu"][class~="block"]')
+            ->assertSelectorExists('[data-slot="menu-submenu"][class~="submenu"]');
+    }
+
     /**
      * @return iterable<string, array{string, string, string}>
      */
