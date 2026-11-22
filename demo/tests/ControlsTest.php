@@ -243,6 +243,18 @@ final class ControlsTest extends DemoTestCase
         expect($page->getByRole('button', ['name' => 'Align right']))->toBeFocused();
     }
 
+    public function testToggleGroupMovesWithHomeAndEnd(): void
+    {
+        $page = $this->visitComponent('toggle-group');
+        $hero = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]');
+
+        $hero->getByRole('button', ['name' => 'Align center'])->focus();
+        $page->keyboard()->press('End');
+        expect($hero->getByRole('button', ['name' => 'Align right']))->toBeFocused();
+        $page->keyboard()->press('Home');
+        expect($hero->getByRole('button', ['name' => 'Align left']))->toBeFocused();
+    }
+
     public function testToggleGroupPressesMultipleItems(): void
     {
         $page = $this->visitComponent('toggle-group');
@@ -276,6 +288,23 @@ final class ControlsTest extends DemoTestCase
         expect($hero->getByRole('button', ['name' => 'Format as percent']))->toBeFocused();
         $page->keyboard()->press('Home');
         expect($hero->getByRole('button', ['name' => 'Format as percent']))->toBeFocused();
+    }
+
+    public function testTheSelectOfAToolbarIsAnItem(): void
+    {
+        $page = $this->visitComponent('toolbar');
+        $hero = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]');
+        $trigger = $hero->locator('[data-slot="select-trigger"]');
+
+        // The arrow keys go to the trigger of the select, and Enter opens it.
+        $hero->getByRole('button', ['name' => 'Format as percent'])->focus();
+        $page->keyboard()->press('ArrowRight');
+        expect($trigger)->toBeFocused();
+        expect($trigger)->toHaveAttribute('data-phem-toolbar-target', 'item');
+
+        $page->keyboard()->press('Enter');
+        $page->getByRole('option', ['name' => 'Arial'])->click();
+        expect($trigger)->toHaveText('Arial');
     }
 
     public function testToolbarWithPopupsAndANumberField(): void
@@ -349,5 +378,41 @@ final class ControlsTest extends DemoTestCase
 
         // The second avatar has no image.
         expect($page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]')->getByText('LT', ['exact' => true])->last())->toBeVisible();
+    }
+
+    public function testAvatarShowsTheImageOrTheFallback(): void
+    {
+        $page = $this->visitComponent('avatar');
+        $hero = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]');
+        $image = $hero->locator('[data-slot="avatar-image"]');
+        $fallback = $hero->locator('[data-slot="avatar-fallback"]')->first();
+
+        // The demo image is on another host: the routes give an image that loads and one that fails.
+        $page->route('**/ui-base-avatar-ok.svg', static fn ($route) => $route->fulfill(['status' => 200, 'contentType' => 'image/svg+xml', 'body' => '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"><rect width="48" height="48"/></svg>']));
+        $page->route('**/ui-base-avatar-broken.svg', static fn ($route) => $route->abort());
+
+        $image->evaluate('el => el.src = "/ui-base-avatar-ok.svg"');
+        expect($image)->toBeVisible();
+        expect($image)->not()->toHaveAttribute('data-loading', '');
+        expect($fallback)->toBeHidden();
+
+        // A broken image shows the fallback after its `delay` (600 ms) from the connection of the
+        // controller, as in Base UI: a copy of the avatar connects again.
+        $wait = $image->evaluate(<<<'JS'
+            (el) => new Promise((resolve) => {
+                const avatar = el.closest('[data-slot="avatar"]')
+                const copy = avatar.cloneNode(true)
+                copy.querySelector('[data-slot="avatar-image"]').src = '/ui-base-avatar-broken.svg'
+                const fallback = copy.querySelector('[data-slot="avatar-fallback"]')
+                fallback.hidden = true
+                const start = performance.now()
+                avatar.replaceWith(copy)
+                const check = () => fallback.hidden ? requestAnimationFrame(check) : resolve(performance.now() - start)
+                requestAnimationFrame(check)
+            })
+            JS);
+        expect($image)->toHaveAttribute('data-error', '');
+        expect($fallback)->toHaveText('LT');
+        self::assertGreaterThanOrEqual(550, $wait);
     }
 }
