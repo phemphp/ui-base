@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use Playwright\Locator\LocatorInterface;
+use Playwright\Page\PageInterface;
+
 use function Playwright\Testing\expect;
 
 final class FormsTest extends DemoTestCase
@@ -32,6 +35,29 @@ final class FormsTest extends DemoTestCase
         $input->fill('Colm');
         expect($input)->toHaveAttribute('data-dirty', '');
         expect($input)->toHaveAttribute('data-filled', '');
+    }
+
+    public function testFieldShowsItsErrorAfterAValidation(): void
+    {
+        $page = $this->visitComponent('field');
+        $hero = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]');
+        $input = $hero->getByRole('textbox', ['name' => 'Name']);
+        $error = $hero->getByText('Please enter your name');
+
+        // Enter validates the field: the error shows, and the input names it.
+        $input->focus();
+        $page->keyboard()->press('Enter');
+        expect($error)->toBeVisible();
+        expect($input)->toHaveAttribute('aria-invalid', 'true');
+        expect($input)->toHaveAttribute('data-invalid', '');
+        $id = $error->evaluate('el => el.id');
+        self::assertNotSame('', $id);
+        self::assertContains($id, explode(' ', (string) $input->getAttribute('aria-describedby')));
+
+        // A valid value removes the error.
+        $input->fill('Colm');
+        expect($error)->toBeHidden();
+        expect($input)->toHaveAttribute('data-valid', '');
     }
 
     public function testFormShowsTheErrorOfTheServerAndFocusesAnInvalidField(): void
@@ -118,6 +144,62 @@ final class FormsTest extends DemoTestCase
         expect($input)->toHaveValue('110');
     }
 
+    public function testNumberFieldRepeatsTheStepWhileTheButtonIsHeld(): void
+    {
+        $page = $this->visitComponent('number-field');
+        $hero = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]');
+        $input = $hero->getByRole('textbox', ['name' => 'Amount']);
+
+        // One step, then a step each 60 ms after 400 ms.
+        self::hold($page, $hero->getByRole('button', ['name' => 'Increase']), 1000);
+        self::assertGreaterThan(110, (int) $input->inputValue());
+    }
+
+    public function testNumberFieldScrubAreaChangesTheValue(): void
+    {
+        $page = $this->visitComponent('number-field');
+        $hero = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]');
+        $input = $hero->getByRole('textbox', ['name' => 'Amount']);
+
+        // The movements of a locked pointer in a headless browser come with the moves back to the
+        // center. With no pointer lock, the controller reads the position of the pointer.
+        $page->evaluate('() => { Element.prototype.requestPointerLock = undefined }');
+
+        $box = $hero->locator('[data-slot="number-field-scrub-area"]')->boundingBox();
+        $mouse = $page->mouse();
+        $mouse->move($box['x'] + 5, $box['y'] + 5);
+        $mouse->down();
+        expect($hero->locator('[data-slot="number-field-scrub-area"]'))->toHaveAttribute('data-scrubbing', '');
+        $mouse->move($box['x'] + 45, $box['y'] + 5, ['steps' => 10]);
+        $mouse->up();
+
+        // 10 movements of 4 pixels: one step for each pixel, as in Base UI.
+        expect($input)->toHaveValue('140');
+    }
+
+    public function testNumberFieldWheelAndLimits(): void
+    {
+        $page = $this->visitComponent('number-field');
+        $hero = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]');
+        $input = $hero->getByRole('textbox', ['name' => 'Amount']);
+        $root = $hero->locator('[data-slot="number-field"]');
+
+        // The demo of Base UI has no `allowWheelScrub` and no limits: the values turn them on.
+        $root->evaluate('el => { el.setAttribute("data-phem-number-field-allow-wheel-scrub-value", "true"); el.setAttribute("data-phem-number-field-max-value", "102") }');
+
+        $input->focus();
+        $box = $input->boundingBox();
+        $page->mouse()->move($box['x'] + 5, $box['y'] + 5);
+        $page->mouse()->wheel(0, -100);
+        expect($input)->toHaveValue('101');
+
+        // At the limit, the value stays and the button is disabled.
+        $increase = $hero->getByRole('button', ['name' => 'Increase']);
+        $increase->click();
+        expect($input)->toHaveValue('102');
+        expect($increase)->toBeDisabled();
+    }
+
     public function testOtpFieldMovesToTheNextSlot(): void
     {
         $page = $this->visitComponent('otp-field');
@@ -140,6 +222,19 @@ final class FormsTest extends DemoTestCase
         $page->keyboard()->type('456');
         expect($hero->locator('input[type="hidden"][name="code"]'))->toHaveValue('123456');
         expect($hero->locator('[data-controller~="phem-otp-field"]'))->toHaveAttribute('data-complete', '');
+    }
+
+    public function testOtpFieldPasteFillsAllTheSlots(): void
+    {
+        $page = $this->visitComponent('otp-field');
+        $hero = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]');
+
+        $hero->getByRole('textbox', ['name' => 'Verification code'])->click();
+        // A paste event with the text (the PHP client can run the script two times).
+        $page->evaluate("() => window.pasted || (() => { window.pasted = true; const data = new DataTransfer(); data.setData('text/plain', '123456'); document.activeElement.dispatchEvent(new ClipboardEvent('paste', { clipboardData: data, bubbles: true, cancelable: true })) })()");
+
+        expect($hero->locator('[data-slot="otp-field"]'))->toHaveAttribute('data-complete', '');
+        expect($hero->locator('[data-slot="otp-field-input"]')->last())->toHaveValue('6');
     }
 
     public function testOtpFieldExamples(): void
@@ -193,6 +288,27 @@ final class FormsTest extends DemoTestCase
         expect($thumb)->toHaveValue('0');
     }
 
+    public function testSliderMovesWithAPointerDrag(): void
+    {
+        $page = $this->visitComponent('slider');
+        $hero = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]');
+        $thumb = $hero->getByRole('slider', ['name' => 'Volume']);
+        $control = $hero->locator('[data-slot="slider-control"]')->boundingBox();
+        $y = $control['y'] + $control['height'] / 2;
+        $mouse = $page->mouse();
+
+        // A press on the track moves the thumb to the point, and a drag moves it.
+        $mouse->move($control['x'] + $control['width'] / 2, $y);
+        $mouse->down();
+        expect($hero->locator('[data-slot="slider-thumb"]'))->toHaveAttribute('data-dragging', '');
+        expect($thumb)->toHaveValue('50');
+
+        $mouse->move($control['x'] + $control['width'], $y, ['steps' => 5]);
+        $mouse->up();
+        expect($thumb)->toHaveValue('100');
+        expect($hero->locator('[data-slot="slider-thumb"]'))->not()->toHaveAttribute('data-dragging', '');
+    }
+
     public function testSliderExamples(): void
     {
         $page = $this->visitComponent('slider');
@@ -229,5 +345,16 @@ final class FormsTest extends DemoTestCase
         $form = $page->getByRole('region', ['name' => 'Form integration'])->locator('[data-demo="preview"]');
         expect($form->locator('input[name="volume"]'))->toHaveValue('50');
         expect($form->locator('input[name="price[]"]'))->toHaveCount(2);
+    }
+
+    /** Holds the mouse button on the element for the time. */
+    private static function hold(PageInterface $page, LocatorInterface $element, int $ms): void
+    {
+        $box = $element->boundingBox();
+        $mouse = $page->mouse();
+        $mouse->move($box['x'] + $box['width'] / 2, $box['y'] + $box['height'] / 2);
+        $mouse->down();
+        $page->evaluate("() => new Promise((resolve) => setTimeout(resolve, {$ms}))");
+        $mouse->up();
     }
 }

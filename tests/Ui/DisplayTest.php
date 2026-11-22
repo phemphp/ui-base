@@ -39,6 +39,15 @@ final class DisplayTest extends KernelTestCase
             ->assertSelectorExists('#storage div[style*="width: 24%"]');
     }
 
+    public function testADisabledFieldsetDisablesItsFields(): void
+    {
+        // The native `disabled` of the fieldset disables each control in it, and the fieldset
+        // gets `data-disabled` for the styles.
+        $this->mount('Phem\Ui\Base\Tests\App\FieldsetDisabledDemo')
+            ->assertSelectorExists('fieldset[disabled][data-disabled] input[name="company"]')
+            ->assertSelectorExists('fieldset[disabled][data-disabled] input[name="tax"]');
+    }
+
     public function testTheFieldsetHasALegendAndASeparator(): void
     {
         $this->mount('Phem\Ui\Base\Tests\App\FieldsetDemo')

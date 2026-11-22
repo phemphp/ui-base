@@ -32,6 +32,19 @@ function MeterDemo(): Node
     );
 }
 
+/** A disabled fieldset: the browser disables each control in it. */
+#[Component]
+function FieldsetDisabledDemo(): Node
+{
+    return (
+        <Fieldset disabled>
+            <FieldsetLegend>Billing details</FieldsetLegend>
+            <Input name="company" />
+            <Input name="tax" />
+        </Fieldset>
+    );
+}
+
 #[Component]
 function FieldsetDemo(): Node
 {

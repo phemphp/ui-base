@@ -106,5 +106,10 @@ final class BasicsTest extends DemoTestCase
         // The value grows each second, as in the Base UI demo.
         $page->waitForFunction('() => Number(document.querySelector(\'[role="progressbar"]\').getAttribute("aria-valuenow")) > 45', null, ['timeout' => 30_000]);
         expect($progress)->toContainText('%');
+
+        // At 100, the progress is complete.
+        $page->waitForFunction('() => Number(document.querySelector(\'[role="progressbar"]\').getAttribute("aria-valuenow")) === 100', null, ['timeout' => 60_000]);
+        expect($progress)->toHaveAttribute('data-complete', '');
+        expect($progress)->not()->toHaveAttribute('data-progressing', '');
     }
 }
