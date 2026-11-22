@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.3.0
+
 - The package requires `tales-from-a-dev/tailwind-merge-php` (`^0.5`). Before, it was only a suggestion. The Tailwind merger of phem needs it, so that a `className` of the caller replaces a class of the same group of a part. Turn on `phem.class_merger.tailwind` in the app to use it.
 
 ## 0.2.0
