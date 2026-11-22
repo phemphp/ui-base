@@ -7,6 +7,7 @@ The work that is still open in `phem/ui-base`. The bundle has no workarounds. A 
 A gap is a behavior of Base UI v1.9.0 that needs a change in a phem controller. Fix it in phem and in the bundle in the same change: the bundle does not work around it.
 
 - **Submenu: the close after a move to a sibling item.** In phem v0.4.8, it took about 19 ms (Base UI: about 60 ms). No phem change names this timing: measure it again.
+- **A theme picker in the demo.** The demo has a second theme (the shadcn theme of `demo/assets/styles/app.css`, on `<html data-palette="shadcn">`), and `demo/tests/ThemeTest.php` checks that each part follows it. The demo has no picker for it: `phem-theme` stores only `light`, `dark` or `system`. Add to phem a stored choice of a named palette next to the light and the dark theme (with `theme_script()`, so the page has it before the first paint), then put the picker next to the dark switch of the sidebar.
 
 These results are different from Base UI, and phem keeps them:
 
@@ -93,7 +94,6 @@ The components take their colors from the theme tokens of `assets/theme.css` (se
   }
   // Today: <Button> changes, <DialogTrigger> and <MenuTrigger> do not.
   ```
-- **A second theme in the demo.** A shadcn theme and a theme picker next to the dark switch. It shows the tokens, and an e2e test can check that each component follows the theme.
 
 ## To build here
 

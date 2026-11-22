@@ -57,7 +57,7 @@ final class ThemeTest extends TestCase
         $fixed = [];
         foreach ([...glob($root.'/src/*.phem'), $root.'/src/Style.php'] as $file) {
             // A dark: class, a color of the palette, black or white, or a hex color.
-            preg_match_all('/(?<=[\s\'"{:])(?:dark:\S+|(?:[a-z-]+:)*(?:bg|text|border|fill|stroke|outline)-(?:black|white|(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-\d+)\S*|\S*#[0-9a-fA-F]{3,8}\b\S*|(?:fill|stroke)="(?:black|white)")/', (string) file_get_contents($file), $matches);
+            preg_match_all('/(?<=[\s\'"{:])(?:dark:\S+|(?:[^\s:\'"]+:)*(?:bg|text|border(?:-[xytrblse])?|fill|stroke|outline)-(?:black|white|(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-\d+)\S*|\S*#[0-9a-fA-F]{3,8}\b\S*|(?:fill|stroke)="(?:black|white)")/', (string) file_get_contents($file), $matches);
 
             foreach ($matches[0] as $class) {
                 // A shadow is black, as the shadows of Tailwind.
