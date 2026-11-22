@@ -45,6 +45,24 @@ final class DisclosureTest extends DemoTestCase
         expect($answer)->toBeHidden();
     }
 
+    public function testAccordionWithRovingFocusMovesWithTheArrowKeysHomeAndEnd(): void
+    {
+        $page = $this->visitComponent('accordion');
+        $hero = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]');
+        $triggers = $hero->locator('[data-slot="accordion-trigger"]');
+
+        // The demo of Base UI has no `rovingFocus`: the value turns it on.
+        $hero->locator('[data-controller~="phem-accordion"]')->first()->evaluate('el => el.setAttribute("data-phem-accordion-roving-focus-value", "true")');
+
+        $triggers->first()->focus();
+        $page->keyboard()->press('ArrowDown');
+        expect($triggers->nth(1))->toBeFocused();
+        $page->keyboard()->press('End');
+        expect($triggers->last())->toBeFocused();
+        $page->keyboard()->press('Home');
+        expect($triggers->first())->toBeFocused();
+    }
+
     public function testAccordionOpensMultiplePanels(): void
     {
         $page = $this->visitComponent('accordion');
@@ -125,6 +143,27 @@ final class DisclosureTest extends DemoTestCase
         expect($hero->getByText('alien-bean-pasta'))->toBeHidden();
     }
 
+    public function testCollapsibleOpensWithTheKeyboardAndMeasuresItsPanel(): void
+    {
+        $page = $this->visitComponent('collapsible');
+        $hero = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]');
+        $trigger = $hero->getByRole('button', ['name' => 'Recovery keys']);
+        $panel = $hero->locator('[data-slot="collapsible-panel"]');
+
+        $trigger->focus();
+        $page->keyboard()->press('Enter');
+        expect($trigger)->toHaveAttribute('aria-expanded', 'true');
+        expect($panel)->toBeVisible();
+
+        // The height variable of the animation is `auto` when the panel is open, as in Base UI.
+        $panel->evaluate('el => Promise.all(el.getAnimations().map((animation) => animation.finished))');
+        self::assertSame('auto', $panel->evaluate('el => el.style.getPropertyValue("--collapsible-panel-height")'));
+
+        $page->keyboard()->press('Space');
+        expect($trigger)->toHaveAttribute('aria-expanded', 'false');
+        expect($panel)->toBeHidden();
+    }
+
     public function testCollapsibleHidesItsPanelUntilFound(): void
     {
         $page = $this->visitComponent('collapsible');
@@ -170,6 +209,23 @@ final class DisclosureTest extends DemoTestCase
         expect($hero->getByRole('tab', ['name' => 'Account']))->toBeFocused();
         $page->keyboard()->press('Enter');
         expect($hero->getByRole('tabpanel'))->toHaveText('Profile and preferences.');
+    }
+
+    public function testTheTabsIndicatorHasThePlaceOfTheSelectedTab(): void
+    {
+        $page = $this->visitComponent('tabs');
+        $hero = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]');
+        $indicator = $hero->locator('[data-slot="tabs-indicator"]');
+        $place = 'el => [el.getBoundingClientRect().left - el.closest("[data-slot=tabs-list]").getBoundingClientRect().left + "px", el.getBoundingClientRect().width + "px"]';
+        $variables = 'el => [getComputedStyle(el).getPropertyValue("--active-tab-left").trim(), getComputedStyle(el).getPropertyValue("--active-tab-width").trim()]';
+
+        foreach (['Overview', 'Account'] as $name) {
+            $tab = $hero->getByRole('tab', ['name' => $name]);
+            $tab->click();
+
+            expect($tab)->toHaveAttribute('aria-selected', 'true');
+            self::assertSame($tab->evaluate($place), $indicator->evaluate($variables), $name);
+        }
     }
 
     public function testTabsAnimateTheirPanels(): void
