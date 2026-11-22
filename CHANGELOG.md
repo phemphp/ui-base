@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.4.0
+
 - The bundle turns on the Tailwind merger of phem (`phem.class_merger.tailwind`), with the theme of the package (`assets/theme.css`) as its `css` option. A `className` of the caller now replaces a class of the same group of a part with no config: `<Button className="rounded-md">` removes `rounded-control`. The config of the app wins: its `css` option replaces the theme file, `tailwind: false` turns off the merger, and with `class_merger.service` the bundle does not turn it on.
 
 ## 0.3.0
