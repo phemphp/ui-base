@@ -337,6 +337,16 @@ final class OverlaysTest extends DemoTestCase
 
         // Multiple triggers: the payload of the trigger shows in the viewport.
         $multiple = $page->getByRole('region', ['name' => 'Multiple triggers', 'exact' => true])->locator('[data-demo="preview"]');
+
+        // With a radius, a trigger alone is round on all its corners, and a row of joined triggers
+        // on its outer corners only: the Tooltip next to the triggers does not count.
+        $page->evaluate('() => document.documentElement.style.setProperty("--radius", "0.5rem")');
+        $radius = 'el => [getComputedStyle(el).borderTopLeftRadius, getComputedStyle(el).borderTopRightRadius]';
+        self::assertSame(['6.4px', '6.4px'], $delete->evaluate($radius));
+        self::assertSame(['6.4px', '0px'], $multiple->getByRole('button', ['name' => 'Listen to audio preview'])->evaluate($radius));
+        self::assertSame(['0px', '0px'], $multiple->getByRole('button', ['name' => 'Set a timer'])->evaluate($radius));
+        self::assertSame(['0px', '6.4px'], $multiple->getByRole('button', ['name' => 'Delete: This action cannot be undone'])->evaluate($radius));
+        $page->evaluate('() => document.documentElement.style.removeProperty("--radius")');
         $popup = $page->locator('#multiple-tooltip [data-phem-tooltip-target="popup"]');
         $multiple->getByRole('button', ['name' => 'Set a timer'])->hover();
         expect($popup)->toHaveText('Set a timer');

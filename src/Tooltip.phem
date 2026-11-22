@@ -74,7 +74,11 @@ class Tooltip
  * active.
  *
  * In a group with one border around the triggers (a toolbar), the trigger has no border. A trigger
- * alone has its own border: give it the `bordered` prop.
+ * alone has its own border: give it the `bordered` prop. A bordered trigger has the radius on the
+ * outer corners of the triggers in its parent (`first-of-type:` and `last-of-type:`): all its
+ * corners when it is the only trigger, and the outer corners of a row of joined triggers
+ * (`border-s-0` after the first one). The `Tooltip` and the `TooltipPopup` next to it do not count.
+ * To change these corners, use the same variants: `first-of-type:rounded-s-none`.
  */
 #[Component]
 function TooltipTrigger(
@@ -88,7 +92,7 @@ function TooltipTrigger(
     $item = null !== $toolbar ? 'item' : null;
     $target = null === $handle ? 'trigger' : null;
     $border = $bordered
-        ? 'border border-input bg-background focus-visible:-outline-offset-1 focus-visible:bg-background'
+        ? 'border border-input bg-background first-of-type:rounded-s-control last-of-type:rounded-e-control focus-visible:-outline-offset-1 focus-visible:bg-background'
         : 'border-0 bg-transparent focus-visible:bg-transparent';
 
     return (

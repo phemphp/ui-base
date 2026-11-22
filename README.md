@@ -70,7 +70,7 @@ and popup is round.
 | `--input` | the border of a control: button, input, select, checkbox, switch |
 | `--ring` | the focus outline |
 | `--destructive` | the error of a field |
-| `--radius` | the radius: `rounded-popup` is `--radius`, `rounded-control` is `--radius * 0.8` |
+| `--radius` | the radius: `rounded-popup` is `--radius`, `rounded-control` is `--radius * 0.8`. The joined parts of a `NumberField` and a row of `bordered` `TooltipTrigger`s are round on their outer corners only |
 
 phem/ui-base adds these variables. In the Base UI look, one shadcn color has two roles here:
 
@@ -130,6 +130,14 @@ class of the caller replaces a class of the same group (see `phem/docs/styling.m
 ```php
 <Button className="h-9 rounded-md">Save</Button>
 // class="… h-9 rounded-md …": h-8 and rounded-control are removed
+```
+
+A class replaces only a class with the same variants. The joined parts of a `NumberField` have
+`first:rounded-s-control last:rounded-e-control`, so pass the same variants to change them:
+
+```php
+<NumberFieldDecrement className="first:rounded-s-none" />
+// class="… first:rounded-s-none …": first:rounded-s-control is removed
 ```
 
 The bundle gives the theme of the package (`assets/theme.css`) as the `css` option of the merger,

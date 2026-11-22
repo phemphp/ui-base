@@ -97,7 +97,9 @@ final class OverlaysTest extends KernelTestCase
             ->assertSelectorExists('span#tools[data-controller="phem-tooltip"][data-phem-tooltip-open-value="true"][data-phem-tooltip-trigger-id-value="timer"]')
             ->assertSelectorExists('button#timer[data-phem-tooltip-for="tools"][data-phem-tooltip-payload="Set a timer"]:not([data-phem-tooltip-target])')
             ->assertSelectorExists('button#listen[class~="border"][class~="bg-background"]:not([class~="border-0"])')
-            ->assertSelectorExists('button#timer[class~="border"][class~="border-l-0"]')
+            // A row of joined triggers has the radius on its outer corners only.
+            ->assertSelectorExists('button#listen[class~="first-of-type:rounded-s-control"][class~="last-of-type:rounded-e-control"]')
+            ->assertSelectorExists('button#timer[class~="border"][class~="border-s-0"]')
             ->assertSelectorExists('[data-phem-tooltip-target="popup"] [data-phem-tooltip-target="viewport"]');
     }
 

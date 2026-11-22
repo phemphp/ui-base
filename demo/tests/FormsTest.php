@@ -86,6 +86,14 @@ final class FormsTest extends DemoTestCase
     {
         $page = $this->visitComponent('number-field');
 
+        // With a radius, the group is round on its outer corners only.
+        $page->evaluate('() => document.documentElement.style.setProperty("--radius", "0.5rem")');
+        $radius = 'el => [getComputedStyle(el).borderTopLeftRadius, getComputedStyle(el).borderTopRightRadius]';
+        self::assertSame(['6.4px', '0px'], $page->getByRole('button', ['name' => 'Decrease'])->evaluate($radius));
+        self::assertSame(['0px', '0px'], $page->getByRole('textbox', ['name' => 'Amount'])->evaluate($radius));
+        self::assertSame(['0px', '6.4px'], $page->getByRole('button', ['name' => 'Increase'])->evaluate($radius));
+        $page->evaluate('() => document.documentElement.style.removeProperty("--radius")');
+
         $input = $page->getByRole('textbox', ['name' => 'Amount']);
         expect($input)->toHaveValue('100');
 

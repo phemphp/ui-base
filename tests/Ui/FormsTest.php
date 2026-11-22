@@ -55,6 +55,22 @@ final class FormsTest extends KernelTestCase
             ->assertSelectorExists('input[type="hidden"][name="amount"][data-phem-number-field-target="hiddenInput"]');
     }
 
+    public function testTheNumberFieldGroupHasTheRadiusOnItsOuterCorners(): void
+    {
+        $tester = $this->mount(self::APP.'NumberFieldDemo');
+
+        foreach (['decrement', 'input', 'increment'] as $part) {
+            $tester->assertSelectorExists(\sprintf('[data-phem-number-field-target="%s"][class~="first:rounded-s-control"][class~="last:rounded-e-control"]', $part));
+        }
+    }
+
+    public function testACallerClassWithTheSameVariantReplacesTheOuterRadius(): void
+    {
+        $this->mount('Phem\Ui\Base\NumberFieldDecrement', ['className' => 'first:rounded-s-none'])
+            ->assertSelectorExists('button[class~="first:rounded-s-none"][class~="last:rounded-e-control"]')
+            ->assertSelectorNotExists('button[class~="first:rounded-s-control"]');
+    }
+
     public function testTheOtpFieldHasOneInputForEachCharacter(): void
     {
         $this->mount(self::APP.'OTPFieldDemo')

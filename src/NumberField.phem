@@ -87,13 +87,19 @@ function NumberFieldGroup(?Html $children = null, mixed ...$rest): Node
     return <div data-phem-number-field-target="group" className={{ classes('flex h-8') }} {{ ...rest }}>{{ children }}</div>;
 }
 
-/** The text input of the number. The arrow keys change the value by the step. */
+/**
+ * The text input of the number. The arrow keys change the value by the step.
+ *
+ * The input and the buttons of a group have the radius on the outer corners of the group
+ * (`first:rounded-s-control last:rounded-e-control`). To change these corners, use the same
+ * variants: `first:rounded-s-none last:rounded-e-none`.
+ */
 #[Component]
 function NumberFieldInput(#[Context] ?Toolbar $toolbar = null, mixed ...$rest): Node
 {
     $item = null !== $toolbar ? 'item' : null;
 
-    return <input data-phem-number-field-target="input" data-phem-toolbar-target={{ item }} className={{ classes('h-full w-[7ch] border border-input bg-background px-2 text-left text-sm font-normal text-foreground tabular-nums any-pointer-coarse:text-base focus:z-1 focus:outline-2 focus:-outline-offset-1 focus:outline-ring') }} {{ ...rest }} />;
+    return <input data-phem-number-field-target="input" data-phem-toolbar-target={{ item }} className={{ classes('h-full w-[7ch] border border-input first:rounded-s-control last:rounded-e-control bg-background px-2 text-left text-sm font-normal text-foreground tabular-nums any-pointer-coarse:text-base focus:z-1 focus:outline-2 focus:-outline-offset-1 focus:outline-ring') }} {{ ...rest }} />;
 }
 
 /** The button that takes a step from the value. A press that stays repeats it. */
@@ -101,7 +107,7 @@ function NumberFieldInput(#[Context] ?Toolbar $toolbar = null, mixed ...$rest): 
 function NumberFieldDecrement(?Html $children = null, mixed ...$rest): Node
 {
     return (
-        <button type="button" data-phem-number-field-target="decrement" className={{ classes('flex h-full w-8 items-center justify-center border border-r-0 border-input bg-background bg-clip-padding text-foreground outline-0 select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-disabled:border-disabled-border data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity) data-disabled:pointer-events-none disabled:text-disabled-foreground disabled:opacity-(--disabled-opacity)') }} {{ ...rest }}>
+        <button type="button" data-phem-number-field-target="decrement" className={{ classes('flex h-full w-8 items-center justify-center border border-e-0 border-input first:rounded-s-control last:rounded-e-control bg-background bg-clip-padding text-foreground outline-0 select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-disabled:border-disabled-border data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity) data-disabled:pointer-events-none disabled:text-disabled-foreground disabled:opacity-(--disabled-opacity)') }} {{ ...rest }}>
             {{ children ? children : <MinusIcon /> }}
         </button>
     );
@@ -112,7 +118,7 @@ function NumberFieldDecrement(?Html $children = null, mixed ...$rest): Node
 function NumberFieldIncrement(?Html $children = null, mixed ...$rest): Node
 {
     return (
-        <button type="button" data-phem-number-field-target="increment" className={{ classes('flex h-full w-8 items-center justify-center border border-l-0 border-input bg-background bg-clip-padding text-foreground outline-0 select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-disabled:border-disabled-border data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity) data-disabled:pointer-events-none disabled:text-disabled-foreground disabled:opacity-(--disabled-opacity)') }} {{ ...rest }}>
+        <button type="button" data-phem-number-field-target="increment" className={{ classes('flex h-full w-8 items-center justify-center border border-s-0 border-input first:rounded-s-control last:rounded-e-control bg-background bg-clip-padding text-foreground outline-0 select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-disabled:border-disabled-border data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity) data-disabled:pointer-events-none disabled:text-disabled-foreground disabled:opacity-(--disabled-opacity)') }} {{ ...rest }}>
             {{ children ? children : <PlusIcon /> }}
         </button>
     );

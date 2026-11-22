@@ -124,10 +124,10 @@ function TooltipMultipleDemo(): Node
             <TooltipTrigger handle="multiple-tooltip" payload="Listen to audio preview" aria-label="Listen to audio preview" bordered>
                 <TooltipHeadphonesIcon />
             </TooltipTrigger>
-            <TooltipTrigger handle="multiple-tooltip" payload="Set a timer" aria-label="Set a timer" bordered className="border-l-0">
+            <TooltipTrigger handle="multiple-tooltip" payload="Set a timer" aria-label="Set a timer" bordered className="border-s-0">
                 <TooltipStopwatchIcon />
             </TooltipTrigger>
-            <TooltipTrigger handle="multiple-tooltip" payload="Delete: This action cannot be undone" aria-label="Delete: This action cannot be undone" bordered className="border-l-0">
+            <TooltipTrigger handle="multiple-tooltip" payload="Delete: This action cannot be undone" aria-label="Delete: This action cannot be undone" bordered className="border-s-0">
                 <TooltipTrashIcon />
             </TooltipTrigger>
             <Tooltip handle="multiple-tooltip" sideOffset={{ 11 }}>
@@ -162,10 +162,10 @@ function TooltipControlledDemo(): Node
                     <TooltipTrigger id="trigger-1" aria-label="Controlled tooltip" bordered>
                         <TooltipHeadphonesIcon />
                     </TooltipTrigger>
-                    <TooltipTrigger id="trigger-2" aria-label="Controlled tooltip" bordered className="border-l-0">
+                    <TooltipTrigger id="trigger-2" aria-label="Controlled tooltip" bordered className="border-s-0">
                         <TooltipStopwatchIcon />
                     </TooltipTrigger>
-                    <TooltipTrigger id="trigger-3" aria-label="Controlled tooltip" bordered className="border-l-0">
+                    <TooltipTrigger id="trigger-3" aria-label="Controlled tooltip" bordered className="border-s-0">
                         <TooltipTrashIcon />
                     </TooltipTrigger>
                 </div>
@@ -207,7 +207,7 @@ function TooltipAnimatedDemo(): Node
     return (
         <div className="flex">
             {% for trigger in triggers %}
-                <TooltipTrigger key={{ trigger[1] }} handle="animated-tooltip" payload={{ trigger[0] }} aria-label={{ trigger[0] }} bordered className={{ loop.first ? null : 'border-l-0' }}>
+                <TooltipTrigger key={{ trigger[1] }} handle="animated-tooltip" payload={{ trigger[0] }} aria-label={{ trigger[0] }} bordered className={{ loop.first ? null : 'border-s-0' }}>
                     {% if trigger[1] == 'headphones' %}
                         <TooltipHeadphonesIcon />
                     {% elseif trigger[1] == 'stopwatch' %}
