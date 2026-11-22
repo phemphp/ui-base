@@ -23,8 +23,7 @@
         "symfony/twig-bundle": "^8.0",
         "symfony/validator": "^8.0",
         "symfony/yaml": "^8.0",
-        "symfonycasts/tailwind-bundle": "^1.0",
-        "tales-from-a-dev/tailwind-merge-php": "^0.5"
+        "symfonycasts/tailwind-bundle": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^13.4",
