@@ -139,7 +139,7 @@ function ToastDescription(mixed ...$rest): Node
 #[Component]
 function ToastAction(mixed ...$rest): Node
 {
-    $base = 'flex h-8 shrink-0 items-center justify-center gap-2 px-3 py-0 font-[inherit] '.Style::BUTTON_LOOK;
+    $base = 'flex h-control shrink-0 items-center justify-center gap-2 px-3 py-0 font-[inherit] '.Style::BUTTON_LOOK;
 
     return <button type="button" data-phem-toast-action className={{ classes(base) }} {{ ...rest }}></button>;
 }
@@ -148,7 +148,7 @@ function ToastAction(mixed ...$rest): Node
 #[Component]
 function ToastClose(?Html $children = null, mixed ...$rest): Node
 {
-    $base = 'flex h-8 shrink-0 items-center justify-center gap-2 px-3 py-0 font-[inherit] '.Style::BUTTON_LOOK;
+    $base = 'flex h-control shrink-0 items-center justify-center gap-2 px-3 py-0 font-[inherit] '.Style::BUTTON_LOOK;
 
     return <button type="button" data-phem-toast-close className={{ classes(base) }} {{ ...rest }}>{{ children }}</button>;
 }

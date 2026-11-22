@@ -94,6 +94,13 @@ final class FormsTest extends DemoTestCase
         self::assertSame(['0px', '6.4px'], $page->getByRole('button', ['name' => 'Increase'])->evaluate($radius));
         $page->evaluate('() => document.documentElement.style.removeProperty("--radius")');
 
+        // With a control height, the group and its square buttons take it.
+        $page->evaluate('() => document.documentElement.style.setProperty("--control-height", "2.25rem")');
+        $size = 'el => [el.offsetWidth, el.offsetHeight]';
+        self::assertSame([36, 36], $page->getByRole('button', ['name' => 'Decrease'])->evaluate($size));
+        self::assertSame(36, $page->getByRole('textbox', ['name' => 'Amount'])->evaluate('el => el.offsetHeight'));
+        $page->evaluate('() => document.documentElement.style.removeProperty("--control-height")');
+
         $input = $page->getByRole('textbox', ['name' => 'Amount']);
         expect($input)->toHaveValue('100');
 

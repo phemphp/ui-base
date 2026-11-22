@@ -33,7 +33,8 @@
      * --highlight, --highlight-foreground, --accent-active, --disabled-foreground and
      * --disabled-border have no value here: their defaults are in @theme inline, so each element
      * resolves them from its own --primary, --accent and --muted-foreground. --disabled-opacity has
-     * no value: a disabled part then has its full opacity.
+     * no value: a disabled part then has its full opacity. --control-height has no value here: its
+     * default (2rem) is in @theme inline.
      */
     --separator: var(--color-neutral-300);
     --overlay: rgb(0 0 0 / 20%);
@@ -87,6 +88,9 @@
 
     /* The shadcn formulas: a control is rounded-md, a popup is rounded-lg. */
     --radius-control: calc(var(--radius) * 0.8);
+
+    /* The height of a control (h-control, size-control): h-8 by default, h-9 in shadcn. */
+    --spacing-control: var(--control-height, 2rem);
     --radius-popup: var(--radius);
     --shadow-popup: var(--popup-shadow);
 }

@@ -89,7 +89,7 @@ function ToolbarInput(mixed ...$rest): Node
     return (
         <input
             data-phem-toolbar-target="item"
-            className={{ classes('h-8 w-24 border border-input rounded-control bg-background px-2 text-sm text-foreground focus:outline-2 focus:-outline-offset-1 focus:outline-ring') }}
+            className={{ classes('h-control w-24 border border-input rounded-control bg-background px-2 text-sm text-foreground focus:outline-2 focus:-outline-offset-1 focus:outline-ring') }}
             {{ ...rest }}
         />
     );

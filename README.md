@@ -84,12 +84,13 @@ phem/ui-base adds these variables. In the Base UI look, one shadcn color has two
 | `--disabled-foreground` | `--muted-foreground` | the text of a disabled control or item |
 | `--disabled-border` | `--muted-foreground` | the border of a disabled control |
 | `--disabled-opacity` | none (full opacity) | the opacity of a disabled control or item |
+| `--control-height` | `2rem` (`h-8`) | the height of a control: button, input, select, toggle, tab, the trigger of a menu (`h-control`, `size-control`). An input of an `OTPField` is `0.5rem` larger |
 
 ### Use a shadcn theme
 
 Paste a theme of shadcn (or of a theme generator for shadcn) after the import. It sets the shadcn
-variables. Add these lines for the shadcn look of the highlight, the separator, the popups and the disabled
-controls:
+variables. Add these lines for the shadcn look of the highlight, the separator, the popups, the disabled
+controls and the height of the controls:
 
 ```css
 :root {
@@ -100,6 +101,7 @@ controls:
     --disabled-foreground: var(--foreground);
     --disabled-border: var(--input);
     --disabled-opacity: 0.5;
+    --control-height: 2.25rem; /* h-9 */
 }
 ```
 
@@ -129,7 +131,7 @@ class of the caller replaces a class of the same group (see `phem/docs/styling.m
 
 ```php
 <Button className="h-9 rounded-md">Save</Button>
-// class="… h-9 rounded-md …": h-8 and rounded-control are removed
+// class="… h-9 rounded-md …": h-control and rounded-control are removed
 ```
 
 A class replaces only a class with the same variants. The joined parts of a `NumberField` have

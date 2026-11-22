@@ -140,7 +140,7 @@ function PopoverControlledDemo(): Node
                 <PopoverTrigger id="popover-trigger-1">Trigger 1</PopoverTrigger>
                 <PopoverTrigger id="popover-trigger-2">Trigger 2</PopoverTrigger>
                 <PopoverTrigger id="popover-trigger-3">Trigger 3</PopoverTrigger>
-                <button type="button" data-action="phem-popover#open" data-phem-popover-trigger-id-param="popover-trigger-2" className="flex h-8 items-center justify-center border border-neutral-950 dark:border-white bg-white dark:bg-neutral-950 px-3 text-sm font-normal whitespace-nowrap text-neutral-950 dark:text-white select-none hover:bg-neutral-100 dark:hover:bg-neutral-800 active:bg-neutral-200 dark:active:bg-neutral-700 focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-neutral-950 dark:focus-visible:outline-white">Open programmatically</button>
+                <button type="button" data-action="phem-popover#open" data-phem-popover-trigger-id-param="popover-trigger-2" className="flex h-control items-center justify-center border border-neutral-950 dark:border-white bg-white dark:bg-neutral-950 px-3 text-sm font-normal whitespace-nowrap text-neutral-950 dark:text-white select-none hover:bg-neutral-100 dark:hover:bg-neutral-800 active:bg-neutral-200 dark:active:bg-neutral-700 focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-neutral-950 dark:focus-visible:outline-white">Open programmatically</button>
             </div>
             <PopoverPopup className="max-w-[var(--available-width)]">
                 <PopoverArrow />

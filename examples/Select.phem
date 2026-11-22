@@ -217,7 +217,7 @@ function SelectObjectValuesDemo(): Node
     return (
         <Select id="shipping" defaultValue="standard" sideOffset={{ 4 }}>
             <SelectLabel>Shipping method</SelectLabel>
-            <SelectTrigger className="h-auto min-h-8 min-w-[16rem] py-1.5">
+            <SelectTrigger className="h-auto min-h-control min-w-[16rem] py-1.5">
                 <SelectValue markup />
                 <SelectIcon />
             </SelectTrigger>

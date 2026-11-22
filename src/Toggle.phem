@@ -32,7 +32,7 @@ function Toggle(
     $base = match (true) {
         null !== $toolbar => Style::TOOLBAR_BUTTON,
         null !== $group => Style::GROUP_TOGGLE,
-        default => 'flex size-8 items-center justify-center border-none rounded-control bg-transparent text-foreground select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-pressed:text-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity) data-disabled:pointer-events-none',
+        default => 'flex size-control items-center justify-center border-none rounded-control bg-transparent text-foreground select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-pressed:text-foreground focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity) data-disabled:pointer-events-none',
     };
 
     return (

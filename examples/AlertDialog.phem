@@ -159,7 +159,7 @@ function AlertDialogControlledDemo(): Node
                 <AlertDialogTrigger id="alert-trigger-1" payload="Discard draft?" className="text-red-700 dark:text-red-400">Discard</AlertDialogTrigger>
                 <AlertDialogTrigger id="alert-trigger-2" payload="Delete project?" className="text-red-700 dark:text-red-400">Delete</AlertDialogTrigger>
                 <AlertDialogTrigger id="alert-trigger-3" payload="Sign out?">Sign out</AlertDialogTrigger>
-                <button type="button" data-action="phem-dialog#open" data-phem-dialog-trigger-id-param="alert-trigger-2" className="flex h-8 items-center justify-center border border-neutral-950 dark:border-white bg-white dark:bg-neutral-950 px-3 text-sm text-neutral-950 dark:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-neutral-950 dark:focus-visible:outline-white">Open programmatically</button>
+                <button type="button" data-action="phem-dialog#open" data-phem-dialog-trigger-id-param="alert-trigger-2" className="flex h-control items-center justify-center border border-neutral-950 dark:border-white bg-white dark:bg-neutral-950 px-3 text-sm text-neutral-950 dark:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-neutral-950 dark:focus-visible:outline-white">Open programmatically</button>
             </div>
             <AlertDialogPopup>
                 <div className="flex flex-col gap-1">

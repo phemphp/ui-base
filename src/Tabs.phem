@@ -73,7 +73,7 @@ function TabsTab(string $value, #[Context] Tabs $tabs, bool $disabled = false, ?
             data-disabled={{ disabled ? '' : null }}
             data-value={{ value }}
             data-phem-tabs-target="tab"
-            className={{ classes('flex h-[calc(2rem+1px)] items-center justify-center bg-transparent px-2 py-0 font-inherit text-sm font-normal leading-5 break-keep whitespace-nowrap text-muted-foreground outline-none select-none hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:-outline-offset-1 focus-visible:outline-ring data-active:text-foreground') }}
+            className={{ classes('flex h-[calc(var(--spacing-control)+1px)] items-center justify-center bg-transparent px-2 py-0 font-inherit text-sm font-normal leading-5 break-keep whitespace-nowrap text-muted-foreground outline-none select-none hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:-outline-offset-1 focus-visible:outline-ring data-active:text-foreground') }}
             {{ ...rest }}
         >
             {{ children }}

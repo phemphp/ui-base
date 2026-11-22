@@ -84,7 +84,7 @@ function NumberFieldScrubAreaCursor(?Html $children = null, mixed ...$rest): Nod
 #[Component]
 function NumberFieldGroup(?Html $children = null, mixed ...$rest): Node
 {
-    return <div data-phem-number-field-target="group" className={{ classes('flex h-8') }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-phem-number-field-target="group" className={{ classes('flex h-control') }} {{ ...rest }}>{{ children }}</div>;
 }
 
 /**
@@ -107,7 +107,7 @@ function NumberFieldInput(#[Context] ?Toolbar $toolbar = null, mixed ...$rest): 
 function NumberFieldDecrement(?Html $children = null, mixed ...$rest): Node
 {
     return (
-        <button type="button" data-phem-number-field-target="decrement" className={{ classes('flex h-full w-8 items-center justify-center border border-e-0 border-input first:rounded-s-control last:rounded-e-control bg-background bg-clip-padding text-foreground outline-0 select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-disabled:border-disabled-border data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity) data-disabled:pointer-events-none disabled:text-disabled-foreground disabled:opacity-(--disabled-opacity)') }} {{ ...rest }}>
+        <button type="button" data-phem-number-field-target="decrement" className={{ classes('flex h-full w-control items-center justify-center border border-e-0 border-input first:rounded-s-control last:rounded-e-control bg-background bg-clip-padding text-foreground outline-0 select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-disabled:border-disabled-border data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity) data-disabled:pointer-events-none disabled:text-disabled-foreground disabled:opacity-(--disabled-opacity)') }} {{ ...rest }}>
             {{ children ? children : <MinusIcon /> }}
         </button>
     );
@@ -118,7 +118,7 @@ function NumberFieldDecrement(?Html $children = null, mixed ...$rest): Node
 function NumberFieldIncrement(?Html $children = null, mixed ...$rest): Node
 {
     return (
-        <button type="button" data-phem-number-field-target="increment" className={{ classes('flex h-full w-8 items-center justify-center border border-s-0 border-input first:rounded-s-control last:rounded-e-control bg-background bg-clip-padding text-foreground outline-0 select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-disabled:border-disabled-border data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity) data-disabled:pointer-events-none disabled:text-disabled-foreground disabled:opacity-(--disabled-opacity)') }} {{ ...rest }}>
+        <button type="button" data-phem-number-field-target="increment" className={{ classes('flex h-full w-control items-center justify-center border border-s-0 border-input first:rounded-s-control last:rounded-e-control bg-background bg-clip-padding text-foreground outline-0 select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-disabled:border-disabled-border data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity) data-disabled:pointer-events-none disabled:text-disabled-foreground disabled:opacity-(--disabled-opacity)') }} {{ ...rest }}>
             {{ children ? children : <PlusIcon /> }}
         </button>
     );

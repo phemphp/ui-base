@@ -71,7 +71,7 @@ function ToastAnchoredDemo(): Node
                 data-phem-clipboard-duration-value={{ 1500 }}
                 data-action="phem-clipboard#copy"
                 data-phem-toast-show={{ toast }}
-                className="group w-8 px-0 data-copied:pointer-events-none data-copied:border-neutral-500 data-copied:text-neutral-500 dark:data-copied:border-neutral-400 dark:data-copied:text-neutral-400"
+                className="group w-control px-0 data-copied:pointer-events-none data-copied:border-neutral-500 data-copied:text-neutral-500 dark:data-copied:border-neutral-400 dark:data-copied:text-neutral-400"
             >
                 <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" className="block group-data-copied:hidden">
                     <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />

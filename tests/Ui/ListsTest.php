@@ -71,10 +71,10 @@ final class ListsTest extends KernelTestCase
             ->assertSelectorExists('nav[data-controller="phem-navigation-menu"][class~="min-w-max"]')
             // In the list, the trigger and the link have the look of the list. In a content, the
             // `card` prop gives them the look of a card.
-            ->assertSelectorExists('li[data-value="overview"] > button[data-phem-navigation-menu-target="trigger"][class~="flex"][class~="h-8"]:not([class~="block"])')
-            ->assertSelectorExists('a[href="/blog"][class~="flex"][class~="h-8"]')
-            ->assertSelectorExists('a[href="/start"][class~="block"][class~="p-2"]:not([class~="h-8"])')
-            ->assertSelectorExists('li[data-value="handbook"] > button[data-phem-navigation-menu-target="trigger"][class~="block"][class~="p-2"][class~="data-pressed:bg-accent"]:not([class~="h-8"])')
+            ->assertSelectorExists('li[data-value="overview"] > button[data-phem-navigation-menu-target="trigger"][class~="flex"][class~="h-control"]:not([class~="block"])')
+            ->assertSelectorExists('a[href="/blog"][class~="flex"][class~="h-control"]')
+            ->assertSelectorExists('a[href="/start"][class~="block"][class~="p-2"]:not([class~="h-control"])')
+            ->assertSelectorExists('li[data-value="handbook"] > button[data-phem-navigation-menu-target="trigger"][class~="block"][class~="p-2"][class~="data-pressed:bg-accent"]:not([class~="h-control"])')
             // A menu in a content is a submenu, as in Base UI: a `<div>` with the width of its place.
             ->assertSelectorExists('[data-phem-navigation-menu-target="content"] div#handbook-menu[data-controller="phem-navigation-menu"]:not([class~="min-w-max"])');
     }

@@ -172,11 +172,11 @@ function DrawerNestedDemo(): Node
                                                                         <DrawerDescription className="text-center">This drawer is taller to demonstrate variable-height stacking.</DrawerDescription>
                                                                         <div className="mb-4 grid gap-2">
                                                                             <label className="text-sm font-bold text-neutral-700 dark:text-neutral-300" htmlFor="device-name">Device name</label>
-                                                                            <input id="device-name" className="h-8 w-full border border-neutral-950 bg-white px-2 text-sm any-pointer-coarse:text-base font-normal text-neutral-950 placeholder:text-neutral-500 focus:outline-2 focus:-outline-offset-1 focus:outline-neutral-950 dark:focus:outline-white dark:border-white dark:bg-neutral-950 dark:text-white dark:placeholder:text-neutral-400" value="Personal laptop" />
+                                                                            <input id="device-name" className="h-control w-full border border-neutral-950 bg-white px-2 text-sm any-pointer-coarse:text-base font-normal text-neutral-950 placeholder:text-neutral-500 focus:outline-2 focus:-outline-offset-1 focus:outline-neutral-950 dark:focus:outline-white dark:border-white dark:bg-neutral-950 dark:text-white dark:placeholder:text-neutral-400" value="Personal laptop" />
                                                                         </div>
                                                                         <div className="mb-4 grid gap-2">
                                                                             <label className="text-sm font-bold text-neutral-700 dark:text-neutral-300" htmlFor="device-notes">Notes</label>
-                                                                            <textarea id="device-notes" rows="3" className="h-8 w-full border border-neutral-950 bg-white px-2 text-sm any-pointer-coarse:text-base font-normal text-neutral-950 placeholder:text-neutral-500 focus:outline-2 focus:-outline-offset-1 focus:outline-neutral-950 dark:focus:outline-white dark:border-white dark:bg-neutral-950 dark:text-white dark:placeholder:text-neutral-400 h-auto min-h-32 resize-y p-2">Rotate recovery codes and revoke older sessions.</textarea>
+                                                                            <textarea id="device-notes" rows="3" className="h-control w-full border border-neutral-950 bg-white px-2 text-sm any-pointer-coarse:text-base font-normal text-neutral-950 placeholder:text-neutral-500 focus:outline-2 focus:-outline-offset-1 focus:outline-neutral-950 dark:focus:outline-white dark:border-white dark:bg-neutral-950 dark:text-white dark:placeholder:text-neutral-400 h-auto min-h-32 resize-y p-2">Rotate recovery codes and revoke older sessions.</textarea>
                                                                         </div>
                                                                         <div className="flex justify-end">
                                                                             <DrawerClose>Done</DrawerClose>
@@ -283,12 +283,12 @@ function DrawerKeyboardDemo(): Node
                             {% for item in fields %}
                                 <label key={{ item[0] }} className="flex w-full flex-col items-start gap-1">
                                     <span className="text-sm font-bold text-neutral-950 dark:text-white">{{ item[0] }}</span>
-                                    <input type="text" placeholder={{ item[1] }} className="h-8 w-full border border-neutral-950 bg-white px-2 text-sm any-pointer-coarse:text-base font-normal text-neutral-950 placeholder:text-neutral-500 focus:outline-2 focus:-outline-offset-1 focus:outline-neutral-950 dark:focus:outline-white dark:border-white dark:bg-neutral-950 dark:text-white dark:placeholder:text-neutral-400" />
+                                    <input type="text" placeholder={{ item[1] }} className="h-control w-full border border-neutral-950 bg-white px-2 text-sm any-pointer-coarse:text-base font-normal text-neutral-950 placeholder:text-neutral-500 focus:outline-2 focus:-outline-offset-1 focus:outline-neutral-950 dark:focus:outline-white dark:border-white dark:bg-neutral-950 dark:text-white dark:placeholder:text-neutral-400" />
                                 </label>
                             {% endfor %}
                             <label className="flex w-full flex-col items-start gap-1">
                                 <span className="text-sm font-bold text-neutral-950 dark:text-white">Instructions</span>
-                                <textarea placeholder="Gate code, drop-off spot, or anything else the driver should know" className="h-8 w-full border border-neutral-950 bg-white px-2 text-sm any-pointer-coarse:text-base font-normal text-neutral-950 placeholder:text-neutral-500 focus:outline-2 focus:-outline-offset-1 focus:outline-neutral-950 dark:focus:outline-white dark:border-white dark:bg-neutral-950 dark:text-white dark:placeholder:text-neutral-400 h-auto min-h-22 resize-y py-2"></textarea>
+                                <textarea placeholder="Gate code, drop-off spot, or anything else the driver should know" className="h-control w-full border border-neutral-950 bg-white px-2 text-sm any-pointer-coarse:text-base font-normal text-neutral-950 placeholder:text-neutral-500 focus:outline-2 focus:-outline-offset-1 focus:outline-neutral-950 dark:focus:outline-white dark:border-white dark:bg-neutral-950 dark:text-white dark:placeholder:text-neutral-400 h-auto min-h-22 resize-y py-2"></textarea>
                             </label>
                         </div>
                     </DrawerContent>
@@ -296,7 +296,7 @@ function DrawerKeyboardDemo(): Node
                         <div className="absolute right-0 bottom-0 left-0 z-1 border-t border-neutral-950 bg-white px-6 pt-2.5 pb-[calc(0.625rem+env(safe-area-inset-bottom,0px)+var(--bleed))] transition-[bottom,padding-bottom] duration-[260ms] ease-[cubic-bezier(0.32,0.72,0,1)] focus-within:fixed focus-within:z-3 focus-within:bottom-0 focus-within:pb-[calc(0.625rem+env(safe-area-inset-bottom,0px)+var(--bleed)+var(--drawer-keyboard-inset,0px))] focus-within:[transform:translate3d(0,0,0)] motion-reduce:transition-none dark:border-white dark:bg-neutral-950">
                             <label className="mx-auto flex w-full max-w-90 flex-col gap-1">
                                 <span className="text-sm font-bold text-neutral-950 dark:text-white">Delivery note</span>
-                                <input type="text" placeholder="Add a note for the driver" className="h-8 w-full border border-neutral-950 bg-white px-2 text-sm any-pointer-coarse:text-base font-normal text-neutral-950 placeholder:text-neutral-500 focus:outline-2 focus:-outline-offset-1 focus:outline-neutral-950 dark:focus:outline-white dark:border-white dark:bg-neutral-950 dark:text-white dark:placeholder:text-neutral-400 h-10 px-2.5" />
+                                <input type="text" placeholder="Add a note for the driver" className="h-control w-full border border-neutral-950 bg-white px-2 text-sm any-pointer-coarse:text-base font-normal text-neutral-950 placeholder:text-neutral-500 focus:outline-2 focus:-outline-offset-1 focus:outline-neutral-950 dark:focus:outline-white dark:border-white dark:bg-neutral-950 dark:text-white dark:placeholder:text-neutral-400 h-10 px-2.5" />
                             </label>
                         </div>
                     </div>
@@ -396,7 +396,7 @@ function DrawerMobileNavDemo(array $components = DRAWER_NAV_COMPONENTS): Node
                                     <div className="grid grid-cols-[1fr_auto_1fr] items-start">
                                         <div aria-hidden="true" className="h-9 w-9" />
                                         <div className="h-1 w-12 justify-self-center bg-neutral-300 dark:bg-neutral-700" />
-                                        <DrawerClose aria-label="Close menu" className="h-8 w-8 justify-self-end border-0 bg-transparent px-0">
+                                        <DrawerClose aria-label="Close menu" className="h-control w-control justify-self-end border-0 bg-transparent px-0">
                                             <DialogXIcon />
                                         </DrawerClose>
                                     </div>
@@ -492,7 +492,7 @@ function DrawerCloseConfirmationDemo(): Node
                         <textarea aria-labelledby="drawer-tweet-title" required placeholder="What’s on your mind?" className="w-full border border-neutral-950 dark:border-white bg-white dark:bg-neutral-950 text-sm any-pointer-coarse:text-base font-normal text-neutral-950 dark:text-white placeholder:text-neutral-500 dark:placeholder:text-neutral-400 focus:outline-2 focus:-outline-offset-1 focus:outline-neutral-950 dark:focus:outline-white min-h-32 p-2"></textarea>
                         <div className="flex justify-end gap-3">
                             <DrawerClose>Cancel</DrawerClose>
-                            <button type="submit" className="flex h-8 items-center justify-center border border-neutral-950 dark:border-white bg-white dark:bg-neutral-950 px-3 text-sm text-neutral-950 dark:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-neutral-950 dark:focus-visible:outline-white">Tweet</button>
+                            <button type="submit" className="flex h-control items-center justify-center border border-neutral-950 dark:border-white bg-white dark:bg-neutral-950 px-3 text-sm text-neutral-950 dark:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-neutral-950 dark:focus-visible:outline-white">Tweet</button>
                         </div>
                     </form>
                 </DrawerContent>

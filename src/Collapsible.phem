@@ -42,7 +42,7 @@ function CollapsibleTrigger(#[Context] Collapsible $collapsible, ?Html $children
 {
     $open = $collapsible->defaultOpen;
     $disabled = $collapsible->disabled;
-    $base = 'group flex h-8 items-center justify-between gap-2 pl-3 pr-2 select-none '.Style::BUTTON_LOOK;
+    $base = 'group flex h-control items-center justify-between gap-2 pl-3 pr-2 select-none '.Style::BUTTON_LOOK;
 
     return (
         <button

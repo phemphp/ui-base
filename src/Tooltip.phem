@@ -102,7 +102,7 @@ function TooltipTrigger(
             data-phem-tooltip-for={{ handle }}
             data-phem-tooltip-payload={{ payload }}
             data-phem-toolbar-target={{ item }}
-            className={{ classes('flex size-8 items-center justify-center text-foreground select-none data-popup-open:bg-accent focus-visible:relative focus-visible:z-1 focus-visible:outline-2 focus-visible:outline-ring hover:bg-accent active:bg-accent-active', border) }}
+            className={{ classes('flex size-control items-center justify-center text-foreground select-none data-popup-open:bg-accent focus-visible:relative focus-visible:z-1 focus-visible:outline-2 focus-visible:outline-ring hover:bg-accent active:bg-accent-active', border) }}
             {{ ...rest }}
         >
             {{ children }}

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Phem\Ui\Base\Tests\Ui;
 
 use Phem\Test\InteractsWithPhem;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class ControlsTest extends KernelTestCase
@@ -132,5 +133,24 @@ final class ControlsTest extends KernelTestCase
             ->assertSelectorExists('[data-controller="phem-avatar"]:not([data-phem-avatar-delay-value]) img[data-phem-avatar-target="image"][alt="Ada"]')
             ->assertSelectorExists('[data-phem-avatar-target="fallback"][data-phem-avatar-delay="600"][hidden]')
             ->assertSelectorTextContains('[data-phem-avatar-target="fallback"]', 'AL');
+    }
+
+    /**
+     * @return iterable<string, array{string, string, string}>
+     */
+    public static function controlSizes(): iterable
+    {
+        yield 'size' => ['Phem\\Ui\\Base\\Toggle', 'size-10', 'size-control'];
+        yield 'width' => ['Phem\\Ui\\Base\\NumberFieldDecrement', 'w-10', 'w-control'];
+        yield 'min width' => ['Phem\\Ui\\Base\\ToolbarButton', 'min-w-10', 'min-w-control'];
+        yield 'height' => ['Phem\\Ui\\Base\\Input', 'h-10', 'h-control'];
+    }
+
+    #[DataProvider('controlSizes')]
+    public function testACallerSizeReplacesTheControlSize(string $component, string $class, string $replaced): void
+    {
+        $this->mount($component, ['className' => $class])
+            ->assertSelectorExists(\sprintf('[class~="%s"]', $class))
+            ->assertSelectorNotExists(\sprintf('[class~="%s"]', $replaced));
     }
 }

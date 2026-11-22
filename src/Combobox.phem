@@ -239,7 +239,7 @@ function ComboboxInput(#[Context] Combobox $combobox, ?Bound $value = null, ?str
             data-phem-combobox-description={{ selectedDescription }}
             phem:live
             data-phem-combobox-target="input"
-            className={{ classes('h-8 w-64 border border-input rounded-control bg-background px-2 text-sm any-pointer-coarse:text-base font-normal text-foreground placeholder:text-muted-foreground focus:outline-2 focus:-outline-offset-1 focus:outline-ring') }}
+            className={{ classes('h-control w-64 border border-input rounded-control bg-background px-2 text-sm any-pointer-coarse:text-base font-normal text-foreground placeholder:text-muted-foreground focus:outline-2 focus:-outline-offset-1 focus:outline-ring') }}
             {{ ...rest }}
         />
     );
@@ -521,7 +521,7 @@ function ComboboxChips(?Html $children = null, mixed ...$rest): Node
     return (
         <div
             data-phem-combobox-target="chips"
-            className={{ classes('combobox-chips flex min-h-8 w-64 min-[32rem]:w-[22rem] cursor-text flex-wrap items-center gap-1 border border-input rounded-control bg-background px-2 py-1 has-[button]:px-1 focus-within:outline-2 focus-within:-outline-offset-1 focus-within:outline-ring [&>input]:h-[calc(1.5rem-2px)] [&>input]:w-auto [&>input]:min-w-12 [&>input]:flex-1 [&>input]:border-0 [&>input]:p-0 [&>input]:focus:outline-none') }}
+            className={{ classes('combobox-chips flex min-h-control w-64 min-[32rem]:w-[22rem] cursor-text flex-wrap items-center gap-1 border border-input rounded-control bg-background px-2 py-1 has-[button]:px-1 focus-within:outline-2 focus-within:-outline-offset-1 focus-within:outline-ring [&>input]:h-[calc(1.5rem-2px)] [&>input]:w-auto [&>input]:min-w-12 [&>input]:flex-1 [&>input]:border-0 [&>input]:p-0 [&>input]:focus:outline-none') }}
             {{ ...rest }}
         >
             {{ children }}

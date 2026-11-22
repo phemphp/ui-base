@@ -450,7 +450,7 @@ function MenuControlledDemo(): Node
                 <MenuTrigger id="menu-trigger-1" payload="library" caret={{ false }}>Library</MenuTrigger>
                 <MenuTrigger id="menu-trigger-2" payload="playback" caret={{ false }}>Playback</MenuTrigger>
                 <MenuTrigger id="menu-trigger-3" payload="share" caret={{ false }}>Share</MenuTrigger>
-                <button type="button" data-action="phem-menu#open" data-phem-menu-trigger-id-param="menu-trigger-2" className="flex h-8 items-center justify-center border border-neutral-950 dark:border-white bg-white dark:bg-neutral-950 px-3 text-sm text-neutral-950 dark:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-neutral-950 dark:focus-visible:outline-white">Open playback (controlled)</button>
+                <button type="button" data-action="phem-menu#open" data-phem-menu-trigger-id-param="menu-trigger-2" className="flex h-control items-center justify-center border border-neutral-950 dark:border-white bg-white dark:bg-neutral-950 px-3 text-sm text-neutral-950 dark:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-neutral-950 dark:focus-visible:outline-white">Open playback (controlled)</button>
             </div>
             <MenuPopup>
                 <MenuViewport>

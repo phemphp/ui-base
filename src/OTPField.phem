@@ -58,7 +58,7 @@ function OTPFieldInput(#[Context] ?Field $field = null, mixed ...$rest): Node
 {
     $control = null !== $field ? 'control' : null;
 
-    return <input data-phem-otp-field-target="input" data-phem-field-target={{ control }} className={{ classes('m-0 h-10 w-10 rounded-control border border-input bg-background text-center font-inherit text-base font-normal text-foreground focus:outline-2 focus:-outline-offset-1 focus:outline-ring') }} {{ ...rest }} />;
+    return <input data-phem-otp-field-target="input" data-phem-field-target={{ control }} className={{ classes('m-0 size-[calc(var(--spacing-control)+0.5rem)] rounded-control border border-input bg-background text-center font-inherit text-base font-normal text-foreground focus:outline-2 focus:-outline-offset-1 focus:outline-ring') }} {{ ...rest }} />;
 }
 
 /** A mark between two groups of the slots of the code, `–` by default. */

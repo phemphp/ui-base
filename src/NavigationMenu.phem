@@ -89,7 +89,7 @@ function NavigationMenuTrigger(bool $card = false, ?Html $children = null, mixed
 {
     $base = $card
         ? Style::NAVIGATION_CARD.' select-none data-pressed:bg-accent'
-        : 'flex h-8 items-center justify-center gap-1.5 bg-transparent px-2 text-sm font-normal text-foreground no-underline select-none min-[501px]:px-3 hover:bg-accent data-pressed:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring';
+        : 'flex h-control items-center justify-center gap-1.5 bg-transparent px-2 text-sm font-normal text-foreground no-underline select-none min-[501px]:px-3 hover:bg-accent data-pressed:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring';
 
     return (
         <button
@@ -135,7 +135,7 @@ function NavigationMenuLink(string $href, bool $card = false, ?Html $children = 
 {
     $base = $card
         ? Style::NAVIGATION_CARD
-        : 'flex h-8 items-center justify-center gap-1.5 bg-transparent px-2 text-sm font-normal text-foreground no-underline select-none min-[501px]:px-3 hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring';
+        : 'flex h-control items-center justify-center gap-1.5 bg-transparent px-2 text-sm font-normal text-foreground no-underline select-none min-[501px]:px-3 hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring';
 
     return <a href={{ href }} data-phem-navigation-menu-target="link" className={{ classes(base) }} {{ ...rest }}>{{ children }}</a>;
 }
