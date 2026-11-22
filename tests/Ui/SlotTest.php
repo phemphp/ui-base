@@ -24,7 +24,7 @@ final class SlotTest extends KernelTestCase
     {
         $wrong = [];
         foreach (glob(\dirname(__DIR__, 2).'/src/*.phem') as $file) {
-            $blocks = preg_split('/(?=#\[Component\b)/', (string) file_get_contents($file));
+            $blocks = preg_split('/(?=^#\[Component\b)/m', (string) file_get_contents($file));
 
             foreach (\array_slice($blocks, 1) as $block) {
                 preg_match('/(?:function|class)\s+(\w+)/', $block, $name);
