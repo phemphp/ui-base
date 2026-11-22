@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- A `hover:` class of the caller replaces the hover color of a part. The parts use a plain `hover:` (`hover:bg-accent`) in place of a state chain (`hover:not-data-disabled:bg-accent`), so the Tailwind merger puts them in the same group: `<Button className="hover:bg-blue-700">` removes `hover:bg-accent`. A disabled part gets `pointer-events-none` (`data-disabled:`, and `aria-disabled:` on `Button`), so it has no hover color. This changes `Accordion`, `Button`, `Menu` (the Menubar trigger), `NumberField`, `Select` (in a toolbar), `Toggle`, `ToggleGroup`, `Toolbar` and the triggers that use `Style::BUTTON`.
+
 ## 0.4.0
 
 - The bundle turns on the Tailwind merger of phem (`phem.class_merger.tailwind`), with the theme of the package (`assets/theme.css`) as its `css` option. A `className` of the caller now replaces a class of the same group of a part with no config: `<Button className="rounded-md">` removes `rounded-control`. The config of the app wins: its `css` option replaces the theme file, `tailwind: false` turns off the merger, and with `class_merger.service` the bundle does not turn it on.

@@ -101,7 +101,7 @@ function NumberFieldInput(#[Context] ?Toolbar $toolbar = null, mixed ...$rest): 
 function NumberFieldDecrement(?Html $children = null, mixed ...$rest): Node
 {
     return (
-        <button type="button" data-phem-number-field-target="decrement" className={{ classes('flex h-full w-8 items-center justify-center border border-r-0 border-input bg-background bg-clip-padding text-foreground outline-0 select-none hover:not-data-disabled:bg-accent active:not-data-disabled:bg-accent-active data-disabled:border-muted-foreground data-disabled:text-muted-foreground disabled:text-muted-foreground') }} {{ ...rest }}>
+        <button type="button" data-phem-number-field-target="decrement" className={{ classes('flex h-full w-8 items-center justify-center border border-r-0 border-input bg-background bg-clip-padding text-foreground outline-0 select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-disabled:border-muted-foreground data-disabled:text-muted-foreground data-disabled:pointer-events-none disabled:text-muted-foreground') }} {{ ...rest }}>
             {{ children ? children : <MinusIcon /> }}
         </button>
     );
@@ -112,7 +112,7 @@ function NumberFieldDecrement(?Html $children = null, mixed ...$rest): Node
 function NumberFieldIncrement(?Html $children = null, mixed ...$rest): Node
 {
     return (
-        <button type="button" data-phem-number-field-target="increment" className={{ classes('flex h-full w-8 items-center justify-center border border-l-0 border-input bg-background bg-clip-padding text-foreground outline-0 select-none hover:not-data-disabled:bg-accent active:not-data-disabled:bg-accent-active data-disabled:border-muted-foreground data-disabled:text-muted-foreground disabled:text-muted-foreground') }} {{ ...rest }}>
+        <button type="button" data-phem-number-field-target="increment" className={{ classes('flex h-full w-8 items-center justify-center border border-l-0 border-input bg-background bg-clip-padding text-foreground outline-0 select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-disabled:border-muted-foreground data-disabled:text-muted-foreground data-disabled:pointer-events-none disabled:text-muted-foreground') }} {{ ...rest }}>
             {{ children ? children : <PlusIcon /> }}
         </button>
     );

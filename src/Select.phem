@@ -98,7 +98,7 @@ function SelectTrigger(#[Context] Select $select, ?Html $children = null, mixed 
     $labelledBy = $select->partId('label');
     $inToolbar = null !== $select->toolbar;
     $base = $inToolbar
-        ? 'flex h-8 min-w-32 cursor-default items-center justify-between gap-2 rounded-control border-0 bg-transparent px-2 font-[inherit] text-sm leading-none whitespace-nowrap font-normal text-foreground select-none hover:not-data-disabled:bg-accent active:not-data-disabled:not-data-pressed:bg-accent-active data-pressed:bg-accent data-pressed:text-foreground focus-visible:bg-transparent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring'
+        ? 'flex h-8 min-w-32 cursor-default items-center justify-between gap-2 rounded-control border-0 bg-transparent px-2 font-[inherit] text-sm leading-none whitespace-nowrap font-normal text-foreground select-none hover:bg-accent active:not-data-disabled:not-data-pressed:bg-accent-active data-pressed:bg-accent data-pressed:text-foreground focus-visible:bg-transparent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring data-disabled:pointer-events-none'
         : 'flex h-8 min-w-40 items-center justify-between gap-3 pl-2 pr-1 select-none data-pressed:bg-accent '.Style::BUTTON_LOOK;
 
     return (

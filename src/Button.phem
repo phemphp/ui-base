@@ -38,7 +38,7 @@ function Button(
             disabled={{ native and disabled and not focusableWhenDisabled }}
             aria-disabled={{ disabled and (focusableWhenDisabled or not native) ? 'true' : null }}
             data-disabled={{ disabled ? '' : null }}
-            className={{ classes('flex h-8 items-center justify-center gap-2 rounded-control border border-input bg-background px-3 text-sm leading-none whitespace-nowrap font-normal text-foreground select-none hover:not-data-disabled:not-aria-disabled:bg-accent active:not-data-disabled:not-aria-disabled:bg-accent-active focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring data-disabled:border-muted-foreground data-disabled:text-muted-foreground disabled:border-muted-foreground disabled:text-muted-foreground aria-disabled:border-muted-foreground aria-disabled:text-muted-foreground') }}
+            className={{ classes('flex h-8 items-center justify-center gap-2 rounded-control border border-input bg-background px-3 text-sm leading-none whitespace-nowrap font-normal text-foreground select-none hover:bg-accent active:not-data-disabled:not-aria-disabled:bg-accent-active focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring data-disabled:border-muted-foreground data-disabled:text-muted-foreground data-disabled:pointer-events-none disabled:border-muted-foreground disabled:text-muted-foreground aria-disabled:border-muted-foreground aria-disabled:text-muted-foreground aria-disabled:pointer-events-none') }}
             {{ ...rest }}
         >
             {{ children }}

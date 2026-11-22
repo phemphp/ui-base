@@ -40,7 +40,15 @@ final class ButtonTest extends KernelTestCase
             ->html();
 
         self::assertStringContainsString('aria-disabled:text-muted-foreground', $html);
-        self::assertStringContainsString('hover:not-data-disabled:not-aria-disabled:bg-accent', $html);
+        // A disabled button gets no pointer events, so it has no hover color.
+        self::assertStringContainsString('aria-disabled:pointer-events-none', $html);
+    }
+
+    public function testACallerHoverReplacesTheHoverOfTheTheme(): void
+    {
+        $this->mount('Phem\Ui\Base\Button', ['className' => 'bg-blue-600 hover:bg-blue-700', 'children' => new Html('Submit')])
+            ->assertSelectorExists('button[class~="bg-blue-600"][class~="hover:bg-blue-700"]')
+            ->assertSelectorNotExists('button[class~="hover:bg-accent"]');
     }
 
     public function testTheButtonTakesItsColorsFromTheTheme(): void
