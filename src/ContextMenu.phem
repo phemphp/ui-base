@@ -25,6 +25,11 @@ class ContextMenu extends Menu
     {
         return 'phem-context-menu';
     }
+
+    public function dataSlot(): string
+    {
+        return 'context-menu';
+    }
 }
 
 /** The area of the page that opens the menu on a right click. */
@@ -35,6 +40,7 @@ function ContextMenuTrigger(#[Context] Menu $menu, ?Html $children = null, mixed
 
     return (
         <div
+            data-slot="context-menu-trigger"
             className={{ classes('flex aspect-5/3 w-full max-w-64 items-center justify-center rounded-control border border-input bg-background text-foreground select-none text-sm') }}
             {{ ...target }}
             {{ ...rest }}

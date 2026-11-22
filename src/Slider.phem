@@ -59,6 +59,7 @@ class Slider
 
         return (
             <div
+                data-slot="slider"
                 role="group"
                 data-orientation={{ orientation.value }}
                 data-disabled={{ disabled ? '' : null }}
@@ -88,7 +89,7 @@ class Slider
 #[Component]
 function SliderLabel(?Html $children = null, mixed ...$rest): Node
 {
-    return <div data-phem-slider-target="label" className={{ classes('text-sm font-bold text-foreground') }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="slider-label" data-phem-slider-target="label" className={{ classes('text-sm font-bold text-foreground') }} {{ ...rest }}>{{ children }}</div>;
 }
 
 /** The formatted values. */
@@ -97,7 +98,7 @@ function SliderValue(#[Context] Slider $slider, mixed ...$rest): Node
 {
     $text = implode(' – ', array_map(static fn (float $v): string => (string) (0.0 == fmod($v, 1) ? (int) $v : $v), $slider->values()));
 
-    return <output data-phem-slider-target="value" className={{ classes('text-right text-sm text-foreground') }} {{ ...rest }}>{{ text }}</output>;
+    return <output data-slot="slider-value" data-phem-slider-target="value" className={{ classes('text-right text-sm text-foreground') }} {{ ...rest }}>{{ text }}</output>;
 }
 
 /** The area that takes the presses and the drags. */
@@ -106,7 +107,7 @@ function SliderControl(#[Context] Slider $slider, ?Html $children = null, mixed 
 {
     $vertical = $slider->vertical();
 
-    return <div data-phem-slider-target="control" className={{ classes('col-span-2 flex touch-none items-center select-none', vertical ? 'h-56 flex-col px-3' : 'w-56 py-3') }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="slider-control" data-phem-slider-target="control" className={{ classes('col-span-2 flex touch-none items-center select-none', vertical ? 'h-56 flex-col px-3' : 'w-56 py-3') }} {{ ...rest }}>{{ children }}</div>;
 }
 
 /** The bar of the slider: it holds the SliderIndicator and the SliderThumb parts. */
@@ -115,7 +116,7 @@ function SliderTrack(#[Context] Slider $slider, ?Html $children = null, mixed ..
 {
     $vertical = $slider->vertical();
 
-    return <div data-phem-slider-target="track" style="position: relative" className={{ classes('bg-muted select-none', vertical ? 'h-full w-1' : 'h-1 w-full') }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="slider-track" data-phem-slider-target="track" style="position: relative" className={{ classes('bg-muted select-none', vertical ? 'h-full w-1' : 'h-1 w-full') }} {{ ...rest }}>{{ children }}</div>;
 }
 
 /** The filled part of the track: from the start to the value, or between the values of a range. */
@@ -129,7 +130,7 @@ function SliderIndicator(#[Context] Slider $slider, mixed ...$rest): Node
         ? 'position: absolute; bottom: '.$start.'%; height: '.$size.'%; width: inherit'
         : 'position: relative; inset-inline-start: '.$start.'%; width: '.$size.'%; height: inherit';
 
-    return <div data-phem-slider-target="indicator" style={{ style }} className={{ classes('bg-primary select-none') }} {{ ...rest }} />;
+    return <div data-slot="slider-indicator" data-phem-slider-target="indicator" style={{ style }} className={{ classes('bg-primary select-none') }} {{ ...rest }} />;
 }
 
 /**
@@ -150,6 +151,7 @@ function SliderThumb(#[Context] Slider $slider, int $index = 0, ?string $name = 
 
     return (
         <div
+            data-slot="slider-thumb"
             data-phem-slider-target="thumb"
             data-index={{ index }}
             style={{ style }}

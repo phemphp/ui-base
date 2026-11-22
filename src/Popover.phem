@@ -38,6 +38,7 @@ function Popover(
 ): Node {
     return (
         <div
+            data-slot="popover"
             id={{ handle }}
             data-controller="phem-popover"
             data-phem-popover-open-value={{ defaultOpen ? 'true' : null }}
@@ -78,6 +79,7 @@ function PopoverTrigger(
 
     return (
         <button
+            data-slot="popover-trigger"
             type="button"
             disabled={{ disabled }}
             data-disabled={{ disabled ? '' : null }}
@@ -99,6 +101,7 @@ function PopoverPopup(?Html $children = null, mixed ...$rest): Node
 {
     return (
         <div
+            data-slot="popover-popup"
             data-phem-popover-target="popup"
             popover="manual"
             hidden
@@ -116,14 +119,14 @@ function PopoverArrow(mixed ...$rest): Node
 {
     $base = Style::ARROW;
 
-    return <div data-phem-popover-target="arrow" aria-hidden="true" className={{ classes(base) }} {{ ...rest }} />;
+    return <div data-slot="popover-arrow" data-phem-popover-target="arrow" aria-hidden="true" className={{ classes(base) }} {{ ...rest }} />;
 }
 
 /** The heading of the popover. It names the popup (`aria-labelledby`). */
 #[Component]
 function PopoverTitle(?Html $children = null, mixed ...$rest): Node
 {
-    return <h2 data-phem-popover-target="title" className={{ classes('text-sm font-bold') }} {{ ...rest }}>{{ children }}</h2>;
+    return <h2 data-slot="popover-title" data-phem-popover-target="title" className={{ classes('text-sm font-bold') }} {{ ...rest }}>{{ children }}</h2>;
 }
 
 /** The text that describes the popover (`aria-describedby`). */
@@ -132,7 +135,7 @@ function PopoverDescription(?Html $children = null, mixed ...$rest): Node
 {
     $base = Style::DESCRIPTION;
 
-    return <p data-phem-popover-target="description" className={{ classes(base) }} {{ ...rest }}>{{ children }}</p>;
+    return <p data-slot="popover-description" data-phem-popover-target="description" className={{ classes(base) }} {{ ...rest }}>{{ children }}</p>;
 }
 
 /** A button that closes the popover. */
@@ -141,7 +144,7 @@ function PopoverClose(?Html $children = null, mixed ...$rest): Node
 {
     $base = Style::BUTTON;
 
-    return <button type="button" data-phem-popover-target="close" className={{ classes(base) }} {{ ...rest }}>{{ children }}</button>;
+    return <button data-slot="popover-close" type="button" data-phem-popover-target="close" className={{ classes(base) }} {{ ...rest }}>{{ children }}</button>;
 }
 
 /**
@@ -153,7 +156,7 @@ function PopoverClose(?Html $children = null, mixed ...$rest): Node
 function PopoverViewport(?Html $children = null, mixed ...$rest): Node
 {
     return (
-        <div data-phem-popover-target="viewport" {{ ...rest }}>
+        <div data-slot="popover-viewport" data-phem-popover-target="viewport" {{ ...rest }}>
             {{ children }}
         </div>
     );

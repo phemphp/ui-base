@@ -60,6 +60,7 @@ class Select
 
         return (
             <div
+                data-slot="select"
                 data-controller="phem-select"
                 data-phem-select-value-value={{ current }}
                 data-phem-select-multiple-value={{ multiple ? 'true' : null }}
@@ -88,7 +89,7 @@ function SelectLabel(#[Context] Select $select, ?Html $children = null, mixed ..
 {
     $id = $select->partId('label');
 
-    return <div id={{ id }} data-phem-select-target="label" className={{ classes('cursor-default text-sm font-bold text-foreground') }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="select-label" id={{ id }} data-phem-select-target="label" className={{ classes('cursor-default text-sm font-bold text-foreground') }} {{ ...rest }}>{{ children }}</div>;
 }
 
 /** The button that opens the popup. In a Toolbar, it is an item of the toolbar. */
@@ -103,6 +104,7 @@ function SelectTrigger(#[Context] Select $select, ?Html $children = null, mixed 
 
     return (
         <button
+            data-slot="select-trigger"
             type="button"
             aria-labelledby={{ labelledBy }}
             data-phem-select-target="trigger"
@@ -127,6 +129,7 @@ function SelectValue(#[Context] Select $select, ?string $placeholder = null, ?st
 
     return (
         <span
+            data-slot="select-value"
             placeholder={{ placeholder }}
             data-phem-select-template={{ template }}
             data-phem-select-markup={{ markup ? '' : null }}
@@ -142,7 +145,7 @@ function SelectValue(#[Context] Select $select, ?string $placeholder = null, ?st
 #[Component]
 function SelectIcon(?Html $children = null, mixed ...$rest): Node
 {
-    return <span data-phem-select-target="icon" aria-hidden="true" className={{ classes('flex') }} {{ ...rest }}>{{ children ? children : <CaretUpDownIcon /> }}</span>;
+    return <span data-slot="select-icon" data-phem-select-target="icon" aria-hidden="true" className={{ classes('flex') }} {{ ...rest }}>{{ children ? children : <CaretUpDownIcon /> }}</span>;
 }
 
 /**
@@ -153,6 +156,7 @@ function SelectPopup(?Html $children = null, mixed ...$rest): Node
 {
     return (
         <div
+            data-slot="select-popup"
             data-phem-select-target="popup"
             popover="manual"
             hidden
@@ -171,7 +175,7 @@ function SelectPopup(?Html $children = null, mixed ...$rest): Node
 #[Component]
 function SelectList(?Html $children = null, mixed ...$rest): Node
 {
-    return <div data-phem-select-target="list" className={{ classes('relative py-1 scroll-py-6 overflow-y-auto max-h-[var(--available-height)]') }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="select-list" data-phem-select-target="list" className={{ classes('relative py-1 scroll-py-6 overflow-y-auto max-h-[var(--available-height)]') }} {{ ...rest }}>{{ children }}</div>;
 }
 
 /** An arrow at the top of the popup: a hover scrolls the list up. */
@@ -179,7 +183,7 @@ function SelectList(?Html $children = null, mixed ...$rest): Node
 function SelectScrollUpArrow(?Html $children = null, mixed ...$rest): Node
 {
     return (
-        <div data-phem-select-target="scrollUpArrow" aria-hidden="true" className={{ classes("top-0 z-[1] flex h-4 w-full cursor-default items-center justify-center bg-background text-center text-xs before:absolute data-[side=none]:before:top-[-100%] before:left-0 before:h-full before:w-full before:content-['']") }} {{ ...rest }}>
+        <div data-slot="select-scroll-up-arrow" data-phem-select-target="scrollUpArrow" aria-hidden="true" className={{ classes("top-0 z-[1] flex h-4 w-full cursor-default items-center justify-center bg-background text-center text-xs before:absolute data-[side=none]:before:top-[-100%] before:left-0 before:h-full before:w-full before:content-['']") }} {{ ...rest }}>
             {{ children ? children : <CaretUpIcon /> }}
         </div>
     );
@@ -190,7 +194,7 @@ function SelectScrollUpArrow(?Html $children = null, mixed ...$rest): Node
 function SelectScrollDownArrow(?Html $children = null, mixed ...$rest): Node
 {
     return (
-        <div data-phem-select-target="scrollDownArrow" aria-hidden="true" className={{ classes("bottom-0 z-[1] flex h-4 w-full cursor-default items-center justify-center bg-background text-center text-xs before:absolute before:left-0 before:h-full before:w-full before:content-[''] data-[side=none]:before:bottom-[-100%]") }} {{ ...rest }}>
+        <div data-slot="select-scroll-down-arrow" data-phem-select-target="scrollDownArrow" aria-hidden="true" className={{ classes("bottom-0 z-[1] flex h-4 w-full cursor-default items-center justify-center bg-background text-center text-xs before:absolute before:left-0 before:h-full before:w-full before:content-[''] data-[side=none]:before:bottom-[-100%]") }} {{ ...rest }}>
             {{ children ? children : <CaretDownIcon /> }}
         </div>
     );
@@ -204,6 +208,7 @@ function SelectItem(#[Context] Select $select, string $value, bool $disabled = f
 
     return (
         <div
+            data-slot="select-item"
             data-value={{ value }}
             aria-disabled={{ disabled ? 'true' : null }}
             data-selected={{ selected ? '' : null }}
@@ -221,33 +226,33 @@ function SelectItem(#[Context] Select $select, string $value, bool $disabled = f
 #[Component]
 function SelectItemIndicator(?Html $children = null, mixed ...$rest): Node
 {
-    return <span data-phem-select-target="itemIndicator" aria-hidden="true" className={{ classes('col-start-1 [&[hidden]]:hidden') }} {{ ...rest }}>{{ children ? children : <CheckIcon /> }}</span>;
+    return <span data-slot="select-item-indicator" data-phem-select-target="itemIndicator" aria-hidden="true" className={{ classes('col-start-1 [&[hidden]]:hidden') }} {{ ...rest }}>{{ children ? children : <CheckIcon /> }}</span>;
 }
 
 /** The text of an item: the label that the value part shows. */
 #[Component]
 function SelectItemText(?Html $children = null, mixed ...$rest): Node
 {
-    return <span data-phem-select-target="itemText" className={{ classes('col-start-2') }} {{ ...rest }}>{{ children }}</span>;
+    return <span data-slot="select-item-text" data-phem-select-target="itemText" className={{ classes('col-start-2') }} {{ ...rest }}>{{ children }}</span>;
 }
 
 /** A group of items of the list, with a SelectGroupLabel. */
 #[Component]
 function SelectGroup(?Html $children = null, mixed ...$rest): Node
 {
-    return <div data-phem-select-target="group" {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="select-group" data-phem-select-target="group" {{ ...rest }}>{{ children }}</div>;
 }
 
 /** The label of a SelectGroup. */
 #[Component]
 function SelectGroupLabel(?Html $children = null, mixed ...$rest): Node
 {
-    return <div data-phem-select-target="groupLabel" className={{ classes('py-1.5 pr-4 pl-[2.125rem] text-sm text-muted-foreground select-none') }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="select-group-label" data-phem-select-target="groupLabel" className={{ classes('py-1.5 pr-4 pl-[2.125rem] text-sm text-muted-foreground select-none') }} {{ ...rest }}>{{ children }}</div>;
 }
 
 /** A line between two items or two groups of the list. */
 #[Component]
 function SelectSeparator(mixed ...$rest): Node
 {
-    return <div data-phem-select-target="separator" role="separator" aria-orientation="horizontal" data-orientation="horizontal" className={{ classes('mx-1 my-1 h-px bg-border') }} {{ ...rest }} />;
+    return <div data-slot="select-separator" data-phem-select-target="separator" role="separator" aria-orientation="horizontal" data-orientation="horizontal" className={{ classes('mx-1 my-1 h-px bg-border') }} {{ ...rest }} />;
 }

@@ -62,6 +62,7 @@ class Progress
 
         return (
             <div
+                data-slot="progress"
                 id={{ id }}
                 role="progressbar"
                 aria-valuemin={{ min }}
@@ -86,7 +87,7 @@ function ProgressLabel(#[Context] Progress $progress, ?Html $children = null, mi
     $state = $progress->state();
     $id = $progress->id ? $progress->id.'-label' : null;
 
-    return <span id={{ id }} className={{ classes('text-sm font-normal text-foreground') }} {{ ...state }} {{ ...rest }}>{{ children }}</span>;
+    return <span data-slot="progress-label" id={{ id }} className={{ classes('text-sm font-normal text-foreground') }} {{ ...state }} {{ ...rest }}>{{ children }}</span>;
 }
 
 /** The text of the value. Its children replace the default text (a percent). */
@@ -96,7 +97,7 @@ function ProgressValue(#[Context] Progress $progress, ?Html $children = null, mi
     $state = $progress->state();
     $text = $progress->text();
 
-    return <span aria-hidden="true" className={{ classes('text-right text-sm text-foreground') }} {{ ...state }} {{ ...rest }}>{{ children ?? text }}</span>;
+    return <span data-slot="progress-value" aria-hidden="true" className={{ classes('text-right text-sm text-foreground') }} {{ ...state }} {{ ...rest }}>{{ children ?? text }}</span>;
 }
 
 /** The bar of the progress: it holds the ProgressIndicator. */
@@ -105,7 +106,7 @@ function ProgressTrack(#[Context] Progress $progress, ?Html $children = null, mi
 {
     $state = $progress->state();
 
-    return <div className={{ classes('col-span-2 h-1 overflow-hidden bg-muted') }} {{ ...state }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="progress-track" className={{ classes('col-span-2 h-1 overflow-hidden bg-muted') }} {{ ...state }} {{ ...rest }}>{{ children }}</div>;
 }
 
 /** The part of the track that shows the progress: its width is the percentage of the value. */
@@ -116,5 +117,5 @@ function ProgressIndicator(#[Context] Progress $progress, mixed ...$rest): Node
     $percent = $progress->percent();
     $style = null === $percent ? null : 'inset-inline-start: 0; height: inherit; width: '.$percent.'%';
 
-    return <div style={{ style }} className={{ classes('bg-primary transition-[width] duration-500') }} {{ ...state }} {{ ...rest }} />;
+    return <div data-slot="progress-indicator" style={{ style }} className={{ classes('bg-primary transition-[width] duration-500') }} {{ ...state }} {{ ...rest }} />;
 }

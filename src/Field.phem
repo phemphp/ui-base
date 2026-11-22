@@ -38,6 +38,7 @@ class Field
     {
         return (
             <div
+                data-slot="field"
                 id={{ id }}
                 data-controller="phem-field"
                 data-phem-field-validation-mode-value={{ validationMode }}
@@ -59,7 +60,7 @@ function FieldLabel(#[Context] ?Field $field = null, ?Html $children = null, mix
 {
     $for = $field?->partId('control');
 
-    return <label htmlFor={{ for }} data-phem-field-target="label" className={{ classes('text-sm font-bold text-foreground data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity)') }} {{ ...rest }}>{{ children }}</label>;
+    return <label data-slot="field-label" htmlFor={{ for }} data-phem-field-target="label" className={{ classes('text-sm font-bold text-foreground data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity)') }} {{ ...rest }}>{{ children }}</label>;
 }
 
 /**
@@ -69,7 +70,7 @@ function FieldLabel(#[Context] ?Field $field = null, ?Html $children = null, mix
 #[Component]
 function FieldControl(?Bound $value = null, mixed ...$rest): Node
 {
-    return <Input phem:bind={{ value }} className="w-auto self-stretch" {{ ...rest }} />;
+    return <Input data-slot="field-control" phem:bind={{ value }} className="w-auto self-stretch" {{ ...rest }} />;
 }
 
 /** The help text of the Field. The control gets it as its `aria-describedby`. */
@@ -78,7 +79,7 @@ function FieldDescription(#[Context] ?Field $field = null, ?Html $children = nul
 {
     $id = $field?->partId('description');
 
-    return <p id={{ id }} data-phem-field-target="description" className={{ classes('m-0 text-sm text-muted-foreground') }} {{ ...rest }}>{{ children }}</p>;
+    return <p data-slot="field-description" id={{ id }} data-phem-field-target="description" className={{ classes('m-0 text-sm text-muted-foreground') }} {{ ...rest }}>{{ children }}</p>;
 }
 
 /**
@@ -92,6 +93,7 @@ function FieldError(#[Context] ?Field $field = null, ?string $match = null, ?Htm
 
     return (
         <div
+            data-slot="field-error"
             id={{ id }}
             data-phem-field-target="error"
             data-match={{ match }}
@@ -111,7 +113,7 @@ function FieldError(#[Context] ?Field $field = null, ?string $match = null, ?Htm
 #[Component]
 function FieldItem(?Html $children = null, mixed ...$rest): Node
 {
-    return <div className={{ classes('flex items-center gap-2') }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="field-item" className={{ classes('flex items-center gap-2') }} {{ ...rest }}>{{ children }}</div>;
 }
 
 /**
@@ -125,6 +127,7 @@ function Form(?string $validationMode = null, ?Html $children = null, mixed ...$
 {
     return (
         <form
+            data-slot="form"
             data-controller="phem-form"
             data-phem-form-validation-mode-value={{ validationMode }}
             className={{ classes('flex w-full max-w-64 flex-col gap-4') }}

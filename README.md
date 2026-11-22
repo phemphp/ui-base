@@ -158,6 +158,34 @@ phem:
 To use the default merger of phem, set `tailwind: false`. To use your own merger, set
 `class_merger.service`: the bundle then does not turn on the Tailwind merger.
 
+### Style a part with its slot
+
+Each part has a `data-slot`: the kebab case of its name, with no final `Root`. `DialogPopup` is
+`data-slot="dialog-popup"`, `OTPFieldInput` is `data-slot="otp-field-input"`, and `SwitchRoot` is
+`data-slot="switch"`, as in shadcn. A part that
+renders another part keeps its own name: `AlertDialogPopup` is `alert-dialog-popup`, not
+`dialog-popup`. App CSS and a parent can then style a part without a `className`:
+
+```css
+/* assets/styles/app.css */
+[data-slot="dialog-popup"] {
+    @apply w-[32rem];
+}
+```
+
+```php
+<DialogPopup className="has-data-[slot=dialog-description]:gap-2">
+    <DialogTitle>Notifications</DialogTitle>
+    <DialogDescription>You are all caught up.</DialogDescription>
+</DialogPopup>
+```
+
+A `data-slot` of the caller replaces the name: `<Button data-slot="save">`. The icons have no slot.
+`MenuPayload`, `PopoverPayload`, `PreviewCardPayload` and `ComboboxChipTemplate` render a
+`<template>`, which does not show, so they have no slot either. The other payloads render an
+element and have a slot: `DialogPayload` is `dialog-payload`. The `data-phem-*-target` attributes are the API of the
+controllers: do not style them.
+
 ## Names
 
 The Base UI `X.Root` is the `X` tag, and each other part is `X<Part>`: `Dialog`, `DialogTrigger`,

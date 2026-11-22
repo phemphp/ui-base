@@ -38,6 +38,7 @@ function NumberField(
 
     return (
         <div
+            data-slot="number-field"
             data-controller="phem-number-field"
             data-phem-number-field-value-value={{ current }}
             data-phem-number-field-min-value={{ min }}
@@ -66,7 +67,7 @@ function NumberField(
 #[Component]
 function NumberFieldScrubArea(?Html $children = null, mixed ...$rest): Node
 {
-    return <span data-phem-number-field-target="scrubArea" className={{ classes('cursor-ew-resize font-bold select-none') }} {{ ...rest }}>{{ children }}</span>;
+    return <span data-slot="number-field-scrub-area" data-phem-number-field-target="scrubArea" className={{ classes('cursor-ew-resize font-bold select-none') }} {{ ...rest }}>{{ children }}</span>;
 }
 
 /** The virtual cursor that shows while the user drags in the scrub area. */
@@ -74,7 +75,7 @@ function NumberFieldScrubArea(?Html $children = null, mixed ...$rest): Node
 function NumberFieldScrubAreaCursor(?Html $children = null, mixed ...$rest): Node
 {
     return (
-        <span data-phem-number-field-target="scrubAreaCursor" hidden className={{ classes('drop-shadow-[0_1px_1px_#0008] filter [&[hidden]]:hidden') }} {{ ...rest }}>
+        <span data-slot="number-field-scrub-area-cursor" data-phem-number-field-target="scrubAreaCursor" hidden className={{ classes('drop-shadow-[0_1px_1px_#0008] filter [&[hidden]]:hidden') }} {{ ...rest }}>
             {{ children ? children : <svg aria-hidden="true" width="26" height="14" viewBox="0 0 24 14" fill="black" stroke="white" className="block"><path d="M19.5 5.5L6.49737 5.51844V2L1 6.9999L6.5 12L6.49737 8.5L19.5 8.5V12L25 6.9999L19.5 2V5.5Z" /></svg> }}
         </span>
     );
@@ -84,7 +85,7 @@ function NumberFieldScrubAreaCursor(?Html $children = null, mixed ...$rest): Nod
 #[Component]
 function NumberFieldGroup(?Html $children = null, mixed ...$rest): Node
 {
-    return <div data-phem-number-field-target="group" className={{ classes('flex h-control') }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="number-field-group" data-phem-number-field-target="group" className={{ classes('flex h-control') }} {{ ...rest }}>{{ children }}</div>;
 }
 
 /**
@@ -99,7 +100,7 @@ function NumberFieldInput(#[Context] ?Toolbar $toolbar = null, mixed ...$rest): 
 {
     $item = null !== $toolbar ? 'item' : null;
 
-    return <input data-phem-number-field-target="input" data-phem-toolbar-target={{ item }} className={{ classes('h-full w-[7ch] border border-input first:rounded-s-control last:rounded-e-control bg-background px-2 text-left text-sm font-normal text-foreground tabular-nums any-pointer-coarse:text-base focus:z-1 focus:outline-2 focus:-outline-offset-1 focus:outline-ring') }} {{ ...rest }} />;
+    return <input data-slot="number-field-input" data-phem-number-field-target="input" data-phem-toolbar-target={{ item }} className={{ classes('h-full w-[7ch] border border-input first:rounded-s-control last:rounded-e-control bg-background px-2 text-left text-sm font-normal text-foreground tabular-nums any-pointer-coarse:text-base focus:z-1 focus:outline-2 focus:-outline-offset-1 focus:outline-ring') }} {{ ...rest }} />;
 }
 
 /** The button that takes a step from the value. A press that stays repeats it. */
@@ -107,7 +108,7 @@ function NumberFieldInput(#[Context] ?Toolbar $toolbar = null, mixed ...$rest): 
 function NumberFieldDecrement(?Html $children = null, mixed ...$rest): Node
 {
     return (
-        <button type="button" data-phem-number-field-target="decrement" className={{ classes('flex h-full w-control items-center justify-center border border-e-0 border-input first:rounded-s-control last:rounded-e-control bg-background bg-clip-padding text-foreground outline-0 select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-disabled:border-disabled-border data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity) data-disabled:pointer-events-none disabled:text-disabled-foreground disabled:opacity-(--disabled-opacity)') }} {{ ...rest }}>
+        <button data-slot="number-field-decrement" type="button" data-phem-number-field-target="decrement" className={{ classes('flex h-full w-control items-center justify-center border border-e-0 border-input first:rounded-s-control last:rounded-e-control bg-background bg-clip-padding text-foreground outline-0 select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-disabled:border-disabled-border data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity) data-disabled:pointer-events-none disabled:text-disabled-foreground disabled:opacity-(--disabled-opacity)') }} {{ ...rest }}>
             {{ children ? children : <MinusIcon /> }}
         </button>
     );
@@ -118,7 +119,7 @@ function NumberFieldDecrement(?Html $children = null, mixed ...$rest): Node
 function NumberFieldIncrement(?Html $children = null, mixed ...$rest): Node
 {
     return (
-        <button type="button" data-phem-number-field-target="increment" className={{ classes('flex h-full w-control items-center justify-center border border-s-0 border-input first:rounded-s-control last:rounded-e-control bg-background bg-clip-padding text-foreground outline-0 select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-disabled:border-disabled-border data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity) data-disabled:pointer-events-none disabled:text-disabled-foreground disabled:opacity-(--disabled-opacity)') }} {{ ...rest }}>
+        <button data-slot="number-field-increment" type="button" data-phem-number-field-target="increment" className={{ classes('flex h-full w-control items-center justify-center border border-s-0 border-input first:rounded-s-control last:rounded-e-control bg-background bg-clip-padding text-foreground outline-0 select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-disabled:border-disabled-border data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity) data-disabled:pointer-events-none disabled:text-disabled-foreground disabled:opacity-(--disabled-opacity)') }} {{ ...rest }}>
             {{ children ? children : <PlusIcon /> }}
         </button>
     );

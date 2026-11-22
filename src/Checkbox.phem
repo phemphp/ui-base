@@ -57,6 +57,7 @@ class Checkbox
 
         return (
             <Dynamic
+                data-slot="checkbox"
                 tag={{ nativeButton ? 'button' : 'span' }}
                 type={{ nativeButton ? 'button' : null }}
                 role="checkbox"
@@ -102,6 +103,7 @@ function CheckboxIndicator(#[Context] Checkbox $checkbox, ?Html $children = null
 
     return (
         <span
+            data-slot="checkbox-indicator"
             data-phem-toggle-target="indicator"
             hidden={{ not on and not mixed }}
             data-checked={{ on ? '' : null }}
@@ -157,6 +159,7 @@ class CheckboxGroup
 
         return (
             <div
+                data-slot="checkbox-group"
                 role="group"
                 data-value={{ value }}
                 data-disabled={{ disabled ? '' : null }}

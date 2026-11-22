@@ -45,6 +45,7 @@ class SwitchRoot
 
         return (
             <Dynamic
+                data-slot="switch"
                 tag={{ nativeButton ? 'button' : 'span' }}
                 type={{ nativeButton ? 'button' : null }}
                 role="switch"
@@ -85,6 +86,7 @@ function SwitchThumb(#[Context] SwitchRoot $switch, mixed ...$rest): Node
 
     return (
         <span
+            data-slot="switch-thumb"
             data-phem-toggle-target="indicator"
             data-checked={{ on ? '' : null }}
             data-unchecked={{ on ? null : '' }}

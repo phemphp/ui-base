@@ -31,4 +31,9 @@ class Autocomplete extends Combobox
     {
         return false;
     }
+
+    public function dataSlot(): string
+    {
+        return 'autocomplete';
+    }
 }

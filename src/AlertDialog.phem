@@ -19,7 +19,7 @@ use Phem\{Html, Node};
 #[Component]
 function AlertDialog(bool $defaultOpen = false, ?Html $children = null, mixed ...$rest): Node
 {
-    return <Dialog defaultOpen={{ defaultOpen }} disablePointerDismissal {{ ...rest }}>{{ children }}</Dialog>;
+    return <Dialog data-slot="alert-dialog" defaultOpen={{ defaultOpen }} disablePointerDismissal {{ ...rest }}>{{ children }}</Dialog>;
 }
 
 /**
@@ -29,7 +29,7 @@ function AlertDialog(bool $defaultOpen = false, ?Html $children = null, mixed ..
 #[Component]
 function AlertDialogTrigger(?Html $children = null, mixed ...$rest): Node
 {
-    return <DialogTrigger {{ ...rest }}>{{ children }}</DialogTrigger>;
+    return <DialogTrigger data-slot="alert-dialog-trigger" {{ ...rest }}>{{ children }}</DialogTrigger>;
 }
 
 /**
@@ -39,40 +39,40 @@ function AlertDialogTrigger(?Html $children = null, mixed ...$rest): Node
 #[Component]
 function AlertDialogPopup(?Html $children = null, mixed ...$rest): Node
 {
-    return <DialogPopup role="alertdialog" {{ ...rest }}>{{ children }}</DialogPopup>;
+    return <DialogPopup data-slot="alert-dialog-popup" role="alertdialog" {{ ...rest }}>{{ children }}</DialogPopup>;
 }
 
 /** The heading of the alert dialog. It names the alert dialog (`aria-labelledby`). */
 #[Component]
 function AlertDialogTitle(?Html $children = null, mixed ...$rest): Node
 {
-    return <DialogTitle {{ ...rest }}>{{ children }}</DialogTitle>;
+    return <DialogTitle data-slot="alert-dialog-title" {{ ...rest }}>{{ children }}</DialogTitle>;
 }
 
 /** The text that describes the alert dialog (`aria-describedby`). */
 #[Component]
 function AlertDialogDescription(?Html $children = null, mixed ...$rest): Node
 {
-    return <DialogDescription {{ ...rest }}>{{ children }}</DialogDescription>;
+    return <DialogDescription data-slot="alert-dialog-description" {{ ...rest }}>{{ children }}</DialogDescription>;
 }
 
 /** A button that closes the alert dialog, for example "Cancel" or the button of the action. */
 #[Component]
 function AlertDialogClose(?Html $children = null, mixed ...$rest): Node
 {
-    return <DialogClose {{ ...rest }}>{{ children }}</DialogClose>;
+    return <DialogClose data-slot="alert-dialog-close" {{ ...rest }}>{{ children }}</DialogClose>;
 }
 
 /** The container that places the popup, as the Viewport of Base UI (see DialogViewport). */
 #[Component]
 function AlertDialogViewport(?Html $children = null, mixed ...$rest): Node
 {
-    return <DialogViewport {{ ...rest }}>{{ children }}</DialogViewport>;
+    return <DialogViewport data-slot="alert-dialog-viewport" {{ ...rest }}>{{ children }}</DialogViewport>;
 }
 
 /** The text of the `payload` of the trigger that opened the alert dialog, or its children. */
 #[Component]
 function AlertDialogPayload(?Html $children = null, mixed ...$rest): Node
 {
-    return <DialogPayload {{ ...rest }}>{{ children }}</DialogPayload>;
+    return <DialogPayload data-slot="alert-dialog-payload" {{ ...rest }}>{{ children }}</DialogPayload>;
 }

@@ -82,6 +82,7 @@ class Drawer
     {
         return (
             <div
+                data-slot="drawer"
                 id={{ handle }}
                 data-controller="phem-dialog"
                 data-phem-dialog-swipe-direction-value={{ swipeDirection.value }}
@@ -111,7 +112,7 @@ class Drawer
 #[Component]
 function DrawerTrigger(?Html $children = null, mixed ...$rest): Node
 {
-    return <DialogTrigger {{ ...rest }}>{{ children }}</DialogTrigger>;
+    return <DialogTrigger data-slot="drawer-trigger" {{ ...rest }}>{{ children }}</DialogTrigger>;
 }
 
 /**
@@ -126,11 +127,12 @@ function DrawerPopup(#[Context] Drawer $drawer, #[Context] ?DrawerViewport $view
     $panel = 'h-auto p-6 border-border bg-popover text-popover-foreground outline-none rounded-popup shadow-popup overflow-y-auto overscroll-contain touch-auto transition-transform duration-[450ms] data-ending-style:duration-[calc(var(--drawer-swipe-strength,1)*400ms)] ease-[cubic-bezier(0.32,0.72,0,1)] data-swiping:transition-none data-swiping:select-none';
 
     if (null !== $viewport && $viewport->drawer === $drawer) {
-        return <div data-phem-dialog-target="popup" className={{ classes(panel, edge) }} {{ ...rest }}>{{ children }}</div>;
+        return <div data-slot="drawer-popup" data-phem-dialog-target="popup" className={{ classes(panel, edge) }} {{ ...rest }}>{{ children }}</div>;
     }
 
     return (
         <dialog
+            data-slot="drawer-popup"
             data-phem-dialog-target="popup"
             className={{ classes('fixed z-50 m-0 inset-0 h-auto p-6 border-border bg-popover text-popover-foreground outline-none rounded-popup shadow-popup overflow-y-auto overscroll-contain touch-auto transition-transform duration-[450ms] data-ending-style:duration-[calc(var(--drawer-swipe-strength,1)*400ms)] ease-[cubic-bezier(0.32,0.72,0,1)] data-swiping:transition-none data-swiping:select-none backdrop:bg-black backdrop:opacity-[calc(0.2*(1-var(--drawer-swipe-progress,0)))] dark:backdrop:opacity-[calc(0.7*(1-var(--drawer-swipe-progress,0)))] backdrop:transition-opacity backdrop:duration-[450ms] backdrop:ease-[cubic-bezier(0.32,0.72,0,1)] data-swiping:backdrop:duration-0 data-ending-style:backdrop:duration-[calc(var(--drawer-swipe-strength,1)*400ms)] data-starting-style:backdrop:opacity-0 data-ending-style:backdrop:opacity-0', edge) }}
             {{ ...rest }}
@@ -147,35 +149,35 @@ function DrawerPopup(#[Context] Drawer $drawer, #[Context] ?DrawerViewport $view
 #[Component]
 function DrawerContent(?Html $children = null, mixed ...$rest): Node
 {
-    return <div data-phem-dialog-target="content" className={{ classes('mx-auto w-full max-w-[32rem]') }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="drawer-content" data-phem-dialog-target="content" className={{ classes('mx-auto w-full max-w-[32rem]') }} {{ ...rest }}>{{ children }}</div>;
 }
 
 /** The heading of the drawer. It names the drawer (`aria-labelledby`). */
 #[Component]
 function DrawerTitle(?Html $children = null, mixed ...$rest): Node
 {
-    return <DialogTitle className={{ classes('mb-1') }} {{ ...rest }}>{{ children }}</DialogTitle>;
+    return <DialogTitle data-slot="drawer-title" className={{ classes('mb-1') }} {{ ...rest }}>{{ children }}</DialogTitle>;
 }
 
 /** The text that describes the drawer (`aria-describedby`). */
 #[Component]
 function DrawerDescription(?Html $children = null, mixed ...$rest): Node
 {
-    return <DialogDescription className={{ classes('mb-6') }} {{ ...rest }}>{{ children }}</DialogDescription>;
+    return <DialogDescription data-slot="drawer-description" className={{ classes('mb-6') }} {{ ...rest }}>{{ children }}</DialogDescription>;
 }
 
 /** A button that closes the drawer. */
 #[Component]
 function DrawerClose(?Html $children = null, mixed ...$rest): Node
 {
-    return <DialogClose {{ ...rest }}>{{ children }}</DialogClose>;
+    return <DialogClose data-slot="drawer-close" {{ ...rest }}>{{ children }}</DialogClose>;
 }
 
 /** The text of the `payload` of the trigger that opened the drawer, or its children. */
 #[Component]
 function DrawerPayload(?Html $children = null, mixed ...$rest): Node
 {
-    return <DialogPayload {{ ...rest }}>{{ children }}</DialogPayload>;
+    return <DialogPayload data-slot="drawer-payload" {{ ...rest }}>{{ children }}</DialogPayload>;
 }
 
 /**
@@ -198,6 +200,7 @@ class DrawerViewport
 
         return (
             <dialog
+                data-slot="drawer-viewport"
                 data-phem-dialog-target="viewport"
                 className={{ classes('fixed z-50 m-0 p-0 inset-0 size-full max-w-none max-h-none border-0 bg-transparent overflow-hidden open:flex backdrop:bg-black backdrop:opacity-[calc(0.2*(1-var(--drawer-swipe-progress,0)))] dark:backdrop:opacity-[calc(0.7*(1-var(--drawer-swipe-progress,0)))] backdrop:transition-opacity backdrop:duration-[450ms] backdrop:ease-[cubic-bezier(0.32,0.72,0,1)] data-ending-style:backdrop:duration-[calc(var(--drawer-swipe-strength,1)*400ms)] data-starting-style:backdrop:opacity-0 data-ending-style:backdrop:opacity-0', place) }}
                 {{ ...attrs }}
@@ -215,14 +218,14 @@ class DrawerViewport
 #[Component]
 function DrawerBackdrop(mixed ...$rest): Node
 {
-    return <div data-phem-dialog-target="backdrop" hidden className={{ classes('fixed inset-0 min-h-dvh bg-black opacity-[calc(0.2*(1-var(--drawer-swipe-progress,0)))] dark:opacity-[calc(0.7*(1-var(--drawer-swipe-progress,0)))] transition-opacity duration-[450ms] ease-[cubic-bezier(0.32,0.72,0,1)] data-ending-style:opacity-0 data-starting-style:opacity-0 data-ending-style:duration-[calc(var(--drawer-swipe-strength,1)*400ms)]') }} {{ ...rest }} />;
+    return <div data-slot="drawer-backdrop" data-phem-dialog-target="backdrop" hidden className={{ classes('fixed inset-0 min-h-dvh bg-black opacity-[calc(0.2*(1-var(--drawer-swipe-progress,0)))] dark:opacity-[calc(0.7*(1-var(--drawer-swipe-progress,0)))] transition-opacity duration-[450ms] ease-[cubic-bezier(0.32,0.72,0,1)] data-ending-style:opacity-0 data-starting-style:opacity-0 data-ending-style:duration-[calc(var(--drawer-swipe-strength,1)*400ms)]') }} {{ ...rest }} />;
 }
 
 /** An area at the edge of the screen: a swipe away from the edge opens the drawer. */
 #[Component]
 function DrawerSwipeArea(?Html $children = null, mixed ...$rest): Node
 {
-    return <div data-phem-dialog-target="swipeArea" className={{ classes('touch-none select-none') }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="drawer-swipe-area" data-phem-dialog-target="swipeArea" className={{ classes('touch-none select-none') }} {{ ...rest }}>{{ children }}</div>;
 }
 
 /**
@@ -233,19 +236,19 @@ function DrawerSwipeArea(?Html $children = null, mixed ...$rest): Node
 #[Component]
 function DrawerProvider(?Html $children = null, mixed ...$rest): Node
 {
-    return <div data-controller="phem-drawer-provider" {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="drawer-provider" data-controller="phem-drawer-provider" {{ ...rest }}>{{ children }}</div>;
 }
 
 /** The background behind the DrawerIndent: it shows while the indent is smaller. */
 #[Component]
 function DrawerIndentBackground(mixed ...$rest): Node
 {
-    return <div data-phem-drawer-provider-target="background" {{ ...rest }} />;
+    return <div data-slot="drawer-indent-background" data-phem-drawer-provider-target="background" {{ ...rest }} />;
 }
 
 /** The page that gets smaller while a drawer is open: style it with `data-active`. */
 #[Component]
 function DrawerIndent(?Html $children = null, mixed ...$rest): Node
 {
-    return <div data-phem-drawer-provider-target="indent" {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="drawer-indent" data-phem-drawer-provider-target="indent" {{ ...rest }}>{{ children }}</div>;
 }

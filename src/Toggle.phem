@@ -37,6 +37,7 @@ function Toggle(
 
     return (
         <button
+            data-slot="toggle"
             type="button"
             aria-pressed={{ pressed ? 'true' : 'false' }}
             data-pressed={{ pressed ? '' : null }}
@@ -88,6 +89,7 @@ class ToggleGroup
 
         return (
             <div
+                data-slot="toggle-group"
                 role="group"
                 data-orientation={{ orientation.value }}
                 data-disabled={{ disabled ? '' : null }}

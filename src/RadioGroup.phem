@@ -40,6 +40,7 @@ class RadioGroup
 
         return (
             <div
+                data-slot="radio-group"
                 role="radiogroup"
                 data-disabled={{ disabled ? '' : null }}
                 data-readonly={{ readOnly ? '' : null }}
@@ -82,6 +83,7 @@ class Radio
 
         return (
             <Dynamic
+                data-slot="radio"
                 tag={{ nativeButton ? 'button' : 'span' }}
                 type={{ nativeButton ? 'button' : null }}
                 role="radio"
@@ -109,6 +111,7 @@ function RadioIndicator(#[Context] Radio $radio, mixed ...$rest): Node
 
     return (
         <span
+            data-slot="radio-indicator"
             data-phem-radio-group-target="indicator"
             hidden={{ not on }}
             data-checked={{ on ? '' : null }}

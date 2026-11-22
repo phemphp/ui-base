@@ -93,7 +93,6 @@ The components take their colors from the theme tokens of `assets/theme.css` (se
   }
   // Today: <Button> changes, <DialogTrigger> and <MenuTrigger> do not.
   ```
-- **`data-slot` on each part.** shadcn gives each part a `data-slot` (`data-slot="dialog-popup"`). App CSS, and a parent with `has-data-[slot=dialog-description]:`, can then style a part without `className`. Many parts have a `data-phem-*-target` today, but that is the API of the controller, not a style hook.
 - **The fixed colors that are left.** The link of `Toolbar` (`hover:text-blue-700`), the backdrop of `Drawer` (`bg-black` with an opacity), and the cursor of the scrub area of `NumberField` (`drop-shadow-[0_1px_1px_#0008]`).
 - **A second theme in the demo.** A shadcn theme and a theme picker next to the dark switch. It shows the tokens, and an e2e test can check that each component follows the theme.
 

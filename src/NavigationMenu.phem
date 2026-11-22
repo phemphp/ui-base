@@ -43,6 +43,7 @@ class NavigationMenu
     {
         return (
             <Dynamic
+                data-slot="navigation-menu"
                 tag={{ parent ? 'div' : 'nav' }}
                 data-controller="phem-navigation-menu"
                 data-phem-navigation-menu-value-value={{ defaultValue }}
@@ -70,14 +71,14 @@ class NavigationMenu
 #[Component]
 function NavigationMenuList(?Html $children = null, mixed ...$rest): Node
 {
-    return <ul data-phem-navigation-menu-target="list" className={{ classes('relative m-0 flex list-none gap-px p-0') }} {{ ...rest }}>{{ children }}</ul>;
+    return <ul data-slot="navigation-menu-list" data-phem-navigation-menu-target="list" className={{ classes('relative m-0 flex list-none gap-px p-0') }} {{ ...rest }}>{{ children }}</ul>;
 }
 
 /** An item: a trigger with a content, or a link. `value` names the item. */
 #[Component]
 function NavigationMenuItem(?string $value = null, ?Html $children = null, mixed ...$rest): Node
 {
-    return <li data-phem-navigation-menu-target="item" data-value={{ value }} {{ ...rest }}>{{ children }}</li>;
+    return <li data-slot="navigation-menu-item" data-phem-navigation-menu-target="item" data-value={{ value }} {{ ...rest }}>{{ children }}</li>;
 }
 
 /**
@@ -93,6 +94,7 @@ function NavigationMenuTrigger(bool $card = false, ?Html $children = null, mixed
 
     return (
         <button
+            data-slot="navigation-menu-trigger"
             type="button"
             data-phem-navigation-menu-target="trigger"
             className={{ classes(base) }}
@@ -107,7 +109,7 @@ function NavigationMenuTrigger(bool $card = false, ?Html $children = null, mixed
 #[Component]
 function NavigationMenuIcon(?Html $children = null, mixed ...$rest): Node
 {
-    return <span data-phem-navigation-menu-target="icon" className={{ classes('transition-transform duration-200 ease-[ease] data-popup-open:rotate-180') }} {{ ...rest }}>{{ children ? children : <CaretDownIcon /> }}</span>;
+    return <span data-slot="navigation-menu-icon" data-phem-navigation-menu-target="icon" className={{ classes('transition-transform duration-200 ease-[ease] data-popup-open:rotate-180') }} {{ ...rest }}>{{ children ? children : <CaretDownIcon /> }}</span>;
 }
 
 /** The panel of an item. It moves into the viewport while it is open. */
@@ -116,6 +118,7 @@ function NavigationMenuContent(?Html $children = null, mixed ...$rest): Node
 {
     return (
         <div
+            data-slot="navigation-menu-content"
             data-phem-navigation-menu-target="content"
             hidden
             className={{ classes('h-full w-[calc(100vw-40px)] p-2 min-[500px]:w-max min-[500px]:max-w-[400px] transition-[opacity,transform,translate] duration-[var(--duration)] ease-[var(--easing)] data-starting-style:opacity-0 data-ending-style:opacity-0 data-starting-style:data-[activation-direction=left]:translate-x-[-50%] data-starting-style:data-[activation-direction=right]:translate-x-[50%] data-ending-style:data-[activation-direction=left]:translate-x-[50%] data-ending-style:data-[activation-direction=right]:translate-x-[-50%] [&[hidden]]:hidden') }}
@@ -137,14 +140,14 @@ function NavigationMenuLink(string $href, bool $card = false, ?Html $children = 
         ? Style::NAVIGATION_CARD
         : 'flex h-control items-center justify-center gap-1.5 bg-transparent px-2 text-sm font-normal text-foreground no-underline select-none min-[501px]:px-3 hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring';
 
-    return <a href={{ href }} data-phem-navigation-menu-target="link" className={{ classes(base) }} {{ ...rest }}>{{ children }}</a>;
+    return <a data-slot="navigation-menu-link" href={{ href }} data-phem-navigation-menu-target="link" className={{ classes(base) }} {{ ...rest }}>{{ children }}</a>;
 }
 
 /** A layer under the popup of the navigation menu, while a content is open. */
 #[Component]
 function NavigationMenuBackdrop(mixed ...$rest): Node
 {
-    return <div data-phem-navigation-menu-target="backdrop" hidden className={{ classes('[&[hidden]]:hidden') }} {{ ...rest }} />;
+    return <div data-slot="navigation-menu-backdrop" data-phem-navigation-menu-target="backdrop" hidden className={{ classes('[&[hidden]]:hidden') }} {{ ...rest }} />;
 }
 
 /** The box that goes next to the trigger of the open item. */
@@ -153,6 +156,7 @@ function NavigationMenuPositioner(?Html $children = null, mixed ...$rest): Node
 {
     return (
         <div
+            data-slot="navigation-menu-positioner"
             data-phem-navigation-menu-target="positioner"
             hidden
             className={{ classes("z-10 h-[var(--positioner-height)] w-[var(--positioner-width)] max-w-[var(--available-width)] transition-[top,left,right,bottom] duration-[var(--duration)] ease-[var(--easing)] before:absolute before:content-[''] data-instant:transition-none data-[side=bottom]:before:top-[-10px] data-[side=bottom]:before:right-0 data-[side=bottom]:before:left-0 data-[side=bottom]:before:h-2.5 data-[side=left]:before:top-0 data-[side=left]:before:right-[-10px] data-[side=left]:before:bottom-0 data-[side=left]:before:w-2.5 data-[side=right]:before:top-0 data-[side=right]:before:bottom-0 data-[side=right]:before:left-[-10px] data-[side=right]:before:w-2.5 data-[side=top]:before:right-0 data-[side=top]:before:bottom-[-10px] data-[side=top]:before:left-0 data-[side=top]:before:h-2.5 [&[hidden]]:hidden") }}
@@ -171,6 +175,7 @@ function NavigationMenuPopup(?Html $children = null, mixed ...$rest): Node
 {
     return (
         <div
+            data-slot="navigation-menu-popup"
             data-phem-navigation-menu-target="popup"
             className={{ classes('relative h-[var(--popup-height)] w-[var(--popup-width)] origin-[var(--transform-origin)] border border-border bg-popover text-popover-foreground rounded-popup shadow-popup outline-none transition-[opacity,transform,width,height,scale] duration-[var(--duration)] ease-[var(--easing)] data-ending-style:scale-90 data-ending-style:opacity-0 data-ending-style:duration-150 data-ending-style:ease-[ease] data-starting-style:scale-90 data-starting-style:opacity-0') }}
             {{ ...rest }}
@@ -184,12 +189,12 @@ function NavigationMenuPopup(?Html $children = null, mixed ...$rest): Node
 #[Component]
 function NavigationMenuArrow(mixed ...$rest): Node
 {
-    return <div data-phem-navigation-menu-target="arrow" aria-hidden="true" className={{ classes("absolute block h-1.5 w-3 overflow-clip transition-[left,right] duration-[var(--duration)] ease-[var(--easing)] before:absolute before:bottom-0 before:left-1/2 before:block before:h-[calc(6px*sqrt(2))] before:w-[calc(6px*sqrt(2))] before:-translate-x-1/2 before:translate-y-1/2 before:rotate-45 before:border before:border-border before:bg-popover before:content-[''] data-[side=bottom]:top-[-6px] data-[side=left]:right-[-9px] data-[side=left]:rotate-90 data-[side=right]:left-[-9px] data-[side=right]:-rotate-90 data-[side=top]:bottom-[-6px] data-[side=top]:rotate-180") }} {{ ...rest }} />;
+    return <div data-slot="navigation-menu-arrow" data-phem-navigation-menu-target="arrow" aria-hidden="true" className={{ classes("absolute block h-1.5 w-3 overflow-clip transition-[left,right] duration-[var(--duration)] ease-[var(--easing)] before:absolute before:bottom-0 before:left-1/2 before:block before:h-[calc(6px*sqrt(2))] before:w-[calc(6px*sqrt(2))] before:-translate-x-1/2 before:translate-y-1/2 before:rotate-45 before:border before:border-border before:bg-popover before:content-[''] data-[side=bottom]:top-[-6px] data-[side=left]:right-[-9px] data-[side=left]:rotate-90 data-[side=right]:left-[-9px] data-[side=right]:-rotate-90 data-[side=top]:bottom-[-6px] data-[side=top]:rotate-180") }} {{ ...rest }} />;
 }
 
 /** The place of the open content in the popup. */
 #[Component]
 function NavigationMenuViewport(mixed ...$rest): Node
 {
-    return <div data-phem-navigation-menu-target="viewport" className={{ classes('relative h-full w-full overflow-hidden') }} {{ ...rest }} />;
+    return <div data-slot="navigation-menu-viewport" data-phem-navigation-menu-target="viewport" className={{ classes('relative h-full w-full overflow-hidden') }} {{ ...rest }} />;
 }

@@ -47,6 +47,7 @@ class Accordion
 
         return (
             <div
+                data-slot="accordion"
                 id={{ id }}
                 data-controller="phem-accordion"
                 data-phem-accordion-open-value={{ open }}
@@ -96,6 +97,7 @@ class AccordionItem
 
         return (
             <div
+                data-slot="accordion-item"
                 data-value={{ value }}
                 data-phem-accordion-target="item"
                 data-orientation={{ accordion.orientation.value }}
@@ -117,7 +119,7 @@ function AccordionHeader(#[Context] AccordionItem $item, ?Html $children = null,
     $open = $item->open();
     $orientation = $item->accordion->orientation->value;
 
-    return <h3 data-phem-accordion-target="header" data-orientation={{ orientation }} data-open={{ open ? '' : null }} className={{ classes('m-0') }} {{ ...rest }}>{{ children }}</h3>;
+    return <h3 data-slot="accordion-header" data-phem-accordion-target="header" data-orientation={{ orientation }} data-open={{ open ? '' : null }} className={{ classes('m-0') }} {{ ...rest }}>{{ children }}</h3>;
 }
 
 /**
@@ -134,6 +136,7 @@ function AccordionTrigger(#[Context] AccordionItem $item, ?Html $children = null
 
     return (
         <button
+            data-slot="accordion-trigger"
             type="button"
             id={{ id }}
             aria-controls={{ panel }}
@@ -168,6 +171,7 @@ function AccordionPanel(#[Context] AccordionItem $item, bool $hiddenUntilFound =
 
     return (
         <div
+            data-slot="accordion-panel"
             id={{ id }}
             role="region"
             aria-labelledby={{ trigger }}

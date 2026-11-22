@@ -31,6 +31,7 @@ function OTPField(
 
     return (
         <div
+            data-slot="otp-field"
             data-controller="phem-otp-field"
             data-phem-otp-field-value-value={{ current }}
             data-phem-otp-field-validation-type-value={{ 'numeric' == validationType ? null : validationType }}
@@ -58,12 +59,12 @@ function OTPFieldInput(#[Context] ?Field $field = null, mixed ...$rest): Node
 {
     $control = null !== $field ? 'control' : null;
 
-    return <input data-phem-otp-field-target="input" data-phem-field-target={{ control }} className={{ classes('m-0 size-[calc(var(--spacing-control)+0.5rem)] rounded-control border border-input bg-background text-center font-inherit text-base font-normal text-foreground focus:outline-2 focus:-outline-offset-1 focus:outline-ring') }} {{ ...rest }} />;
+    return <input data-slot="otp-field-input" data-phem-otp-field-target="input" data-phem-field-target={{ control }} className={{ classes('m-0 size-[calc(var(--spacing-control)+0.5rem)] rounded-control border border-input bg-background text-center font-inherit text-base font-normal text-foreground focus:outline-2 focus:-outline-offset-1 focus:outline-ring') }} {{ ...rest }} />;
 }
 
 /** A mark between two groups of the slots of the code, `–` by default. */
 #[Component]
 function OTPFieldSeparator(?Html $children = null, mixed ...$rest): Node
 {
-    return <span data-phem-otp-field-target="separator" className={{ classes('flex items-center text-muted-foreground') }} {{ ...rest }}>{{ children ? children : '–' }}</span>;
+    return <span data-slot="otp-field-separator" data-phem-otp-field-target="separator" className={{ classes('flex items-center text-muted-foreground') }} {{ ...rest }}>{{ children ? children : '–' }}</span>;
 }

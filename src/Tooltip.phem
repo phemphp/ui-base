@@ -45,6 +45,7 @@ class Tooltip
     {
         return (
             <span
+                data-slot="tooltip"
                 id={{ handle }}
                 data-controller="phem-tooltip"
                 data-phem-tooltip-open-value={{ open ? 'true' : null }}
@@ -97,6 +98,7 @@ function TooltipTrigger(
 
     return (
         <button
+            data-slot="tooltip-trigger"
             type="button"
             data-phem-tooltip-target={{ target }}
             data-phem-tooltip-for={{ handle }}
@@ -116,6 +118,7 @@ function TooltipPopup(?Html $children = null, mixed ...$rest): Node
 {
     return (
         <span
+            data-slot="tooltip-popup"
             data-phem-tooltip-target="popup"
             popover="manual"
             hidden
@@ -133,7 +136,7 @@ function TooltipArrow(mixed ...$rest): Node
 {
     $base = Style::ARROW;
 
-    return <span data-phem-tooltip-target="arrow" aria-hidden="true" className={{ classes(base) }} {{ ...rest }} />;
+    return <span data-slot="tooltip-arrow" data-phem-tooltip-target="arrow" aria-hidden="true" className={{ classes(base) }} {{ ...rest }} />;
 }
 
 /**
@@ -145,7 +148,7 @@ function TooltipArrow(mixed ...$rest): Node
 function TooltipViewport(?Html $children = null, mixed ...$rest): Node
 {
     return (
-        <span data-phem-tooltip-target="viewport" className={{ classes('block') }} {{ ...rest }}>
+        <span data-slot="tooltip-viewport" data-phem-tooltip-target="viewport" className={{ classes('block') }} {{ ...rest }}>
             {{ children }}
         </span>
     );

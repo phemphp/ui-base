@@ -31,7 +31,7 @@ function PreviewCard(
     mixed ...$rest,
 ): Node {
     return (
-        <Popover handle={{ handle }} defaultOpen={{ defaultOpen }} triggerId={{ triggerId }} openOnHover delay={{ delay }} closeDelay={{ closeDelay }} side={{ side }} align={{ align }} sideOffset={{ sideOffset }} className="block" {{ ...rest }}>
+        <Popover data-slot="preview-card" handle={{ handle }} defaultOpen={{ defaultOpen }} triggerId={{ triggerId }} openOnHover delay={{ delay }} closeDelay={{ closeDelay }} side={{ side }} align={{ align }} sideOffset={{ sideOffset }} className="block" {{ ...rest }}>
             {{ children }}
         </Popover>
     );
@@ -50,6 +50,7 @@ function PreviewCardTrigger(string $href, ?string $handle = null, ?string $paylo
 
     return (
         <a
+            data-slot="preview-card-trigger"
             href={{ href }}
             data-phem-popover-target={{ target }}
             data-phem-popover-for={{ handle }}
@@ -69,6 +70,7 @@ function PreviewCardPopup(?Html $children = null, mixed ...$rest): Node
 {
     return (
         <div
+            data-slot="preview-card-popup"
             data-phem-popover-target="popup"
             popover="manual"
             hidden
@@ -84,14 +86,14 @@ function PreviewCardPopup(?Html $children = null, mixed ...$rest): Node
 #[Component]
 function PreviewCardArrow(mixed ...$rest): Node
 {
-    return <PopoverArrow {{ ...rest }} />;
+    return <PopoverArrow data-slot="preview-card-arrow" {{ ...rest }} />;
 }
 
 /** The content of a card with several links: the PreviewCardPayload of the active link. */
 #[Component]
 function PreviewCardViewport(?Html $children = null, mixed ...$rest): Node
 {
-    return <PopoverViewport {{ ...rest }}>{{ children }}</PopoverViewport>;
+    return <PopoverViewport data-slot="preview-card-viewport" {{ ...rest }}>{{ children }}</PopoverViewport>;
 }
 
 /** The content that the card shows for the links with this `payload`. */

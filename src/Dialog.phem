@@ -38,6 +38,7 @@ class Dialog
     {
         return (
             <div
+                data-slot="dialog"
                 id={{ handle }}
                 data-controller="phem-dialog"
                 data-phem-dialog-open-value={{ defaultOpen ? 'true' : null }}
@@ -76,6 +77,7 @@ function DialogTrigger(
 
     return (
         <button
+            data-slot="dialog-trigger"
             type="button"
             disabled={{ disabled }}
             data-disabled={{ disabled ? '' : null }}
@@ -102,12 +104,12 @@ function DialogPopup(#[Context] ?Dialog $dialog = null, #[Context] ?DialogViewpo
     if (null !== $viewport && $viewport->dialog === $dialog) {
         $box = Style::POPUP;
 
-        return <div data-phem-dialog-target="popup" className={{ classes(box, 'outline-0') }} {{ ...rest }}>{{ children }}</div>;
+        return <div data-slot="dialog-popup" data-phem-dialog-target="popup" className={{ classes(box, 'outline-0') }} {{ ...rest }}>{{ children }}</div>;
     }
 
     $base = Style::DIALOG;
 
-    return <dialog data-phem-dialog-target="popup" className={{ classes(base) }} {{ ...rest }}>{{ children }}</dialog>;
+    return <dialog data-slot="dialog-popup" data-phem-dialog-target="popup" className={{ classes(base) }} {{ ...rest }}>{{ children }}</dialog>;
 }
 
 /** The heading of the dialog. It names the dialog (`aria-labelledby`). */
@@ -116,7 +118,7 @@ function DialogTitle(?Html $children = null, mixed ...$rest): Node
 {
     $base = Style::TITLE;
 
-    return <h2 data-phem-dialog-target="title" className={{ classes(base) }} {{ ...rest }}>{{ children }}</h2>;
+    return <h2 data-slot="dialog-title" data-phem-dialog-target="title" className={{ classes(base) }} {{ ...rest }}>{{ children }}</h2>;
 }
 
 /** The text that describes the dialog (`aria-describedby`). */
@@ -125,7 +127,7 @@ function DialogDescription(?Html $children = null, mixed ...$rest): Node
 {
     $base = Style::DESCRIPTION;
 
-    return <p data-phem-dialog-target="description" className={{ classes(base) }} {{ ...rest }}>{{ children }}</p>;
+    return <p data-slot="dialog-description" data-phem-dialog-target="description" className={{ classes(base) }} {{ ...rest }}>{{ children }}</p>;
 }
 
 /** A button that closes the dialog. */
@@ -136,6 +138,7 @@ function DialogClose(bool $disabled = false, ?Html $children = null, mixed ...$r
 
     return (
         <button
+            data-slot="dialog-close"
             type="button"
             disabled={{ disabled }}
             data-disabled={{ disabled ? '' : null }}
@@ -165,6 +168,7 @@ class DialogViewport
     {
         return (
             <dialog
+                data-slot="dialog-viewport"
                 data-phem-dialog-target="viewport"
                 className={{ classes('m-0 p-0 fixed z-50 inset-0 size-full max-w-none max-h-none border-0 bg-transparent overflow-hidden backdrop:bg-overlay backdrop:transition-opacity backdrop:duration-150 data-starting-style:backdrop:opacity-0 data-ending-style:backdrop:opacity-0') }}
                 {{ ...attrs }}
@@ -179,7 +183,7 @@ class DialogViewport
 #[Component]
 function DialogPayload(?Html $children = null, mixed ...$rest): Node
 {
-    return <span data-phem-dialog-target="payload" {{ ...rest }}>{{ children }}</span>;
+    return <span data-slot="dialog-payload" data-phem-dialog-target="payload" {{ ...rest }}>{{ children }}</span>;
 }
 
 /**
@@ -189,5 +193,5 @@ function DialogPayload(?Html $children = null, mixed ...$rest): Node
 #[Component]
 function DialogDiscard(?Html $children = null, mixed ...$rest): Node
 {
-    return <DialogClose data-phem-dialog-discard {{ ...rest }}>{{ children }}</DialogClose>;
+    return <DialogClose data-slot="dialog-discard" data-phem-dialog-discard {{ ...rest }}>{{ children }}</DialogClose>;
 }

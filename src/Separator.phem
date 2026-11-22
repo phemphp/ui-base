@@ -15,6 +15,7 @@ function Separator(Orientation $orientation = Orientation::Horizontal, mixed ...
 {
     return (
         <div
+            data-slot="separator"
             role="separator"
             aria-orientation={{ orientation.value }}
             data-orientation={{ orientation.value }}

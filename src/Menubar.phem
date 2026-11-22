@@ -25,6 +25,7 @@ class Menubar
     {
         return (
             <div
+                data-slot="menubar"
                 role="menubar"
                 aria-orientation={{ orientation.value }}
                 data-orientation={{ orientation.value }}

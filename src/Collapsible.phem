@@ -22,6 +22,7 @@ class Collapsible
     {
         return (
             <div
+                data-slot="collapsible"
                 data-controller="phem-collapsible"
                 data-phem-collapsible-open-value={{ defaultOpen ? 'true' : null }}
                 data-open={{ defaultOpen ? '' : null }}
@@ -46,6 +47,7 @@ function CollapsibleTrigger(#[Context] Collapsible $collapsible, ?Html $children
 
     return (
         <button
+            data-slot="collapsible-trigger"
             type="button"
             disabled={{ disabled }}
             aria-expanded={{ open ? 'true' : 'false' }}
@@ -74,6 +76,7 @@ function CollapsiblePanel(#[Context] Collapsible $collapsible, bool $hiddenUntil
 
     return (
         <div
+            data-slot="collapsible-panel"
             data-phem-collapsible-target="panel"
             data-phem-collapsible-hidden-until-found={{ hiddenUntilFound ? '' : null }}
             hidden={{ hidden }}

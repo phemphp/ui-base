@@ -57,6 +57,12 @@ class Menu
         return 'phem-menu';
     }
 
+    /** The `data-slot` of the root: a subclass has its own name. */
+    public function dataSlot(): string
+    {
+        return 'menu';
+    }
+
     /** The `data-<controller>-target` attribute of a part. */
     public function target(string $name): array
     {
@@ -114,8 +120,9 @@ class Menu
     public function render(): Node
     {
         $values = $this->values();
+        $slot = $this->dataSlot();
 
-        return <div className={{ classes('contents') }} {{ ...values }} {{ ...attrs }}>{{ children }}</div>;
+        return <div data-slot={{ slot }} className={{ classes('contents') }} {{ ...values }} {{ ...attrs }}>{{ children }}</div>;
     }
 }
 
@@ -128,6 +135,11 @@ class MenuSubmenu extends Menu
 {
     #[Prop] public bool $openOnHover = true;
     #[Prop] public Side $side = Side::InlineEnd;
+
+    public function dataSlot(): string
+    {
+        return 'menu-submenu';
+    }
 }
 
 /**
@@ -166,6 +178,7 @@ function MenuTrigger(
 
     return (
         <button
+            data-slot="menu-trigger"
             type="button"
             disabled={{ disabled }}
             data-disabled={{ disabled ? '' : null }}
@@ -190,6 +203,7 @@ function MenuSubmenuTrigger(#[Context] Menu $menu, bool $disabled = false, ?Html
 
     return (
         <button
+            data-slot="menu-submenu-trigger"
             type="button"
             aria-disabled={{ disabled ? 'true' : null }}
             data-disabled={{ disabled ? '' : null }}
@@ -210,7 +224,7 @@ function MenuPopup(#[Context] Menu $menu, ?Html $children = null, mixed ...$rest
     $target = $menu->target('popup');
     $base = null !== $menu->menubar ? Style::MENUBAR_POPUP : Style::MENU_POPUP;
 
-    return <div popover="manual" hidden className={{ classes(base) }} {{ ...target }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="menu-popup" popover="manual" hidden className={{ classes(base) }} {{ ...target }} {{ ...rest }}>{{ children }}</div>;
 }
 
 /** The arrow of the popup, at the side of the trigger. */
@@ -220,7 +234,7 @@ function MenuArrow(#[Context] Menu $menu, mixed ...$rest): Node
     $target = $menu->target('arrow');
     $base = Style::ARROW;
 
-    return <div aria-hidden="true" className={{ classes(base) }} {{ ...target }} {{ ...rest }} />;
+    return <div data-slot="menu-arrow" aria-hidden="true" className={{ classes(base) }} {{ ...target }} {{ ...rest }} />;
 }
 
 /**
@@ -238,6 +252,7 @@ function MenuItem(#[Context] Menu $menu, #[Context] ?Menubar $menubar = null, bo
 
     return (
         <button
+            data-slot="menu-item"
             type="button"
             aria-disabled={{ disabled ? 'true' : null }}
             data-disabled={{ disabled ? '' : null }}
@@ -259,7 +274,7 @@ function MenuLinkItem(#[Context] Menu $menu, string $href, ?Html $children = nul
     $target = $menu->target('item');
     $base = null !== $menu->menubar ? Style::MENUBAR_ITEM : Style::MENU_ITEM;
 
-    return <a href={{ href }} className={{ classes(base) }} {{ ...target }} {{ ...rest }}>{{ children }}</a>;
+    return <a data-slot="menu-link-item" href={{ href }} className={{ classes(base) }} {{ ...target }} {{ ...rest }}>{{ children }}</a>;
 }
 
 /** A line between two items or two groups of the menu. */
@@ -268,7 +283,7 @@ function MenuSeparator(#[Context] Menu $menu, mixed ...$rest): Node
 {
     $target = $menu->target('separator');
 
-    return <div role="separator" aria-orientation="horizontal" data-orientation="horizontal" className={{ classes('mx-1 my-1 h-px bg-border') }} {{ ...target }} {{ ...rest }} />;
+    return <div data-slot="menu-separator" role="separator" aria-orientation="horizontal" data-orientation="horizontal" className={{ classes('mx-1 my-1 h-px bg-border') }} {{ ...target }} {{ ...rest }} />;
 }
 
 /** A group of items of the menu, with a MenuGroupLabel. */
@@ -277,7 +292,7 @@ function MenuGroup(#[Context] Menu $menu, ?Html $children = null, mixed ...$rest
 {
     $target = $menu->target('group');
 
-    return <div {{ ...target }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="menu-group" {{ ...target }} {{ ...rest }}>{{ children }}</div>;
 }
 
 /** The label of a MenuGroup. */
@@ -286,7 +301,7 @@ function MenuGroupLabel(#[Context] Menu $menu, ?Html $children = null, mixed ...
 {
     $target = $menu->target('groupLabel');
 
-    return <div className={{ classes('px-4 py-2 text-sm leading-4 text-muted-foreground select-none') }} {{ ...target }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="menu-group-label" className={{ classes('px-4 py-2 text-sm leading-4 text-muted-foreground select-none') }} {{ ...target }} {{ ...rest }}>{{ children }}</div>;
 }
 
 /**
@@ -303,21 +318,21 @@ function MenuCheckboxItem(#[Context] Menu $menu, ?bool $checked = null, bool $de
     $item = $menu->checkItem('menuitemcheckbox', $checked ?? $defaultChecked, $disabled, $closeOnClick);
     $base = null !== $menu->menubar ? Style::MENUBAR_CHECK_ITEM : Style::MENU_CHECK_ITEM;
 
-    return <button type="button" className={{ classes('group', base) }} {{ ...item }} {{ ...rest }}>{{ children }}</button>;
+    return <button data-slot="menu-checkbox-item" type="button" className={{ classes('group', base) }} {{ ...item }} {{ ...rest }}>{{ children }}</button>;
 }
 
 /** The check of a checkbox item or a radio item. It shows only when the item is checked. */
 #[Component]
 function MenuItemIndicator(?Html $children = null, mixed ...$rest): Node
 {
-    return <span aria-hidden="true" className={{ classes('col-start-1 hidden group-data-checked:block') }} {{ ...rest }}>{{ children ? children : <CheckIcon /> }}</span>;
+    return <span data-slot="menu-item-indicator" aria-hidden="true" className={{ classes('col-start-1 hidden group-data-checked:block') }} {{ ...rest }}>{{ children ? children : <CheckIcon /> }}</span>;
 }
 
 /** The label of a checkbox item or a radio item, in the column after the indicator. */
 #[Component]
 function MenuItemLabel(?Html $children = null, mixed ...$rest): Node
 {
-    return <span className={{ classes('col-start-2') }} {{ ...rest }}>{{ children }}</span>;
+    return <span data-slot="menu-item-label" className={{ classes('col-start-2') }} {{ ...rest }}>{{ children }}</span>;
 }
 
 /**
@@ -347,7 +362,7 @@ class MenuRadioGroup
     {
         $target = $this->menu->target('group');
 
-        return <div {{ ...target }} {{ ...attrs }}>{{ children }}</div>;
+        return <div data-slot="menu-radio-group" {{ ...target }} {{ ...attrs }}>{{ children }}</div>;
     }
 }
 
@@ -365,7 +380,7 @@ function MenuRadioItem(#[Context] Menu $menu, #[Context] ?MenuRadioGroup $group 
     $item = $menu->checkItem('menuitemradio', null === $current ? $checked : $value === $current, $disabled, $closeOnClick, $value);
     $base = null !== $menu->menubar ? Style::MENUBAR_CHECK_ITEM : Style::MENU_CHECK_ITEM;
 
-    return <button type="button" className={{ classes('group', base) }} {{ ...item }} {{ ...rest }}>{{ children }}</button>;
+    return <button data-slot="menu-radio-item" type="button" className={{ classes('group', base) }} {{ ...item }} {{ ...rest }}>{{ children }}</button>;
 }
 
 /**
@@ -379,7 +394,7 @@ function MenuViewport(#[Context] Menu $menu, ?Html $children = null, mixed ...$r
 {
     $target = $menu->target('viewport');
 
-    return <div {{ ...target }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="menu-viewport" {{ ...target }} {{ ...rest }}>{{ children }}</div>;
 }
 
 /** The content that the MenuViewport shows for the triggers with this `payload`. */
@@ -397,6 +412,7 @@ function MenuInput(#[Context] Menu $menu, mixed ...$rest): Node
 
     return (
         <input
+            data-slot="menu-input"
             type="text"
             role="searchbox"
             autocomplete="off"
@@ -416,6 +432,7 @@ function MenuClear(#[Context] Menu $menu, ?Html $children = null, mixed ...$rest
 
     return (
         <button
+            data-slot="menu-clear"
             type="button"
             aria-label="Clear"
             className={{ classes('flex size-control items-center justify-center bg-transparent text-foreground outline-hidden focus-visible:-outline-offset-2 focus-visible:outline-2 focus-visible:outline-ring') }}
@@ -433,7 +450,7 @@ function MenuEmpty(#[Context] Menu $menu, ?Html $children = null, mixed ...$rest
 {
     $target = $menu->target('empty');
 
-    return <div hidden className={{ classes('p-3 text-sm text-muted-foreground') }} {{ ...target }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="menu-empty" hidden className={{ classes('p-3 text-sm text-muted-foreground') }} {{ ...target }} {{ ...rest }}>{{ children }}</div>;
 }
 
 /** The items that the MenuInput filters: the `menu` of a popup with a filter. */
@@ -442,5 +459,5 @@ function MenuList(#[Context] Menu $menu, ?Html $children = null, mixed ...$rest)
 {
     $target = $menu->target('list');
 
-    return <div className={{ classes('overflow-y-auto py-1 outline-hidden scroll-py-1') }} {{ ...target }} {{ ...rest }}>{{ children }}</div>;
+    return <div data-slot="menu-list" className={{ classes('overflow-y-auto py-1 outline-hidden scroll-py-1') }} {{ ...target }} {{ ...rest }}>{{ children }}</div>;
 }
