@@ -39,7 +39,8 @@ final class ButtonTest extends KernelTestCase
             ->assertSelectorExists('button[data-phem-lock]')
             ->html();
 
-        self::assertStringContainsString('aria-disabled:text-muted-foreground', $html);
+        self::assertStringContainsString('aria-disabled:text-disabled-foreground', $html);
+        self::assertStringContainsString('aria-disabled:opacity-(--disabled-opacity)', $html);
         // A disabled button gets no pointer events, so it has no hover color.
         self::assertStringContainsString('aria-disabled:pointer-events-none', $html);
     }

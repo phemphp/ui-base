@@ -209,7 +209,7 @@ function SelectItem(#[Context] Select $select, string $value, bool $disabled = f
             data-selected={{ selected ? '' : null }}
             data-disabled={{ disabled ? '' : null }}
             data-phem-select-target="item"
-            className={{ classes('grid cursor-default grid-cols-[1rem_1fr] items-center gap-2 py-1.5 pr-4 pl-2.5 text-sm outline-hidden select-none data-highlighted:bg-highlight data-highlighted:text-highlight-foreground data-disabled:text-muted-foreground') }}
+            className={{ classes('grid cursor-default grid-cols-[1rem_1fr] items-center gap-2 py-1.5 pr-4 pl-2.5 text-sm outline-hidden select-none data-highlighted:bg-highlight data-highlighted:text-highlight-foreground data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity)') }}
             {{ ...rest }}
         >
             {{ children }}

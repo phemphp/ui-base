@@ -30,8 +30,10 @@
 
     /*
      * The tokens of phem/ui-base only. The Base UI look uses one shadcn color for two roles here.
-     * --highlight, --highlight-foreground and --accent-active have no value here: their defaults
-     * are in @theme inline, so each element resolves them from its own --primary and --accent.
+     * --highlight, --highlight-foreground, --accent-active, --disabled-foreground and
+     * --disabled-border have no value here: their defaults are in @theme inline, so each element
+     * resolves them from its own --primary, --accent and --muted-foreground. --disabled-opacity has
+     * no value: a disabled part then has its full opacity.
      */
     --separator: var(--color-neutral-300);
     --overlay: rgb(0 0 0 / 20%);
@@ -80,6 +82,8 @@
     --color-separator: var(--separator);
     --color-accent-active: var(--accent-active, color-mix(in oklab, var(--accent), var(--foreground) 10%));
     --color-overlay: var(--overlay);
+    --color-disabled-foreground: var(--disabled-foreground, var(--muted-foreground));
+    --color-disabled-border: var(--disabled-border, var(--muted-foreground));
 
     /* The shadcn formulas: a control is rounded-md, a popup is rounded-lg. */
     --radius-control: calc(var(--radius) * 0.8);

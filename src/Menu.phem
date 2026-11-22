@@ -161,7 +161,7 @@ function MenuTrigger(
     // A trigger with a caret has less space on the side of the caret.
     $padding = $caret ? 'pl-3 pr-2' : 'px-3';
     $base = null !== $item ? Style::TOOLBAR_BUTTON : (null !== $menubar
-        ? 'h-8 border-0 bg-transparent px-3 font-[inherit] text-sm font-normal text-foreground select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-pressed:bg-accent data-disabled:text-muted-foreground data-disabled:pointer-events-none focus-visible:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring focus-visible:relative'
+        ? 'h-8 border-0 bg-transparent px-3 font-[inherit] text-sm font-normal text-foreground select-none hover:bg-accent active:not-data-disabled:bg-accent-active data-pressed:bg-accent data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity) data-disabled:pointer-events-none focus-visible:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring focus-visible:relative'
         : 'flex h-8 items-center justify-center gap-1.5 select-none data-pressed:bg-accent '.$padding.' '.Style::BUTTON_LOOK);
 
     return (

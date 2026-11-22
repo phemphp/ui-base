@@ -59,7 +59,7 @@ function FieldLabel(#[Context] ?Field $field = null, ?Html $children = null, mix
 {
     $for = $field?->partId('control');
 
-    return <label htmlFor={{ for }} data-phem-field-target="label" className={{ classes('text-sm font-bold text-foreground data-disabled:text-muted-foreground') }} {{ ...rest }}>{{ children }}</label>;
+    return <label htmlFor={{ for }} data-phem-field-target="label" className={{ classes('text-sm font-bold text-foreground data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity)') }} {{ ...rest }}>{{ children }}</label>;
 }
 
 /**

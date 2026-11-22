@@ -81,11 +81,15 @@ phem/ui-base adds these variables. In the Base UI look, one shadcn color has two
 | `--accent-active` | `--accent` with 10% of `--foreground` | a control while the pointer presses it (`active:`) |
 | `--overlay` | `black / 20%` | the backdrop of a dialog |
 | `--popup-shadow` | an offset shadow, none in dark mode | the shadow of a popup (`shadow-popup`) |
+| `--disabled-foreground` | `--muted-foreground` | the text of a disabled control or item |
+| `--disabled-border` | `--muted-foreground` | the border of a disabled control |
+| `--disabled-opacity` | none (full opacity) | the opacity of a disabled control or item |
 
 ### Use a shadcn theme
 
 Paste a theme of shadcn (or of a theme generator for shadcn) after the import. It sets the shadcn
-variables. Add these lines for the shadcn look of the highlight, the separator and the popups:
+variables. Add these lines for the shadcn look of the highlight, the separator, the popups and the disabled
+controls:
 
 ```css
 :root {
@@ -93,8 +97,13 @@ variables. Add these lines for the shadcn look of the highlight, the separator a
     --highlight-foreground: var(--accent-foreground);
     --separator: var(--border);
     --popup-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); /* shadow-md */
+    --disabled-foreground: var(--foreground);
+    --disabled-border: var(--input);
+    --disabled-opacity: 0.5;
 }
 ```
+
+The border of a popup needs no line: shadcn and phem/ui-base both use `--border` for it.
 
 ### Dark mode
 

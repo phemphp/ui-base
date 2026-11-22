@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- A theme can set the look of a disabled part with three new tokens: `--disabled-foreground` and `--disabled-border` (default: `--muted-foreground`), and `--disabled-opacity` (default: none, so the part has its full opacity). The parts use `data-disabled:text-disabled-foreground`, `data-disabled:border-disabled-border` and `data-disabled:opacity-(--disabled-opacity)` in place of the muted colors. The default look does not change. For the shadcn look (normal colors with `opacity-50`), set `--disabled-foreground: var(--foreground)`, `--disabled-border: var(--input)` and `--disabled-opacity: 0.5` (see the README).
+
 - A `hover:` class of the caller replaces the hover color of a part. The parts use a plain `hover:` (`hover:bg-accent`) in place of a state chain (`hover:not-data-disabled:bg-accent`), so the Tailwind merger puts them in the same group: `<Button className="hover:bg-blue-700">` removes `hover:bg-accent`. A disabled part gets `pointer-events-none` (`data-disabled:`, and `aria-disabled:` on `Button`), so it has no hover color. This changes `Accordion`, `Button`, `Menu` (the Menubar trigger), `NumberField`, `Select` (in a toolbar), `Toggle`, `ToggleGroup`, `Toolbar` and the triggers that use `Style::BUTTON`.
 
 ## 0.4.0

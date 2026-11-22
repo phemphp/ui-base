@@ -397,7 +397,7 @@ function ComboboxItem(#[Context] Combobox $combobox, string $value, ?string $lab
             data-selected={{ selected ? '' : null }}
             data-disabled={{ disabled ? '' : null }}
             data-phem-combobox-target="item"
-            className={{ classes('group grid cursor-default grid-cols-[1rem_1fr] items-center gap-2 p-2 text-sm leading-4 font-normal outline-none select-none data-highlighted:relative data-highlighted:z-0 data-highlighted:text-highlight-foreground data-highlighted:before:absolute data-highlighted:before:inset-0 data-highlighted:before:z-[-1] data-highlighted:before:bg-highlight data-disabled:text-muted-foreground') }}
+            className={{ classes('group grid cursor-default grid-cols-[1rem_1fr] items-center gap-2 p-2 text-sm leading-4 font-normal outline-none select-none data-highlighted:relative data-highlighted:z-0 data-highlighted:text-highlight-foreground data-highlighted:before:absolute data-highlighted:before:inset-0 data-highlighted:before:z-[-1] data-highlighted:before:bg-highlight data-disabled:text-disabled-foreground data-disabled:opacity-(--disabled-opacity)') }}
             {{ ...rest }}
         >
             {{ children }}

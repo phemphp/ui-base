@@ -93,7 +93,6 @@ The components take their colors from the theme tokens of `assets/theme.css` (se
   }
   // Today: <Button> changes, <DialogTrigger> and <MenuTrigger> do not.
   ```
-- **More role tokens.** The Base UI look and the shadcn roles differ in other places too: the border of a popup is `--border` (ink in Base UI, light gray in shadcn), and a disabled control has gray colors (shadcn: `opacity-50`). Check each one, and add a token like `--highlight` where a theme needs another value.
 - **The radius of joined controls.** The input and the buttons of `NumberField`, and the bordered `TooltipTrigger`s that a demo joins with `border-l-0`, have no radius, so `--radius` does not change them. A joined group needs the radius on its outer corners only (for example `first:rounded-l-control last:rounded-r-control`, or a group part that rounds and clips).
 - **Density.** `h-8`, `px-3` and `text-sm` are fixed in each control (shadcn: `h-9`). A `--control-height` token, or a `size` prop with a recipe, would change all of them together.
 - **`data-slot` on each part.** shadcn gives each part a `data-slot` (`data-slot="dialog-popup"`). App CSS, and a parent with `has-data-[slot=dialog-description]:`, can then style a part without `className`. Many parts have a `data-phem-*-target` today, but that is the API of the controller, not a style hook.
