@@ -114,9 +114,9 @@ shadcn, `&:is(.dark *)`, does not match `<html>`: a shadcn theme sets its own da
 
 ### Add classes
 
-Each part merges the `className` of the caller into its classes. Turn on the Tailwind merger of
-phem, so that a class of the caller replaces a class of the same group (see
-`phem/docs/styling.md`):
+Each part merges the `className` of the caller into its classes. The package requires
+`tales-from-a-dev/tailwind-merge-php`. Turn on the Tailwind merger of phem, so that a class of the
+caller replaces a class of the same group (see `phem/docs/styling.md`):
 
 ```php
 <Button className="h-9 px-4">Save</Button>
