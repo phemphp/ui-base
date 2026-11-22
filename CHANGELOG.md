@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.2.0
+
+- The package requires phem 0.8 (`phem/phem` `^0.8`). The components and the demo do not use the `#[Async]` event handlers that phem 0.8 removed, so no code changed.
+
 ## 0.1.0
 
 - The first release, for phem 0.7. It has the 37 components of Base UI v1.9.0, styled with Tailwind CSS: the parts follow the Base UI anatomy and use the phem controllers.
