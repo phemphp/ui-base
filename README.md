@@ -114,13 +114,19 @@ shadcn, `&:is(.dark *)`, does not match `<html>`: a shadcn theme sets its own da
 
 ### Add classes
 
-Each part merges the `className` of the caller into its classes. The package requires
-`tales-from-a-dev/tailwind-merge-php`. Turn on the Tailwind merger of phem, so that a class of the
-caller replaces a class of the same group (see `phem/docs/styling.md`):
+Each part merges the `className` of the caller into its classes. The bundle turns on the Tailwind
+merger of phem (`tales-from-a-dev/tailwind-merge-php`, a dependency of the package), so that a
+class of the caller replaces a class of the same group (see `phem/docs/styling.md`):
 
 ```php
-<Button className="h-9 px-4">Save</Button>
+<Button className="h-9 rounded-md">Save</Button>
+// class="… h-9 rounded-md …": h-8 and rounded-control are removed
 ```
+
+The bundle gives the theme of the package (`assets/theme.css`) as the `css` option of the merger,
+so the merger knows `rounded-control`, `rounded-popup` and `shadow-popup`. When your entry CSS has
+its own `@theme` names, set the `css` option to your entry. It imports the theme, so the merger
+reads the names of the two files:
 
 ```yaml
 # config/packages/phem.yaml
@@ -130,10 +136,8 @@ phem:
             css: '%kernel.project_dir%/assets/styles/app.css'
 ```
 
-Set the `css` option to the entry that imports the theme. The merger then reads the `@theme`
-blocks of the theme file too, so it knows `rounded-control`, `rounded-popup` and `shadow-popup`.
-Without the `css` option, these names are in no group: `<Button className="rounded-md">` keeps
-`rounded-control` too, and the CSS order picks the radius.
+To use the default merger of phem, set `tailwind: false`. To use your own merger, set
+`class_merger.service`: the bundle then does not turn on the Tailwind merger.
 
 ## Names
 

@@ -60,6 +60,15 @@ final class ButtonTest extends KernelTestCase
         self::assertMatchesRegularExpression('/class="flex h-8 [^"]* w-full"/', $html);
     }
 
+    public function testACallerClassReplacesTheClassOfTheSameGroup(): void
+    {
+        // The bundle turns on the Tailwind merger with the names of the theme (rounded-control).
+        $this->mount('Phem\Ui\Base\Button', ['className' => 'h-10 rounded-md', 'children' => new Html('Submit')])
+            ->assertSelectorExists('button[class~="h-10"][class~="rounded-md"]')
+            ->assertSelectorNotExists('button[class~="h-8"]')
+            ->assertSelectorNotExists('button[class~="rounded-control"]');
+    }
+
     public function testAButtonCanRenderAsALink(): void
     {
         $this->mount('Phem\Ui\Base\Button', ['tag' => 'a', 'href' => '/docs', 'children' => new Html('Docs')])
