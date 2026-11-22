@@ -8,6 +8,19 @@ use function Playwright\Testing\expect;
 
 final class OverlaysTest extends DemoTestCase
 {
+    /** The time (ms) until the element is visible (`true`) or hidden (`false`), from now. */
+    private const string UNTIL = <<<'JS'
+        ([selector, visible]) => new Promise((resolve) => {
+            const start = performance.now()
+            const shown = () => document.querySelector(selector)?.checkVisibility() ?? false
+            const check = () => shown() === visible ? resolve(performance.now() - start) : requestAnimationFrame(check)
+            check()
+        })
+        JS;
+
+    /** Whether the focus is in the open dialog. */
+    private const string FOCUS_IN_DIALOG = '() => null !== document.activeElement?.closest("dialog[open]")';
+
     public function testDialogOpensAndCloses(): void
     {
         $page = $this->visitComponent('dialog');
@@ -30,6 +43,25 @@ final class OverlaysTest extends DemoTestCase
         expect($dialog)->toBeHidden();
     }
 
+    public function testDialogKeepsTheFocusAndClosesOnABackdropClick(): void
+    {
+        $page = $this->visitComponent('dialog');
+        $trigger = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]')->getByRole('button', ['name' => 'View notifications']);
+        $dialog = $page->getByRole('dialog', ['name' => 'Notifications']);
+
+        // The focus stays in the modal dialog.
+        $trigger->click();
+        foreach (range(1, 5) as $tab) {
+            $page->keyboard()->press('Tab');
+            self::assertTrue($page->evaluate(self::FOCUS_IN_DIALOG), 'Tab '.$tab);
+        }
+
+        // A click on the backdrop closes it.
+        $page->mouse()->click(5, 5);
+        expect($dialog)->toBeHidden();
+        expect($trigger)->toBeFocused();
+    }
+
     public function testAlertDialogClosesOnEscapeOnly(): void
     {
         $page = $this->visitComponent('alert-dialog');
@@ -49,6 +81,18 @@ final class OverlaysTest extends DemoTestCase
         $hero->getByRole('button', ['name' => 'Discard draft'])->click();
         $dialog->getByRole('button', ['name' => 'Discard'])->click();
         expect($dialog)->toBeHidden();
+    }
+
+    public function testAlertDialogKeepsTheFocus(): void
+    {
+        $page = $this->visitComponent('alert-dialog');
+        $hero = $page->getByRole('region', ['name' => 'Demo', 'exact' => true])->locator('[data-demo="preview"]');
+
+        $hero->getByRole('button', ['name' => 'Discard draft'])->click();
+        foreach (range(1, 5) as $tab) {
+            $page->keyboard()->press('Tab');
+            self::assertTrue($page->evaluate(self::FOCUS_IN_DIALOG), 'Tab '.$tab);
+        }
     }
 
     public function testAlertDialogExamples(): void
@@ -277,6 +321,19 @@ final class OverlaysTest extends DemoTestCase
         expect($trigger)->toHaveAttribute('aria-expanded', 'false');
     }
 
+    public function testPopoverClosesOnEscape(): void
+    {
+        $page = $this->visitComponent('popover');
+        $trigger = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]')->getByRole('button', ['name' => 'Notifications']);
+        $popup = $page->getByRole('dialog');
+
+        $trigger->click();
+        expect($popup)->toBeVisible();
+        $page->keyboard()->press('Escape');
+        expect($popup)->toBeHidden();
+        expect($trigger)->toBeFocused();
+    }
+
     /** Base UI links the popup to its title and its description. */
     public function testThePopoverIsNamedByItsTitle(): void
     {
@@ -299,6 +356,20 @@ final class OverlaysTest extends DemoTestCase
         expect($card)->toBeHidden();
     }
 
+    public function testPreviewCardOpensAfterItsDelayAndClosesAfterItsCloseDelay(): void
+    {
+        $page = $this->visitComponent('preview-card');
+        $hero = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]');
+        $card = '[data-demo="preview"] [data-slot="preview-card-popup"]';
+
+        // `delay` is 600 ms and `closeDelay` is 300 ms, as in Base UI.
+        $hero->getByRole('link', ['name' => 'typography'])->hover();
+        self::assertGreaterThanOrEqual(500, $page->evaluate(self::UNTIL, [$card, true]));
+
+        $page->mouse()->move(5, 5);
+        self::assertGreaterThanOrEqual(200, $page->evaluate(self::UNTIL, [$card, false]));
+    }
+
     public function testTooltipOpensOnHoverAndFocus(): void
     {
         $page = $this->visitComponent('tooltip');
@@ -318,6 +389,22 @@ final class OverlaysTest extends DemoTestCase
 
         $page->getByRole('button', ['name' => 'Italic'])->focus();
         expect($popup)->toHaveText('Italic');
+    }
+
+    public function testATooltipAfterAnotherOneOpensAtOnce(): void
+    {
+        $page = $this->visitComponent('tooltip');
+        $hero = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]');
+        $popup = '[data-phem-tooltip-target="popup"]:not([hidden])';
+
+        // The first tooltip waits for its `delay` (600 ms).
+        $hero->getByRole('button', ['name' => 'Bold'])->hover();
+        self::assertGreaterThanOrEqual(500, $page->evaluate(self::UNTIL, [$popup, true]));
+
+        // The next one opens at once, with `data-instant="delay"`.
+        $hero->getByRole('button', ['name' => 'Italic'])->hover();
+        self::assertLessThan(300, $page->evaluate(self::UNTIL, ['[data-demo="preview"] '.$popup.'[data-instant="delay"]', true]));
+        expect($page->locator($popup))->toHaveText('Italic');
     }
 
     public function testTooltipExamples(): void
