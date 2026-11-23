@@ -139,7 +139,11 @@ final class OverlaysTest extends KernelTestCase
             ->assertSelectorExists('[data-value="overview"][data-phem-tabs-target="panel"]:not([hidden])')
             ->assertSelectorExists('[data-value="projects"][data-phem-tabs-target="panel"][hidden][data-hidden]')
             ->assertSelectorExists('[data-phem-tabs-target="list"] [data-phem-tabs-target="indicator"]')
-            ->assertSelectorExists('a[role="tab"][href="/projects"][data-value="projects"]:not([type])');
+            ->assertSelectorExists('button[role="tab"][type="button"][data-value="projects"]')
+            ->assertSelectorNotExists('[data-phem-tabs-target="tab"][href]')
+            // A panel with hiddenUntilFound: the browser search finds its text.
+            ->assertSelectorExists('[data-value="account"][data-phem-tabs-target="panel"][hidden="until-found"][data-phem-tabs-hidden-until-found]')
+            ->assertSelectorExists('[data-value="projects"][data-phem-tabs-target="panel"][hidden]:not([hidden="until-found"])');
     }
 
     public function testTheMenuPartsHaveTheTargetsOfTheirMenu(): void

@@ -124,7 +124,7 @@ final class ControlsTest extends KernelTestCase
             ->assertSelectorExists('[data-controller="phem-radio-group"][data-phem-radio-group-value-value="fuji"]')
             ->assertSelectorExists('[data-phem-radio-group-target="radio"][data-value="fuji"][aria-checked="true"] [data-phem-radio-group-target="indicator"]:not([hidden])')
             ->assertSelectorExists('[data-phem-radio-group-target="radio"][data-value="gala"] [data-phem-radio-group-target="indicator"][hidden]')
-            ->assertSelectorExists('input[type="hidden"][name="apple"][data-phem-radio-group-target="input"]');
+            ->assertSelectorExists('input[hidden][name="apple"][data-phem-radio-group-target="input"]:not([type="hidden"])');
     }
 
     public function testTheAvatarHasAnImageAndAFallback(): void

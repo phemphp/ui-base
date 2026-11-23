@@ -6,7 +6,7 @@ use Phem\Attribute\Page;
 use Phem\Node;
 
 use function App\Ui\{DemoPage, Example, Examples, Hero};
-use function Phem\Ui\Base\Examples\{TabsAnimatedPanelsDemo, TabsHeroDemo, TabsLinksDemo};
+use function Phem\Ui\Base\Examples\{TabsAnimatedPanelsDemo, TabsHeroDemo, TabsHiddenUntilFoundDemo};
 
 #[Page('/components/tabs')]
 function TabsPage(): Node
@@ -24,11 +24,12 @@ function TabsPage(): Node
                     </Example.description>
                     <TabsAnimatedPanelsDemo />
                 </Example>
-                <Example title="Links" source="TabsLinksDemo">
+                <Example title="Hidden until found" source="TabsHiddenUntilFoundDemo">
                     <Example.description>
-                        <p>Give an <code>href</code> to <code>TabsTab</code> to render tabs as anchor elements. A click, <kbd>Enter</kbd> and <kbd>Space</kbd> select the tab and open its link.</p>
+                        <p>The <code>hiddenUntilFound</code> prop hides the panels that are not selected with <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/hidden" className="underline"><code>hidden="until-found"</code></a>, so the browser can search their contents. A match in a hidden panel selects its tab. It can be set on each <code>TabsPanel</code>, or once on <code>Tabs</code> to apply to all panels.</p>
+                        <p>To try it, press <kbd>Ctrl</kbd>+<kbd>F</kbd> (<kbd>Cmd</kbd>+<kbd>F</kbd> on macOS) and search for “deadlines”—the browser selects the tab of the panel that has the match. Older browsers that don’t support <code>hidden="until-found"</code> keep the panels hidden, and find-in-page skips over the contents.</p>
                     </Example.description>
-                    <TabsLinksDemo />
+                    <TabsHiddenUntilFoundDemo />
                 </Example>
             </Examples>
         </DemoPage>

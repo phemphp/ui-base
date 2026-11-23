@@ -47,15 +47,19 @@ final class MenusTest extends DemoTestCase
         $page = $this->visitComponent('menu');
         $trigger = $page->getByRole('region', ['name' => 'Demo', 'exact' => true])->locator('[data-demo="preview"]')->getByRole('button', ['name' => 'Song']);
 
+        // The keys go to the menu after it opens and takes the focus.
         $trigger->click();
+        expect($page->getByRole('menu'))->toBeVisible();
         $page->keyboard()->press('End');
         $page->keyboard()->press('Home');
         expect($page->getByRole('menuitem', ['name' => 'Add to Library']))->toHaveAttribute('data-highlighted', '');
         $page->keyboard()->press('Escape');
+        expect($page->getByRole('menu'))->toHaveCount(0);
 
         // The keys skip a disabled item.
-        $page->getByRole('menuitem', ['name' => 'Add to Library'])->evaluate('el => el.disabled = true');
+        $page->getByRole('region', ['name' => 'Demo', 'exact' => true])->locator('[data-phem-menu-target="item"]')->filter(['hasText' => 'Add to Library'])->evaluate('el => el.disabled = true');
         $trigger->click();
+        expect($page->getByRole('menu'))->toBeVisible();
         $page->keyboard()->press('ArrowDown');
         expect($page->getByRole('menuitem', ['name' => 'Add to Playlist']))->toHaveAttribute('data-highlighted', '');
     }

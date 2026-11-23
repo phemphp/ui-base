@@ -1017,8 +1017,10 @@ final class PickersTest extends DemoTestCase
         $page = $this->visitComponent('select');
         $trigger = $page->getByRole('combobox', ['name' => 'Apple', 'exact' => true]);
 
-        // A letter goes to the next item that starts with it.
+        // A letter goes to the next item that starts with it, after the popup opens and takes the
+        // focus.
         $trigger->click();
+        expect($page->getByRole('listbox'))->toBeVisible();
         $page->keyboard()->press('g');
         expect($page->getByRole('option', ['name' => 'Gala']))->toHaveAttribute('data-highlighted', '');
         $page->keyboard()->press('g');

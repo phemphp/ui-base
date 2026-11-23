@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- The package requires phem 0.10 (`phem/phem` `^0.10`).
+- **Breaking** `TabsTab` has no `href` prop: a tab is a button, not a link. A bar of links to pages is not a tab list: use a `<nav>` with `aria-current="page"` on the link of the page, or `NavigationMenu`. The "Links" example is removed.
+- `Tabs` and `TabsPanel` take the `hiddenUntilFound` prop, as `Accordion`: a panel that is not selected has `hidden="until-found"`, so the search of the browser (Ctrl+F) finds its text and selects its tab. A new "Hidden until found" example shows it. A panel with focusable content gets no `tabindex` now: Tab goes to that content.
+- A `required` `RadioGroup` stops the submit of its form when no radio is checked, and the focus goes to the radio of the tab stop. Its input is `<input hidden>` (before: `<input type="hidden">`, which the browser does not validate).
+- The components get the new behavior of phem 0.10 with no change in their markup. A `Tooltip` whose text is not the name of its trigger describes it (`role="tooltip"`, `aria-describedby`), and the pointer can cross the gap to the tooltip. A modal `Dialog`, `AlertDialog` and `Drawer` get `closedby`, and keep the page scroll with `overscroll-behavior` (load `phem.css`). The time of a `Toast` stops while a modal dialog is open. Tab closes a `ContextMenu`. `ScrollArea` removes `data-scrolling` at `scrollend`. A `Field` gives `aria-invalid="false"` to its control until it is invalid, validates on blur only after a change, and announces a new error. A `Switch` and a `Checkbox` get the focus, `aria-invalid` and `aria-describedby` of their `Field`.
+
 ## 0.6.0
 
 - The package requires phem 0.9 (`phem/phem` `^0.9`). The components do not use the `#[Async]` event handlers that phem removed. The items of an `Autocomplete` get no `aria-selected` now, as in Base UI: style the highlight with `data-highlighted`.

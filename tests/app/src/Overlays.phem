@@ -195,11 +195,13 @@ function TabsDemo(): Node
         <Tabs defaultValue="overview">
             <TabsList>
                 <TabsTab value="overview">Overview</TabsTab>
-                <TabsTab value="projects" href="/projects">Projects</TabsTab>
+                <TabsTab value="projects">Projects</TabsTab>
+                <TabsTab value="account">Account</TabsTab>
                 <TabsIndicator />
             </TabsList>
             <TabsPanel value="overview">Stats</TabsPanel>
             <TabsPanel value="projects">Milestones</TabsPanel>
+            <TabsPanel value="account" hiddenUntilFound>Profile</TabsPanel>
         </Tabs>
     );
 }

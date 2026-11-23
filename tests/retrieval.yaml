@@ -92,8 +92,8 @@
   expect: [Phem\Ui\Base\Examples\SliderRangeDemo]
 - query: vertical slider
   expect: [Phem\Ui\Base\Examples\SliderVerticalDemo]
-- query: tabs that are links
-  expect: [Phem\Ui\Base\Examples\TabsLinksDemo]
+- query: tabs whose hidden panels the browser search finds
+  expect: [Phem\Ui\Base\Examples\TabsHiddenUntilFoundDemo]
 - query: tooltip in a toolbar
   expect: [Phem\Ui\Base\Examples\ToolbarTooltipDemo]
 - query: create a new item from the combobox text

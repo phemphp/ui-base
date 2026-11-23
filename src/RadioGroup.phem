@@ -10,6 +10,8 @@ use Phem\{Bound, Dynamic, Html, Node};
  *
  * `defaultValue` is the value of the checked radio. A hidden input keeps the value for a form
  * (`name`). Bind it to a state of the app with `phem:bind`. Label the group with `aria-labelledby`.
+ * With `required`, a group with no checked radio stops the submit of its form, and the focus goes
+ * to the radio of the tab stop.
  *
  * @aliases radio buttons, options, single choice
  */
@@ -54,7 +56,7 @@ class RadioGroup
                 {{ ...attrs }}
             >
                 {{ children }}
-                <input type="hidden" name={{ name }} phem:bind={{ value }} data-phem-radio-group-target="input" />
+                <input hidden name={{ name }} phem:bind={{ value }} data-phem-radio-group-target="input" />
             </div>
         );
     }

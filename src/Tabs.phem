@@ -3,13 +3,16 @@
 namespace Phem\Ui\Base;
 
 use Phem\Attribute\{Component, Context, Prop, Provide};
-use Phem\{Dynamic, Html, Node};
+use Phem\{Html, Node};
 
 /**
  * Tabs and their panels: Base UI Tabs.Root, on the `phem-tabs` controller.
  *
  * `defaultValue` selects a tab on load: the `value` of a tab. Each tab shows the panel with the same
- * `value`. With no `defaultValue`, the first tab that is not disabled is selected.
+ * `value`. With no `defaultValue`, the first tab that is not disabled is selected. With
+ * `hiddenUntilFound`, a hidden panel has `hidden="until-found"`: the search of the browser finds its
+ * text and selects its tab. A tab is not a link: for links to pages, use a `<nav>` with
+ * `aria-current="page"`, or NavigationMenu.
  *
  * @aliases tab bar, tabbed panels, segmented control
  */
@@ -20,6 +23,7 @@ class Tabs
     #[Prop] public Orientation $orientation = Orientation::Horizontal;
     #[Prop] public bool $activateOnFocus = false;
     #[Prop] public bool $loopFocus = true;
+    #[Prop] public bool $hiddenUntilFound = false;
     #[Prop] public ?Html $children = null;
     #[Prop(rest: true)] public array $attrs = [];
 
@@ -39,6 +43,7 @@ class Tabs
                 data-phem-tabs-orientation-value={{ orientation.value }}
                 data-phem-tabs-activate-on-focus-value={{ activateOnFocus ? 'true' : null }}
                 data-phem-tabs-loop-focus-value={{ loopFocus ? null : 'false' }}
+                data-phem-tabs-hidden-until-found-value={{ hiddenUntilFound ? 'true' : null }}
                 data-orientation={{ orientation.value }}
                 className={{ classes('w-full max-w-xs') }}
                 {{ ...attrs }}
@@ -56,18 +61,16 @@ function TabsList(?Html $children = null, mixed ...$rest): Node
     return <div data-slot="tabs-list" data-phem-tabs-target="list" className={{ classes('relative z-1 -mb-px flex gap-1') }} {{ ...rest }}>{{ children }}</div>;
 }
 
-/** A tab. With an `href`, it is a link that also selects its panel. */
+/** A tab: a button that selects its panel. */
 #[Component]
-function TabsTab(string $value, #[Context] Tabs $tabs, bool $disabled = false, ?string $href = null, ?Html $children = null, mixed ...$rest): Node
+function TabsTab(string $value, #[Context] Tabs $tabs, bool $disabled = false, ?Html $children = null, mixed ...$rest): Node
 {
     $active = $tabs->isActive($value);
 
     return (
-        <Dynamic
+        <button
             data-slot="tabs-tab"
-            tag={{ href ? 'a' : 'button' }}
-            href={{ href }}
-            type={{ href ? null : 'button' }}
+            type="button"
             role="tab"
             aria-selected={{ null === active ? null : (active ? 'true' : 'false') }}
             data-active={{ active ? '' : null }}
@@ -79,7 +82,7 @@ function TabsTab(string $value, #[Context] Tabs $tabs, bool $disabled = false, ?
             {{ ...rest }}
         >
             {{ children }}
-        </Dynamic>
+        </button>
     );
 }
 
@@ -93,21 +96,27 @@ function TabsIndicator(mixed ...$rest): Node
     return <span data-slot="tabs-indicator" data-phem-tabs-target="indicator" className={{ classes('absolute top-0 left-0 -z-1 h-full w-(--active-tab-width) translate-x-(--active-tab-left) border-x border-t border-border bg-background transition-[translate,width] duration-150 ease-in-out') }} {{ ...rest }} />;
 }
 
-/** The content of one tab: it shows when the TabsTab with the same `value` is active. */
+/**
+ * The content of one tab: it shows when the TabsTab with the same `value` is active. With
+ * `hiddenUntilFound`, this hidden panel has `hidden="until-found"`, as with the prop of the root.
+ */
 #[Component]
-function TabsPanel(string $value, #[Context] Tabs $tabs, ?Html $children = null, mixed ...$rest): Node
+function TabsPanel(string $value, #[Context] Tabs $tabs, bool $hiddenUntilFound = false, ?Html $children = null, mixed ...$rest): Node
 {
-    $hidden = false === $tabs->isActive($value);
+    $closed = false === $tabs->isActive($value);
+    $untilFound = $hiddenUntilFound || $tabs->hiddenUntilFound;
+    $hidden = $closed ? ($untilFound ? 'until-found' : true) : false;
 
     return (
         <div
             data-slot="tabs-panel"
             role="tabpanel"
             hidden={{ hidden }}
-            data-hidden={{ hidden ? '' : null }}
+            data-hidden={{ closed ? '' : null }}
             data-value={{ value }}
             data-phem-tabs-target="panel"
-            className={{ classes('col-start-1 row-start-1 flex w-full items-center justify-center bg-background p-4 text-center text-sm text-foreground outline-none focus-visible:z-1 focus-visible:outline-2 focus-visible:outline-solid focus-visible:-outline-offset-1 focus-visible:outline-ring [[hidden]]:hidden') }}
+            data-phem-tabs-hidden-until-found={{ hiddenUntilFound ? '' : null }}
+            className={{ classes('col-start-1 row-start-1 flex w-full items-center justify-center bg-background p-4 text-center text-sm text-foreground outline-none focus-visible:z-1 focus-visible:outline-2 focus-visible:outline-solid focus-visible:-outline-offset-1 focus-visible:outline-ring [&[hidden]:not([hidden=until-found])]:hidden') }}
             {{ ...rest }}
         >
             {{ children }}

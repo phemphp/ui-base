@@ -74,22 +74,26 @@ function TabsAnimatedPanelsDemo(): Node
     );
 }
 
-// Links that change the hash of this page: a hash link opens with no Turbo visit.
 /**
- * Links.
+ * Hidden until found.
  *
- * Give an `href` to `TabsTab` to render tabs as anchor elements. A click, Enter and Space select
- * the tab and open its link.
+ * The `hiddenUntilFound` prop hides the panels that are not selected with `hidden="until-found"`,
+ * so the browser can search their contents. A match in a hidden panel selects its tab. It can be
+ * set on each `TabsPanel`, or once on `Tabs` to apply to all panels.
+ *
+ * To try it, press Ctrl+F (Cmd+F on macOS) and search for “deadlines”—the browser selects the tab
+ * of the panel that has the match. Older browsers that don’t support `hidden="until-found"` keep
+ * the panels hidden, and find-in-page skips over the contents.
  */
 #[Component]
-function TabsLinksDemo(): Node
+function TabsHiddenUntilFoundDemo(): Node
 {
     return (
-        <Tabs id="links" defaultValue="overview">
+        <Tabs id="found" defaultValue="overview" hiddenUntilFound>
             <TabsList>
-                <TabsTab value="overview" href="#overview">Overview</TabsTab>
-                <TabsTab value="projects" href="#projects">Projects</TabsTab>
-                <TabsTab value="account" href="#account">Account</TabsTab>
+                <TabsTab value="overview">Overview</TabsTab>
+                <TabsTab value="projects">Projects</TabsTab>
+                <TabsTab value="account">Account</TabsTab>
                 <TabsIndicator />
             </TabsList>
             <div className="grid w-full min-h-32 grid-cols-1 border border-neutral-950 dark:border-white">

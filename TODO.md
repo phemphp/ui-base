@@ -8,6 +8,8 @@ A gap is a behavior of Base UI v1.9.0 that needs a change in a phem controller. 
 
 - **Submenu: the close after a move to a sibling item.** Measured again with phem 0.8: while a submenu is open, `phem-menu` waits `SUBMENU_GRACE` (150 ms, in `phem_menu_controller.js`) before it highlights a sibling item and closes the submenu, so the pointer can cross a sibling item on its way to the submenu. Base UI took about 60 ms. A shorter grace in phem is closer to Base UI, but the diagonal moves to a submenu (the e2e `MenuTest` of phem) must still work: decide the value in phem.
 
+- **Switch and Checkbox: `required` with `nativeButton` or `uncheckedValue`.** These modes keep the state in an `<input type="hidden">`, which the browser does not validate, so `required` does not stop the submit. An `<input hidden>` does not fix it: `phem-toggle` sets the value only of an `<input type="hidden">`, it disables the input of an unchecked toggle with no `uncheckedValue` (a disabled input is not validated), and the `uncheckedValue` of an unchecked toggle is not empty. A `<button>` (`nativeButton`) also cannot hold an `<input>` that is not hidden. Fix it in `phem-toggle`: for example, a custom validity on a validated input next to the element when the toggle is required and not checked.
+
 These results are different from Base UI, and phem keeps them:
 
 - **Toast: a new toast for the same message.** Base UI shows a new toast for each `add`, unless the `id` is the same. `phem-toast` does not show a toast with no `id` and the same type, title and message as a toast on the screen: it starts the time of that toast again. A toast with an `id` follows Base UI.

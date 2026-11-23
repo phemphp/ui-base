@@ -238,21 +238,19 @@ final class DisclosureTest extends DemoTestCase
         expect($example->locator('[data-phem-tabs-target="panel"][data-activation-direction="right"]')->first())->toBeAttached();
     }
 
-    public function testTabsAsLinks(): void
+    public function testTabsHiddenUntilFound(): void
     {
         $page = $this->visitComponent('tabs');
-        $example = $page->getByRole('region', ['name' => 'Links'])->locator('[data-demo="preview"]');
+        $example = $page->getByRole('region', ['name' => 'Hidden until found'])->locator('[data-demo="preview"]');
 
-        $projects = $example->getByRole('tab', ['name' => 'Projects']);
-        self::assertSame('A', $projects->evaluate('el => el.tagName'));
-        $projects->click();
-        expect($projects)->toHaveAttribute('aria-selected', 'true');
-        self::assertStringEndsWith('/components/tabs#projects', $page->url());
+        // The panels that are not selected stay searchable.
+        $panel = $example->locator('[data-phem-tabs-target="panel"][data-value="projects"]');
+        expect($panel)->toHaveAttribute('hidden', 'until-found');
 
-        // Enter opens the link of the tab with the focus.
-        $page->keyboard()->press('ArrowRight');
-        $page->keyboard()->press('Enter');
-        expect($example->getByRole('tab', ['name' => 'Account']))->toHaveAttribute('aria-selected', 'true');
-        self::assertStringEndsWith('/components/tabs#account', $page->url());
+        // The search of the browser finds "deadlines": the browser sends beforematch to the panel.
+        $panel->dispatchEvent('beforematch');
+        expect($example->getByRole('tab', ['name' => 'Projects']))->toHaveAttribute('aria-selected', 'true');
+        expect($panel)->toBeVisible();
+        expect($example->locator('[data-phem-tabs-target="panel"][data-value="overview"]'))->toHaveAttribute('hidden', 'until-found');
     }
 }
