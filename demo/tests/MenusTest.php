@@ -42,6 +42,42 @@ final class MenusTest extends DemoTestCase
         expect($page->getByRole('menu'))->toHaveCount(0);
     }
 
+    public function testMenuHomeAndADisabledItem(): void
+    {
+        $page = $this->visitComponent('menu');
+        $trigger = $page->getByRole('region', ['name' => 'Demo', 'exact' => true])->locator('[data-demo="preview"]')->getByRole('button', ['name' => 'Song']);
+
+        $trigger->click();
+        $page->keyboard()->press('End');
+        $page->keyboard()->press('Home');
+        expect($page->getByRole('menuitem', ['name' => 'Add to Library']))->toHaveAttribute('data-highlighted', '');
+        $page->keyboard()->press('Escape');
+
+        // The keys skip a disabled item.
+        $page->getByRole('menuitem', ['name' => 'Add to Library'])->evaluate('el => el.disabled = true');
+        $trigger->click();
+        $page->keyboard()->press('ArrowDown');
+        expect($page->getByRole('menuitem', ['name' => 'Add to Playlist']))->toHaveAttribute('data-highlighted', '');
+    }
+
+    public function testMenuCheckboxItemsKeepTheirStateInTheBrowser(): void
+    {
+        $page = $this->visitComponent('menu');
+        $page->getByRole('region', ['name' => 'Group labels', 'exact' => true])->locator('[data-demo="preview"]')->getByRole('button', ['name' => 'View'])->click();
+
+        // With `defaultChecked` and no handler, the browser keeps the state, and the menu stays open.
+        $minimap = $page->getByRole('menuitemcheckbox', ['name' => 'Minimap']);
+        $sidebar = $page->getByRole('menuitemcheckbox', ['name' => 'Sidebar']);
+        expect($minimap)->toHaveAttribute('aria-checked', 'true');
+        expect($sidebar)->toHaveAttribute('aria-checked', 'false');
+
+        $minimap->click();
+        $sidebar->click();
+        expect($minimap)->toHaveAttribute('aria-checked', 'false');
+        expect($sidebar)->toHaveAttribute('aria-checked', 'true');
+        expect($sidebar)->toHaveAttribute('data-checked', '');
+    }
+
     public function testMenuExamples(): void
     {
         $page = $this->visitComponent('menu');
@@ -221,6 +257,30 @@ final class MenusTest extends DemoTestCase
         expect($menu)->toBeHidden();
     }
 
+    public function testContextMenuOpensAtThePointerAndHasTheKeyboard(): void
+    {
+        $page = $this->visitComponent('context-menu');
+        $area = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]')->getByText('Right click here');
+        $box = $area->boundingBox();
+        $x = $box['x'] + 20;
+        $y = $box['y'] + 20;
+
+        $page->mouse()->click($x, $y, ['button' => 'right']);
+        $popup = $page->locator('[data-slot="menu-popup"]:popover-open');
+        expect($popup)->toBeVisible();
+
+        // The corner of the popup is under the pointer (the offsets of Base UI: -5 and 2).
+        [$left, $top] = $popup->evaluate('el => [el.getBoundingClientRect().left, el.getBoundingClientRect().top]');
+        self::assertEqualsWithDelta($x, $left, 10);
+        self::assertEqualsWithDelta($y, $top, 10);
+
+        // The arrow keys highlight the items, and Enter chooses one.
+        $page->keyboard()->press('ArrowDown');
+        expect($page->getByRole('menuitem', ['name' => 'Add to Library']))->toHaveAttribute('data-highlighted', '');
+        $page->keyboard()->press('Enter');
+        expect($popup)->toHaveCount(0);
+    }
+
     public function testContextMenuExamples(): void
     {
         $page = $this->visitComponent('context-menu');
@@ -273,6 +333,52 @@ final class MenusTest extends DemoTestCase
         expect($new)->toBeFocused();
         expect($new)->toHaveAttribute('data-highlighted', '');
         expect($new)->toHaveAttribute('tabindex', '0');
+    }
+
+    public function testMenubarArrowLeftAndTheSubmenus(): void
+    {
+        $page = $this->visitComponent('menubar');
+
+        $page->getByRole('menuitem', ['name' => 'Edit'])->click();
+        $page->keyboard()->press('ArrowLeft');
+        expect($page->getByRole('menuitem', ['name' => 'Print']))->toBeVisible();
+        expect($page->getByRole('menuitem', ['name' => 'Paste']))->toBeHidden();
+
+        // A submenu opens with ArrowRight and closes with ArrowLeft.
+        $export = $page->getByRole('menuitem', ['name' => 'Export']);
+        $export->focus();
+        $page->keyboard()->press('ArrowRight');
+        expect($page->getByRole('menuitem', ['name' => 'PDF']))->toBeVisible();
+        $page->keyboard()->press('ArrowLeft');
+        expect($page->getByRole('menuitem', ['name' => 'PDF']))->toBeHidden();
+        expect($export)->toBeFocused();
+    }
+
+    public function testNavigationMenuArrowKeysAndTheVariablesOfTheContent(): void
+    {
+        $page = $this->visitComponent('navigation-menu');
+        $hero = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]');
+        $overview = $hero->getByRole('button', ['name' => 'Overview']);
+        $handbook = $hero->getByRole('button', ['name' => 'Handbook']);
+
+        // The arrow keys move between the triggers.
+        $overview->focus();
+        $page->keyboard()->press('ArrowRight');
+        expect($handbook)->toBeFocused();
+
+        // At rest, the size variables of the popup are `auto`. A change of the open item gives them
+        // the sizes in px for the transition, and the new content gets its direction.
+        $overview->click();
+        $popup = $hero->locator('[data-slot="navigation-menu-popup"]');
+        expect($page->getByRole('link', ['name' => 'Quick Start']))->toBeVisible();
+        self::assertSame('auto', $popup->evaluate('el => el.style.getPropertyValue("--popup-width")'));
+
+        $popup->evaluate('el => { window.widths = []; new MutationObserver(() => window.widths.push(el.style.getPropertyValue("--popup-width"))).observe(el, { attributes: true, attributeFilter: ["style"] }) }');
+        $page->evaluate('() => { window.directions = []; new MutationObserver((records) => records.forEach((record) => window.directions.push(record.target.getAttribute("data-activation-direction")))).observe(document.body, { attributes: true, subtree: true, attributeFilter: ["data-activation-direction"] }) }');
+        $handbook->hover();
+        expect($page->getByRole('link', ['name' => 'Styling']))->toBeVisible();
+        $page->waitForFunction('() => window.widths.some((width) => /^\\d+(\\.\\d+)?px$/.test(width))');
+        $page->waitForFunction('() => window.directions.includes("right")');
     }
 
     public function testNavigationMenuOpensItsContentInTheViewport(): void
