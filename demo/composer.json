@@ -8,7 +8,7 @@
     ],
     "require": {
         "php": ">=8.4",
-        "phem/phem": "^0.10",
+        "phem/phem": "^0.10.1",
         "phem/ui-base": "dev-main",
         "phiki/phiki": "^2.2",
         "symfony/asset-mapper": "^8.0",

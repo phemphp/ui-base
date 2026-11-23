@@ -1021,6 +1021,9 @@ final class PickersTest extends DemoTestCase
         // focus.
         $trigger->click();
         expect($page->getByRole('listbox'))->toBeVisible();
+        // The popup opens under the pointer, and the item under the pointer gets the highlight:
+        // the pointer leaves the popup, so the keys start with no highlight.
+        $page->mouse()->move(0, 0);
         $page->keyboard()->press('g');
         expect($page->getByRole('option', ['name' => 'Gala']))->toHaveAttribute('data-highlighted', '');
         $page->keyboard()->press('g');
