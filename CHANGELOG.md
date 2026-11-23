@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- The package requires phem 0.9 (`phem/phem` `^0.9`). The components do not use the `#[Async]` event handlers that phem removed. The items of an `Autocomplete` get no `aria-selected` now, as in Base UI: style the highlight with `data-highlighted`.
+
 ## 0.5.0
 
 - `Meter` and `Progress` take the `format` and `locale` props of Base UI. The `format` options are the options of `Intl.NumberFormat` that PHP has: `style` (`percent`, the default, `decimal` or `currency`), `currency`, `minimumFractionDigits` and `maximumFractionDigits`. `<Meter value={{ 1234.5 }} max={{ 2000 }} format={{ {style: 'decimal'} }} locale="de-DE">` has the text `1.234,5`. With no `format` and no `locale`, the text is the rounded percent (`24%`), as before. The props need the intl extension of PHP (`ext-intl`, a suggestion of the package).
