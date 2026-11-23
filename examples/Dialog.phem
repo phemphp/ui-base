@@ -286,7 +286,8 @@ function DialogCloseConfirmationDemo(): Node
  *
  * You can control where the focus goes when the dialog opens and closes. The `autofocus` attribute
  * gives the first focus to a field of the dialog, and the `finalFocus` prop of `Dialog` is a CSS
- * selector of the element that gets the focus after the close.
+ * selector of the element that gets the focus after the close. Without `finalFocus`, the focus
+ * goes back to the trigger. Here, it goes to the "Final focus" button, which has no click action.
  */
 #[Component]
 function DialogFocusDemo(): Node

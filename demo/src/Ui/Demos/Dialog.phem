@@ -46,7 +46,7 @@ function DialogPage(): Node
                 </Example>
                 <Example title="Custom focus management" source="DialogFocusDemo">
                     <Example.description>
-                        <p>You can control where the focus goes when the dialog opens and closes. The <code>autofocus</code> attribute gives the first focus to a field of the dialog, and the <code>finalFocus</code> prop of <code>Dialog</code> is a CSS selector of the element that gets the focus after the close.</p>
+                        <p>You can control where the focus goes when the dialog opens and closes. The <code>autofocus</code> attribute gives the first focus to a field of the dialog, and the <code>finalFocus</code> prop of <code>Dialog</code> is a CSS selector of the element that gets the focus after the close. Without <code>finalFocus</code>, the focus goes back to the trigger. Here, it goes to the "Final focus" button, which has no click action.</p>
                     </Example.description>
                     <DialogFocusDemo />
                 </Example>
