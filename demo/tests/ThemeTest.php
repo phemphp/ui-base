@@ -7,6 +7,8 @@ namespace App\Tests;
 use App\Ui\Gallery;
 use Playwright\Page\PageInterface;
 
+use function Playwright\Testing\expect;
+
 /**
  * The parts follow the theme. `<html data-palette="shadcn">` turns on the second theme of the demo
  * (the shadcn theme of app.css): each part then takes its colors, its radius and its height.
@@ -84,6 +86,35 @@ final class ThemeTest extends DemoTestCase
 
             self::assertSame([$page->evaluate(self::PROBE, '--background'), $page->evaluate(self::PROBE, '--input'), '8px', 36], $style, $theme);
         }
+    }
+
+    /**
+     * The palette picker of the sidebar turns on the second theme. The choice stays after a
+     * reload: `palette_script()` gives `<html>` the stored palette, and the picker shows it.
+     */
+    public function testThePalettePickerChangesTheTheme(): void
+    {
+        $page = $this->visitComponent('button');
+        $html = $page->locator('html');
+        $picker = $page->getByRole('combobox', ['name' => 'Theme']);
+        $base = $page->evaluate(self::PROBE, '--input');
+
+        expect($html)->toHaveAttribute('data-palette', 'base');
+
+        $picker->selectOption('shadcn');
+
+        expect($html)->toHaveAttribute('data-palette', 'shadcn');
+        self::assertNotSame($base, $page->evaluate(self::PROBE, '--input'));
+
+        $page->reload();
+
+        expect($html)->toHaveAttribute('data-palette', 'shadcn');
+        expect($picker)->toHaveValue('shadcn');
+
+        $picker->selectOption('base');
+
+        expect($html)->toHaveAttribute('data-palette', 'base');
+        self::assertSame($base, $page->evaluate(self::PROBE, '--input'));
     }
 
     /**

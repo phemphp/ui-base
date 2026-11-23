@@ -8,9 +8,10 @@
 
 /*
  * A second theme: the neutral theme of shadcn/ui, with the lines of the README for the shadcn look.
- * `<html data-palette="shadcn">` turns it on. The theme browser tests (ThemeTest) set it; the demo
- * has no picker yet. The rules have a higher specificity than the rules of the theme, also in dark
- * mode.
+ * `<html data-palette="shadcn">` turns it on: the palette picker of the sidebar (phem-palette) sets
+ * it, and the theme browser tests (ThemeTest) too. The `base` palette needs no rules: it is the
+ * default of the theme. The rules have a higher specificity than the rules of the theme, also in
+ * dark mode.
  */
 :root[data-palette="shadcn"] {
     --radius: 0.625rem;

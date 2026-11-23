@@ -16,6 +16,7 @@ function Document(string $title, Html $children): Node
                 <title>{{ title }} · phem/ui-base</title>
                 <link rel="icon" href="data:," />
                 {{ theme_script() }}
+                {{ palette_script(['base', 'shadcn']) }}
                 {{ importmap('app') }}
             </head>
             <body className="min-h-dvh bg-background text-foreground antialiased">
@@ -38,7 +39,10 @@ function Sidebar(?string $current = null): Node
         <nav aria-label="Components" className="border-b border-neutral-200 px-4 py-6 md:sticky md:top-0 md:h-dvh md:w-56 md:shrink-0 md:overflow-y-auto md:border-b-0 md:px-0 md:py-10 dark:border-neutral-800">
             <div className="mb-6 flex items-center justify-between gap-2 px-2">
                 <a href="/" className="text-sm font-bold">phem/ui-base</a>
-                <ThemeSwitch />
+                <div className="flex items-center gap-1">
+                    <PalettePicker />
+                    <ThemeSwitch />
+                </div>
             </div>
             <h2 className="px-2 py-[3px] text-sm leading-[22px] font-normal text-[#767676] dark:text-[#b3b3b3]">Components</h2>
             <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-1">
@@ -53,6 +57,29 @@ function Sidebar(?string $current = null): Node
                 {% endfor %}
             </ul>
         </nav>
+    );
+}
+
+/**
+ * The palette picker of the sidebar, on the `phem-palette` controller: a select of the two themes
+ * of the demo. "Base" is the theme of the package (`assets/theme.css`), and "shadcn" is the second
+ * theme of `app.css`. The `palette_script()` of the `<head>` gives `<html>` the stored palette
+ * before the first paint.
+ */
+#[Component]
+function PalettePicker(): Node
+{
+    return (
+        <select
+            title="Theme"
+            aria-label="Theme"
+            data-controller="phem-palette"
+            data-action="phem-palette#choose"
+            className="h-7 rounded-md bg-transparent px-1 text-xs text-[#767676] hover:bg-neutral-100 hover:text-neutral-950 focus-visible:outline-2 focus-visible:outline-blue-800 dark:text-[#b3b3b3] dark:hover:bg-neutral-800 dark:hover:text-white"
+        >
+            <option data-phem-palette-target="option" value="base">Base</option>
+            <option data-phem-palette-target="option" value="shadcn">shadcn</option>
+        </select>
     );
 }
 

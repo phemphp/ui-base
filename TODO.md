@@ -7,7 +7,6 @@ The work that is still open in `phem/ui-base`. The bundle has no workarounds. A 
 A gap is a behavior of Base UI v1.9.0 that needs a change in a phem controller. Fix it in phem and in the bundle in the same change: the bundle does not work around it.
 
 - **Submenu: the close after a move to a sibling item.** Measured again with phem 0.8: while a submenu is open, `phem-menu` waits `SUBMENU_GRACE` (150 ms, in `phem_menu_controller.js`) before it highlights a sibling item and closes the submenu, so the pointer can cross a sibling item on its way to the submenu. Base UI took about 60 ms. A shorter grace in phem is closer to Base UI, but the diagonal moves to a submenu (the e2e `MenuTest` of phem) must still work: decide the value in phem.
-- **A theme picker in the demo.** The demo has a second theme (the shadcn theme of `demo/assets/styles/app.css`, on `<html data-palette="shadcn">`), and `demo/tests/ThemeTest.php` checks that each part follows it. phem has the picker in its next release: the `phem-palette` controller and `palette_script()` (phem `## Unreleased`). After that release, put `{{ palette_script(['base', 'shadcn']) }}` in the `<head>` of the demo, and a `phem-palette` picker next to the dark switch of the sidebar. The `base` palette needs no rules: it is the default of `assets/theme.css`.
 
 These results are different from Base UI, and phem keeps them:
 

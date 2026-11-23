@@ -20,10 +20,10 @@ final class PickersTest extends DemoTestCase
         // A click on the input opens the popup with the 25 fruits.
         $input->click();
         expect($page->getByRole('listbox'))->toBeVisible();
-        expect($page->getByRole('option'))->toHaveCount(25);
+        expect($page->getByRole('listbox')->getByRole('option'))->toHaveCount(25);
 
         $input->fill('berry');
-        expect($page->getByRole('option'))->toHaveCount(4);
+        expect($page->getByRole('listbox')->getByRole('option'))->toHaveCount(4);
 
         // Enter selects the highlighted item: it gets the check, and the Clear button shows.
         $page->keyboard()->press('ArrowDown');
@@ -34,11 +34,11 @@ final class PickersTest extends DemoTestCase
 
         // The popup opens again with all the fruits, and the check on the selected one.
         $input->click();
-        expect($page->getByRole('option'))->toHaveCount(25);
+        expect($page->getByRole('listbox')->getByRole('option'))->toHaveCount(25);
         expect($page->getByRole('option', ['name' => 'Strawberry']))->toHaveAttribute('aria-selected', 'true');
 
         $input->fill('zzz');
-        expect($page->getByRole('option'))->toHaveCount(0);
+        expect($page->getByRole('listbox')->getByRole('option'))->toHaveCount(0);
         expect($hero->getByText('No fruits found.'))->toBeVisible();
 
         // The input has no free text: it gets the label of the selection again.
