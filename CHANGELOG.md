@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.7.0
+
 - The package requires phem 0.10 (`phem/phem` `^0.10`).
 - **Breaking** `TabsTab` has no `href` prop: a tab is a button, not a link. A bar of links to pages is not a tab list: use a `<nav>` with `aria-current="page"` on the link of the page, or `NavigationMenu`. The "Links" example is removed.
 - `Tabs` and `TabsPanel` take the `hiddenUntilFound` prop, as `Accordion`: a panel that is not selected has `hidden="until-found"`, so the search of the browser (Ctrl+F) finds its text and selects its tab. A new "Hidden until found" example shows it. A panel with focusable content gets no `tabindex` now: Tab goes to that content.
