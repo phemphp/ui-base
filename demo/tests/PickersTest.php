@@ -50,6 +50,36 @@ final class PickersTest extends DemoTestCase
         expect($clear)->toBeHidden();
     }
 
+    public function testComboboxClearButtonTriggerButtonAndEscape(): void
+    {
+        $page = $this->visitComponent('combobox');
+        $hero = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]');
+        $input = $hero->getByRole('combobox', ['name' => 'Choose a fruit']);
+        $listbox = $page->getByRole('listbox');
+
+        // The trigger button opens and closes the popup.
+        $trigger = $hero->getByRole('button', ['name' => 'Open popup']);
+        $trigger->click();
+        expect($listbox)->toBeVisible();
+        $trigger->click();
+        expect($listbox)->toBeHidden();
+
+        // Escape closes the popup.
+        $input->fill('app');
+        expect($listbox)->toBeVisible();
+        $page->keyboard()->press('Escape');
+        expect($listbox)->toBeHidden();
+
+        // The clear button removes the choice.
+        $input->fill('apple');
+        $page->getByRole('option', ['name' => 'Apple', 'exact' => true])->click();
+        expect($input)->toHaveValue('Apple');
+        $clear = $hero->getByRole('button', ['name' => 'Clear selection']);
+        $clear->click();
+        expect($input)->toHaveValue('');
+        expect($clear)->toBeHidden();
+    }
+
     public function testComboboxAsyncSearchKeepsANewSelectionOfTheKeyboard(): void
     {
         $page = $this->visitComponent('combobox');
@@ -531,6 +561,21 @@ final class PickersTest extends DemoTestCase
         self::assertSame($requests, $page->evaluate($resources));
     }
 
+    public function testAutocompleteKeepsTheHighlightWhenThePointerLeaves(): void
+    {
+        $page = $this->visitComponent('autocomplete');
+        $page->getByRole('region', ['name' => 'Command palette'])->locator('[data-demo="preview"]')->getByRole('button', ['name' => 'Open command palette'])->click();
+        $dialog = $page->getByRole('dialog', ['name' => 'Command palette']);
+        $option = $dialog->getByRole('option')->nth(2);
+
+        // The pointer highlights an item. With `keepHighlight`, the highlight stays when the
+        // pointer leaves the list.
+        $option->hover();
+        expect($option)->toHaveAttribute('data-highlighted', '');
+        $page->mouse()->move(5, 5);
+        expect($option)->toHaveAttribute('data-highlighted', '');
+    }
+
     public function testAutocompleteExamples(): void
     {
         $page = $this->visitComponent('autocomplete');
@@ -967,6 +1012,30 @@ final class PickersTest extends DemoTestCase
         expect($trigger)->toContainText('Granny Smith');
     }
 
+    public function testSelectTypeaheadAndScrollArrows(): void
+    {
+        $page = $this->visitComponent('select');
+        $trigger = $page->getByRole('combobox', ['name' => 'Apple', 'exact' => true]);
+
+        // A letter goes to the next item that starts with it.
+        $trigger->click();
+        $page->keyboard()->press('g');
+        expect($page->getByRole('option', ['name' => 'Gala']))->toHaveAttribute('data-highlighted', '');
+        $page->keyboard()->press('g');
+        expect($page->getByRole('option', ['name' => 'Granny Smith']))->toHaveAttribute('data-highlighted', '');
+        $page->keyboard()->press('Escape');
+
+        // A list that is too high for its popup has the scroll arrows: a hover on an arrow scrolls it.
+        $list = $page->locator('[data-slot="select-list"]')->first();
+        $list->evaluate('el => el.style.maxHeight = "4rem"');
+        $trigger->click();
+        $down = $page->locator('[data-slot="select-scroll-down-arrow"]')->first();
+        expect($down)->toBeVisible();
+        $down->hover();
+        $page->waitForFunction('() => document.querySelector(\'[data-slot="select-list"]\').scrollTop > 0');
+        expect($page->locator('[data-slot="select-scroll-up-arrow"]')->first())->toBeVisible();
+    }
+
     public function testSelectExamples(): void
     {
         $page = $this->visitComponent('select');
@@ -1046,6 +1115,36 @@ final class PickersTest extends DemoTestCase
         expect($root)->toHaveAttribute('data-overflow-y-start', '');
     }
 
+    public function testScrollAreaThumbDragTrackClickAndScrolling(): void
+    {
+        $page = $this->visitComponent('scroll-area');
+        $hero = $page->getByRole('region', ['name' => 'Demo'])->locator('[data-demo="preview"]');
+        $root = $hero->locator('[data-slot="scroll-area"]');
+        $viewport = $hero->locator('[data-slot="scroll-area-viewport"]');
+        $top = 'el => el.scrollTop';
+
+        // `data-scrolling` shows during a scroll.
+        $root->evaluate('el => { window.scrolling = false; new MutationObserver(() => window.scrolling ||= el.hasAttribute("data-scrolling")).observe(el, { attributes: true }) }');
+
+        // A drag of the thumb scrolls the viewport.
+        $thumb = $hero->locator('[data-slot="scroll-area-thumb"]')->first();
+        $root->hover();
+        $box = $thumb->boundingBox();
+        $mouse = $page->mouse();
+        $mouse->move($box['x'] + $box['width'] / 2, $box['y'] + 5);
+        $mouse->down();
+        $mouse->move($box['x'] + $box['width'] / 2, $box['y'] + 45, ['steps' => 5]);
+        $mouse->up();
+        $dragged = $viewport->evaluate($top);
+        self::assertGreaterThan(0, $dragged);
+        $page->waitForFunction('() => window.scrolling');
+
+        // A click on the track under the thumb scrolls further.
+        $bar = $hero->locator('[data-slot="scroll-area-scrollbar"]')->first()->boundingBox();
+        $mouse->click($bar['x'] + $bar['width'] / 2, $bar['y'] + $bar['height'] - 4);
+        $page->waitForFunction('([top]) => document.querySelector(\'[data-demo="preview"] [data-slot="scroll-area-viewport"]\').scrollTop > top', [$dragged]);
+    }
+
     public function testScrollAreaExamples(): void
     {
         $page = $this->visitComponent('scroll-area');
@@ -1091,6 +1190,42 @@ final class PickersTest extends DemoTestCase
 
         $stack->getByText('Toast 2 created')->hover();
         expect($page->locator('[data-phem-toast-content][data-behind]'))->toHaveCSS('opacity', '1');
+    }
+
+    public function testToastCloseButtonSwipeAndLimit(): void
+    {
+        $page = $this->visitComponent('toast');
+        $stack = $page->locator('[data-controller~="phem-toast"]')->first();
+        $stack->evaluate('(el) => el.setAttribute("data-phem-toast-duration-value", "60000")');
+        $button = $page->getByRole('region', ['name' => 'Demo', 'exact' => true])->locator('[data-demo="preview"]')->getByRole('button', ['name' => 'Create toast']);
+        $toasts = $stack->locator('[data-slot="toast"]');
+
+        // The close button closes the toast.
+        $button->click();
+        expect($toasts)->toHaveCount(1);
+        $stack->getByText('Toast 1 created')->hover();
+        $stack->locator('[data-slot="toast-close"]')->first()->click();
+        expect($toasts)->toHaveCount(0);
+
+        // Only 3 toasts show (the `limit`): an older toast gets `data-limited`.
+        foreach (range(1, 4) as $click) {
+            $button->click();
+        }
+
+        expect($toasts)->toHaveCount(4);
+        expect($stack->locator('[data-slot="toast"][data-limited]'))->toHaveCount(1);
+
+        // A swipe to the right closes the newest toast.
+        $newest = $stack->getByText('Toast 5 created');
+        $box = $newest->boundingBox();
+        $x = $box['x'] + $box['width'] / 2;
+        $y = $box['y'] + $box['height'] / 2;
+        $mouse = $page->mouse();
+        $mouse->move($x, $y);
+        $mouse->down();
+        $mouse->move($x + 60, $y, ['steps' => 5]);
+        $mouse->up();
+        expect($newest)->toHaveCount(0);
     }
 
     public function testF6MovesTheFocusToTheToastRegion(): void
