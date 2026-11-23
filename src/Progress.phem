@@ -11,6 +11,10 @@ use Phem\{Html, Node};
  * All the parts get `data-indeterminate`, `data-progressing` or `data-complete`. Give an `id`
  * to label the bar with its ProgressLabel.
  *
+ * The text of the value is the rounded percent (`24%`). The `format` options (`style`, `currency`,
+ * `minimumFractionDigits`, `maximumFractionDigits`) and the `locale` change it, as in Base UI: see
+ * ValueFormat. They need the intl extension of PHP.
+ *
  * @aliases progress bar, loading bar, upload progress
  */
 #[Component, Provide]
@@ -20,6 +24,9 @@ class Progress
     #[Prop] public float $min = 0;
     #[Prop] public float $max = 100;
     #[Prop] public ?string $id = null;
+    /** @var array{style?: string, currency?: string, minimumFractionDigits?: int, maximumFractionDigits?: int} */
+    #[Prop] public array $format = [];
+    #[Prop] public ?string $locale = null;
     #[Prop] public ?Html $children = null;
     #[Prop(rest: true)] public array $attrs = [];
 
@@ -41,12 +48,12 @@ class Progress
         };
     }
 
-    /** The text of the value, as Base UI formats it: a percent. */
+    /** The text of the value, as Base UI formats it: a percent, or the `format` and the `locale`. */
     public function text(): ?string
     {
         $percent = $this->percent();
 
-        return null === $percent ? null : round($percent).'%';
+        return null === $percent ? null : (new ValueFormat($this->format, $this->locale))->format((float) $this->value, $percent);
     }
 
     /** @return array<string, string> the state attributes of each part */

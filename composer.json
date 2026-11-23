@@ -22,7 +22,8 @@
         "symfony/css-selector": "^7.4|^8.0"
     },
     "suggest": {
-        "symfony/asset-mapper": "To load the theme CSS of the package with the @phem/ui-base logical path"
+        "symfony/asset-mapper": "To load the theme CSS of the package with the @phem/ui-base logical path",
+        "ext-intl": "For the `format` and `locale` props of Meter and Progress"
     },
     "autoload": {
         "psr-4": { "Phem\\Ui\\Base\\": "src/" }

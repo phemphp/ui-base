@@ -20,6 +20,13 @@ function ProgressDemo(?float $value = 20): Node
     );
 }
 
+/** A meter with the `format` and the `locale` of Base UI. */
+#[Component]
+function MeterFormatDemo(): Node
+{
+    return <Meter value={{ 1234.5 }} max={{ 2000 }} format={{ {style: 'decimal'} }} locale="de-DE" />;
+}
+
 #[Component]
 function MeterDemo(): Node
 {

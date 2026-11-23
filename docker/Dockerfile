@@ -7,6 +7,8 @@ FROM ${FRANKENPHP_IMAGE}
 RUN apt-get update \
  && apt-get install -y --no-install-recommends git unzip \
  && rm -rf /var/lib/apt/lists/*
+# The `format` and `locale` props of Meter and Progress (ValueFormat) use NumberFormatter.
+RUN install-php-extensions intl
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 WORKDIR /app

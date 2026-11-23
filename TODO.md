@@ -24,7 +24,6 @@ These differences need no phem change. The hero demos show the first one, and do
   - the Menubar trigger: the page has a hover color and an active color, and no background with a keyboard focus;
   - the Tooltip trigger with a keyboard focus and an open tooltip: transparent on the page, `neutral-100` in the bundle.
 - **Drawer: the iOS variants.** The bundle gives the popup a bleed of 3rem past its edge, and has the `DrawerViewport` part. It does not have the iOS variants of the Base UI classes (`supports-[-webkit-touch-callout:none]`, `--viewport-padding`).
-- **Props that Base UI has and the bundle does not have:** `format` and `locale` on `Progress` and `Meter`.
 - **Defaults:** the Positioner `align` of Base UI is `center` for a root menu, a select and a combobox. The bundle uses `start`. The hero demos set `start` or have the width of the anchor, so the look is equal.
 - **Elements:** `FieldsetLegend` is a native `<legend>` (Base UI: a `<div>`), and it gets no `data-disabled`. The popup and the arrow of a tooltip are `<span>` elements (Base UI: `<div>`). An item of a menu is a `<button>` (Base UI: a `<div>`).
 - **Font:** base-ui.com uses its own font ("Die Grotesk A"). The demo uses the system font, so a text is about 1% wider and the description of the OTP field has two lines.

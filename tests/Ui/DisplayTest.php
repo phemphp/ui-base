@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Phem\Ui\Base\Tests\Ui;
 
 use Phem\Test\InteractsWithPhem;
+use Phem\Ui\Base\ValueFormat;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class DisplayTest extends KernelTestCase
@@ -30,6 +31,33 @@ final class DisplayTest extends KernelTestCase
     {
         $this->mount('Phem\Ui\Base\Tests\App\ProgressDemo', ['value' => 100.0])
             ->assertSelectorExists('#export[data-complete]');
+    }
+
+    public function testTheFormatAndTheLocaleChangeTheTextOfTheValue(): void
+    {
+        // A decimal: the value, with the separators of the locale.
+        $this->mount('Phem\Ui\Base\Meter', ['value' => 1234.5, 'max' => 2000, 'format' => ['style' => 'decimal'], 'locale' => 'de-DE'])
+            ->assertSelectorExists('[role="meter"][aria-valuetext="1.234,5"]');
+
+        // The same in markup.
+        $this->mount('Phem\Ui\Base\Tests\App\MeterFormatDemo')
+            ->assertSelectorExists('[role="meter"][aria-valuetext="1.234,5"]');
+
+        // A currency.
+        $this->mount('Phem\Ui\Base\Meter', ['value' => 1234.5, 'max' => 2000, 'format' => ['style' => 'currency', 'currency' => 'EUR', 'maximumFractionDigits' => 0], 'locale' => 'en-US'])
+            ->assertSelectorExists('[role="meter"][aria-valuetext="€1,235"]');
+
+        // A locale alone: the percent of the range, in the format of the locale.
+        $this->mount('Phem\Ui\Base\Progress', ['value' => 24, 'locale' => 'de-DE'])
+            ->assertSelectorExists("[role=\"progressbar\"][aria-valuetext=\"24\u{a0}%\"]");
+    }
+
+    public function testAFormatNeedsAKnownStyle(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The "style" of a format must be "percent", "decimal" or "currency", "unit" given.');
+
+        (new ValueFormat(['style' => 'unit']))->format(1, 1);
     }
 
     public function testTheMeterShowsItsValue(): void
