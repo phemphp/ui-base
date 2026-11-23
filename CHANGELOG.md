@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.6.0
+
 - The package requires phem 0.9 (`phem/phem` `^0.9`). The components do not use the `#[Async]` event handlers that phem removed. The items of an `Autocomplete` get no `aria-selected` now, as in Base UI: style the highlight with `data-highlighted`.
 
 ## 0.5.0
