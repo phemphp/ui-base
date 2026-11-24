@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.8.1
+
 - The package requires phem 0.10.2 (`phem/phem` `^0.10.2`), which requires the security release of Twig (`twig/twig` `^3.31.1`). The components do not change.
 
 ## 0.8.0
