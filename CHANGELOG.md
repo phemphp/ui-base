@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- The package requires phem 0.10.2 (`phem/phem` `^0.10.2`), which requires the security release of Twig (`twig/twig` `^3.31.1`). The components do not change.
+
 ## 0.8.0
 
 - The package requires phem 0.10.1 (`phem/phem` `^0.10.1`). A `required` `Switch` or `Checkbox` with `nativeButton` (or a `Switch` with `uncheckedValue`) keeps its state in a hidden input, which the browser does not validate. It now stops the submit of a `Form` while it is not checked, as the other modes do, and the focus goes to it. A form with no `Form` (no `phem-form`) still sends.

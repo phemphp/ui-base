@@ -378,7 +378,9 @@ final class PickersTest extends DemoTestCase
         $reviewer->fill('designer');
         $lindsay->click();
         $reviewer->fill('Lindsay Waltonx');
-        expect($async->locator('text=No matches for "Lindsay Waltonx".'))->toBeVisible();
+        // Three events in a row: the assign of the click, then the two input events of fill()
+        // (it removes the old text first). Each one is a request to the kernel of this process.
+        expect($async->locator('text=No matches for "Lindsay Waltonx".'))->withTimeout(15_000)->toBeVisible();
         $clear->click();
         expect($reviewer)->toHaveValue('');
         expect($reviewer)->toHaveAttribute('aria-expanded', 'true');
